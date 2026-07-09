@@ -1,111 +1,158 @@
-:root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
-
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
-
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-
-  @media (max-width: 1024px) {
-    font-size: 16px;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
-  }
-
-  #social .button-icon {
-    filter: invert(1) brightness(2);
-  }
-}
-
-body {
-  margin: 0;
-}
-
-#root {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
+/* Global reset + base page setup */
+*, *::before, *::after {
   box-sizing: border-box;
 }
 
-h1,
-h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: var(--text-h);
+html, body {
+  margin: 0;
+  padding: 0;
 }
 
-h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
-  }
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-mono);
+  -webkit-font-smoothing: antialiased;
 }
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
-  }
+
+:root {
+  /* --- Fonts --- */
+  --font-mono: "IBM Plex Mono", monospace;
+  --font-index: "IBM Plex Sans Condensed", sans-serif;
+
+  /* --- Primitives, from Figma --- */
+  --c-off-white: #FBF9F4;
+  --c-black: #090909;
+
+  --c-pine-green: #00906C;
+  --c-dark-green: #085E55;
+  --c-darker-green: #064C45;
+  --c-kryptonite-green: #ABFF5A;
+
+  --c-algo: #414141;
+  --c-party-orange: #FF5A00;
+  --c-nectarine-orange: #FF9800;
+  --c-summer-yellow: #FFEA00;
+  --c-candy-pink: #FFC0FF;
+  --c-electric-blue: rgba(81, 81, 252, 0.5);
+  --c-light-yellow: rgba(255, 234, 0, 0.5);
+  --c-light-green: rgba(171, 255, 90, 0.2);
+  --c-light-pink: rgba(255, 192, 255, 0.2);
+  --c-light-orange: rgba(255, 90, 0, 0.2);
+  --c-light-pine: rgba(0, 144, 108, 0.2);
+
+  --c-gray: #8F9193;
+  --c-darker-gray: #787B7E;
+  --c-light-gray: rgba(143, 145, 147, 0.10);
+
+  /* --- Semantic: base text / background --- */
+  --color-text: var(--c-black);
+  --color-bg: var(--c-off-white);
+  --color-text-secondary: var(--c-gray);
+
+  /* --- Semantic: neutral UI surfaces --- */
+  --color-surface: var(--c-light-gray);   /* panel backgrounds (GENERATED VALUES box, cards) */
+  --color-inactive: var(--c-gray);        /* pending/disabled state -- unchecked steps, dimmed text */
+  --color-border: var(--c-gray);          /* dividers, step-tree lines */
+
+  /* --- Semantic: interactive elements  */
+  --color-button-primary-bg: var(--c-dark-green);
+  --color-button-primary-hover: var(--c-darker-green);
+  --color-button-secondary-bg: var(--c-gray);
+  --color-button-secondary-hover: var(--c-darker-gray);
+  --color-accent: var(--c-pine-green);    /* active step dots, checkmarks, home page circles */
+
+  /* --- Semantic: step content --- */
+  --color-formula-bg: var(--c-light-yellow);   /* the yellow formula box on every step */
+  --color-transform: var(--c-algo);            /* G / PRF / NTT / SampleNTT boxes + their arrows */
+
+  /* --- Semantic: cryptographic objects (each one keeps one color everywhere) --- */
+  --color-matrix-a: var(--c-kryptonite-green);
+  --color-matrix-a-tint: var(--c-light-green);
+  --color-secret-s: var(--c-candy-pink);
+  --color-secret-s-tint: var(--c-light-pink);
+  --color-noise-e: var(--c-party-orange);
+  --color-noise-e-tint: var(--c-light-orange);
+  --color-public-t: var(--c-pine-green);
+  --color-public-t-tint: var(--c-light-pine);
+
+  /* --- Semantic: CBD bit-counting widget --- */
+  --color-cbd-x-bits: var(--c-nectarine-orange);
+  --color-cbd-y-bits: var(--c-electric-blue);
+
+
+  /* --- Spacing scale --- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
 }
-p {
+
+/* TYPOGRAPHY -- matches the Figma text styles */
+
+.th1, .th2, .label, .body-text, .formula, .btn-text, .micro-label {
+  font-family: var(--font-mono);
+  color: var(--color-text);
   margin: 0;
 }
 
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
+.index-text {
+  font-family: var(--font-index);
+  color: var(--color-text);
+  margin: 0;
 }
 
-code {
+.th1 {
+  font-size: 28px;
+  line-height: 140%;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.th2 {
+  font-size: 16px;
+  line-height: 140%;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
+.label {
+  font-size: 14px;
+  line-height: 140%;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.body-text {
+  font-size: 14px;
+  line-height: 140%;
+  font-weight: 400;
+}
+
+.formula {
   font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
+  line-height: 140%;
+  font-weight: 400;
+}
+
+.btn-text {
+  font-size: 13px;
+  line-height: 140%;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
+.micro-label {
+  font-size: 11px;
+  line-height: 140%;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+}
+
+.index-text {
+  font-size: 14px;
+  line-height: 140%;
+  font-weight: 400;
 }
