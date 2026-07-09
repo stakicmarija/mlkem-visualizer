@@ -1,0 +1,20 @@
+.step-tree {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Pull layer items up so their horizontal line nearly touches the step connector above */
+.step-tree__item--group {
+  margin-top: -4px;
+}
+
+/* Back connectors (label-less) need extra top padding to push the line down */
+.step-tree__item--back {
+  padding-top: 8px;
+}
+
+/* isFinal steps float visually away from the main tree.
+   Back connectors are now injected before these, so only a small nudge is needed. */
+.step-tree__item--final {
+  margin-top: 4px;
+}

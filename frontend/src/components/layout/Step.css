@@ -1,0 +1,63 @@
+.step {
+  display: flex;
+  flex-direction: column;
+}
+
+.step__row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.step__row--clickable {
+  cursor: pointer;
+}
+
+/* ── Circle dot ─────────────────────────────────────────────────────────── */
+
+.step__dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.step--done .step__dot {
+  background: var(--color-accent);
+}
+
+/* glow matches Figma: DROP_SHADOW offset 0 0, radius 8, spread 2, kryptonite green */
+.step--active .step__dot {
+  background: var(--color-accent);
+  box-shadow: 0 0 8px 2px var(--color-accent-glow);
+}
+
+.step--pending .step__dot {
+  border: 1.5px solid var(--color-inactive);
+  background: transparent;
+}
+
+/* ── Label ──────────────────────────────────────────────────────────────── */
+
+.step--pending .step__label {
+  color: var(--color-inactive);
+}
+
+/* ── Connector ──────────────────────────────────────────────────────────── */
+
+/* centers the dashed line under the 14px circle: margin-left = (14/2) - (1.5/2) ≈ 6px */
+.step__connector {
+  height: 20px;
+  width: 0;
+  border-left: 1.5px dashed var(--color-border);
+  margin-left: 6px;
+  margin-top: 2px;
+}
+
+.step--done .step__connector,
+.step--active .step__connector {
+  border-left-color: var(--color-accent);
+}

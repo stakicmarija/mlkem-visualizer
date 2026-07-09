@@ -1,0 +1,20 @@
+.layer {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+/* dotted horizontal lead-in line */
+.layer__line {
+  width: 24px;
+  border-top: 1.5px dashed;
+  flex-shrink: 0;
+}
+
+.layer__line--done,
+.layer__line--active  { border-color: var(--color-accent); }
+.layer__line--pending { border-color: var(--color-inactive); }
+
+.layer__label {
+  white-space: nowrap;
+}
