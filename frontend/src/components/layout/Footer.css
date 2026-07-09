@@ -1,0 +1,20 @@
+.footer {
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-top: 1px solid var(--color-surface);
+  /* pushes footer to bottom of the flex column when content is short;
+     collapses to 0 when content overflows so footer just follows naturally */
+  margin-top: auto;
+}
+
+/* .micro-label carries the primary text color; the footer is a muted credit. */
+.footer__text {
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+}
+
+.footer__dot {
+  padding: 0 var(--space-4);
+}

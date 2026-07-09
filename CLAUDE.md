@@ -30,8 +30,14 @@ repo is empty.
 
 Even a single-use page should be broken into sub-components where the page
 itself repeats a visual pattern (e.g. the same circle or panel shown more
-than once) -- don't write the same JSX twice. Exact component names and
-folder placement will be specified per task.
+than once) -- don't write the same JSX twice. Exact component names will be
+specified per task, but folder placement follows one fixed rule:
+
+- components/layout/ -- components that frame the page itself and stay
+in a fixed position regardless of content. These define page
+structure.
+- components/shared/ -- components used within a page's content, reused
+across different contexts. These are building blocks, not structure.
 
 ## Design tokens (already defined in `src/index.css`)
 
