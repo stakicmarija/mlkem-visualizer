@@ -1,0 +1,12 @@
+.formula-box {
+  background: var(--color-formula-bg);
+  border-radius: 8px;
+  padding: 12px;
+  width: fit-content;
+}
+
+.formula-box__text {
+  text-align: center;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
