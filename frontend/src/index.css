@@ -60,6 +60,7 @@ body {
   --color-button-primary-hover: var(--c-darker-green);
   --color-button-secondary-bg: var(--c-gray);
   --color-button-secondary-hover: var(--c-darker-gray);
+  --color-button-text: var(--c-off-white);  /* label + icon on both button families */
   --color-accent: var(--c-pine-green);    /* active step dots, checkmarks, home page circles */
 
   /* --- Semantic: step content --- */
