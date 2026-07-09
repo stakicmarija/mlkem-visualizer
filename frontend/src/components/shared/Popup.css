@@ -1,0 +1,74 @@
+.popup-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(9, 9, 9, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.popup-panel {
+  width: 480px;
+  background: var(--color-bg);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  padding: 14px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  overflow: hidden;
+}
+
+/* Title is truly centered; close button floats absolutely so it doesn't shift the title. */
+.popup__header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.popup__title {
+  font-weight: 700;
+  text-align: center;
+}
+
+.popup__close {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: var(--space-1);
+  color: var(--color-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 0;
+}
+
+.popup__close:hover {
+  color: var(--color-text-secondary);
+}
+
+.popup__close-icon {
+  width: 14px;
+  height: 14px;
+}
+
+.popup__body {
+  /* inherits .body-text layout; no extra sizing needed */
+}
+
+.popup__value {
+  background: var(--color-surface);
+  border-radius: 8px;
+  padding: 4px var(--space-2);
+  text-align: center;
+}
+
+.popup__value-label {
+  /* same .body-text styling as value, just a separate line */
+}

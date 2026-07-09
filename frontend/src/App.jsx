@@ -1,12 +1,11 @@
 import "./App.css";
+import HomePage from "./pages/HomePage.jsx";
+import Footer from "./components/layout/Footer.jsx";
 
-import Footer from "./components/layout/Footer";
-import StepCircle from "./components/shared/StepCircle"
 function App() {
-
   return (
     <>
-      <StepCircle></StepCircle>
+      <HomePage />
       <Footer
         label="DIPLOMA THESIS"
         name="MARIJA STAKIĆ"

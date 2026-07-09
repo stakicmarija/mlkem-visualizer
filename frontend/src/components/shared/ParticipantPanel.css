@@ -1,0 +1,54 @@
+.participant-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.participant-panel__name {
+  text-align: center;
+}
+
+.participant-panel__card {
+  flex: 1;
+  background: var(--color-surface);
+  border-radius: 8px;
+  padding: 60px 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.participant-panel__steps {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 80px;
+}
+
+.participant-panel__step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.participant-panel__desc {
+  max-width: 146px;
+  text-align: center;
+}
+
+/* ── Small screen ──────────────────────────────────────────────────────── */
+@media (max-width: 1440px) {
+  .participant-panel__card {
+    padding: 40px 0;
+  }
+
+  .participant-panel__steps {
+    gap: 40px;
+  }
+
+  .participant-panel__step {
+    gap: 4px;
+  }
+}

@@ -1,0 +1,35 @@
+.tunnel-arrow {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  color: var(--color-border);
+}
+
+.tunnel-arrow__line {
+  flex: 1;
+  border-top: 2px dashed var(--color-border);
+}
+
+/* Plain rect chip — background erases the dashed line behind the text, no border. */
+.tunnel-arrow__chip {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 4px;
+  background: var(--color-bg);
+  white-space: nowrap;
+}
+
+.tunnel-arrow__label {
+  color: var(--color-text);
+}
+
+.tunnel-arrow__detail {
+  color: var(--color-text-secondary);
+}
+
+.tunnel-arrow__head {
+  width: 8px;
+  height: 14px;
+  flex-shrink: 0;
+}

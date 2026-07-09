@@ -18,3 +18,9 @@
 .footer__dot {
   padding: 0 var(--space-4);
 }
+
+@media (max-width: 1440px) {
+  .footer {
+    height: 36px;
+  }
+}

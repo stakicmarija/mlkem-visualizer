@@ -1,0 +1,104 @@
+.home-page {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 48px;
+  padding: var(--space-8) var(--space-6);
+}
+
+.home__intro {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.home__description {
+  max-width: 480px;
+  text-align: center;
+}
+
+/* Shown only on small screens — hidden by default. */
+.home__about-btn {
+  display: none;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  line-height: 1.4;
+  font-weight: 400;
+  color: var(--color-text-secondary);
+}
+
+.home__about-btn:hover {
+  color: var(--color-text);
+}
+
+.home__diagram {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  width: 100%;
+  max-width: 860px;
+}
+
+/*
+  padding-top aligns first arrow center with Alice's first circle center:
+  name (~22px) + name-card gap (8px) + card top-padding (60px) + half-circle (65px) = 155px.
+  gap: center-to-center distance between the two circles (~264px), minus arrow height (~24px).
+*/
+.home__arrows {
+  display: flex;
+  flex-direction: column;
+  align-self: stretch;
+  padding-top: 155px;
+  gap: 240px;
+  min-width: 280px;
+}
+
+.home__cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* ── Small screen (13" laptop / 1280×800) ──────────────────────────────── */
+@media (max-width: 1440px) {
+  .home-page {
+    gap: 20px;
+    padding: 20px var(--space-6);
+  }
+
+  .home__intro {
+    /* tighter gap so About link sits close under the subtitle */
+    gap: 4px;
+  }
+
+  /* Description paragraph replaced by About link on small screens. */
+  .home__description {
+    display: none;
+  }
+
+  .home__about-btn {
+    display: flex;
+  }
+
+  /*
+    Recalculated for smaller panels (py-40, step-gap-40, step-item-gap-4):
+    name (22) + name-card gap (8) + card top-padding (40) + half-circle (65) = 135 → 123px padding.
+    center-to-center of the two circles = 220px → CSS gap = 220 - 24 = 196px.
+  */
+  .home__arrows {
+    padding-top: 123px;
+    gap: 196px;
+  }
+
+  .home__cta {
+    gap: 4px;
+  }
+}

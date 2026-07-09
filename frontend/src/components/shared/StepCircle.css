@@ -1,20 +1,27 @@
 .step-circle {
   width: 130px;
   height: 130px;
-  border-radius: 50%;
+  border-radius: 100px;
   background: var(--color-accent);
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: var(--space-4);
+  padding: 30px 8px;
+  box-sizing: border-box;
 }
 
-/* override the default black that .th2 inherits from index.css */
-.step-circle .th2 {
+/* No matching typography class exists for 14px/500/uppercase, so styles live here. */
+.step-circle__title {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.4;
+  text-transform: uppercase;
   color: var(--color-text-on-accent);
+  word-break: break-word;
 }
 
 .step-circle--active {
-  box-shadow: 0 0 20px 6px var(--color-accent-glow);
+  box-shadow: 0 0 20px 4px var(--color-accent-glow);
 }
