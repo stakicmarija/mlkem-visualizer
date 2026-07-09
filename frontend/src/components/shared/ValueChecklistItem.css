@@ -1,0 +1,69 @@
+.vcli {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 60px;
+}
+
+/* done state is an actual button */
+.vcli--done {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  text-align: left;
+}
+
+/* ── Checkbox ──────────────────────────────────────────────────────────── */
+
+.vcli__box {
+  width: 11px;
+  height: 11px;
+  border: 1.5px solid var(--color-inactive);
+  border-radius: 2px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vcli__box--checked {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+.vcli__checkmark {
+  width: 7px;
+  height: 6px;
+  color: var(--color-bg);
+}
+
+/* ── Symbol label ──────────────────────────────────────────────────────── */
+
+.vcli__symbol {
+  flex: 1 0 0;
+  min-width: 0;
+  color: var(--color-inactive);
+}
+
+.vcli--done .vcli__symbol {
+  color: var(--color-text);
+}
+
+/* ── Done-only elements ────────────────────────────────────────────────── */
+
+.vcli__chevron {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--color-text);
+  flex-shrink: 0;
+}
+
+/* ── Loading spinner (static -- animation pass comes later) ────────────── */
+
+.vcli__loader {
+  width: 10px;
+  height: 10px;
+  color: var(--color-inactive);
+  flex-shrink: 0;
+}

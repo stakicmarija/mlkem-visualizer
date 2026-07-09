@@ -1,0 +1,29 @@
+.gen-values-panel {
+  width: 184px;
+  background: var(--color-surface);
+  border-radius: 8px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.gen-values-panel__title {
+  text-align: center;
+  padding: 4px 0;
+}
+
+/* Two columns, 24px gap, centered in the panel */
+.gen-values-panel__grid {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.gen-values-panel__col {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 60px;
+}
