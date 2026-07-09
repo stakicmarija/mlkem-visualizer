@@ -52,7 +52,7 @@ body {
 
   /* --- Semantic: neutral UI surfaces --- */
   --color-surface: var(--c-light-gray);   /* panel backgrounds (GENERATED VALUES box, cards) */
-  --color-inactive: var(--c-gray);        /* pending/disabled state -- unchecked steps, dimmed text */
+  --color-inactive: var(--c-gray);        /* pending/disabled state - unchecked steps, dimmed text */
   --color-border: var(--c-gray);          /* dividers, step-tree lines */
 
   /* --- Semantic: interactive elements  */
@@ -90,7 +90,7 @@ body {
   --space-8: 32px;
 }
 
-/* TYPOGRAPHY -- matches the Figma text styles */
+/* TYPOGRAPHY matches the Figma text styles */
 
 .th1, .th2, .label, .body-text, .formula, .btn-text, .micro-label {
   font-family: var(--font-mono);
