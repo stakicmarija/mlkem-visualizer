@@ -1,0 +1,20 @@
+.step-circle {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--space-4);
+}
+
+/* override the default black that .th2 inherits from index.css */
+.step-circle .th2 {
+  color: var(--color-text-on-accent);
+}
+
+.step-circle--active {
+  box-shadow: 0 0 20px 6px var(--color-accent-glow);
+}

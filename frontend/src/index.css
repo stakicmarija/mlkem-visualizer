@@ -68,6 +68,8 @@ body {
   --color-button-secondary-hover: var(--c-darker-gray);
   --color-button-text: var(--c-off-white);  /* label + icon on both button families */
   --color-accent: var(--c-pine-green);    /* active step dots, checkmarks, home page circles */
+  --color-accent-glow: var(--c-light-pine); /* glow ring on active StepCircle */
+  --color-text-on-accent: var(--c-off-white); /* text sitting on a --color-accent background */
 
   /* --- Semantic: step content --- */
   --color-formula-bg: var(--c-light-yellow);   /* the yellow formula box on every step */
