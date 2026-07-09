@@ -1,0 +1,100 @@
+.params-panel {
+  width: 231px;
+  border-radius: 8px;
+  padding: var(--space-4) var(--space-2);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.params-panel__section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-2) 0;
+}
+
+/* Bottom divider between sections */
+.params-panel__section--divided {
+  border-bottom: 1px solid var(--color-surface);
+}
+
+.params-panel__title {
+  text-align: center;
+  width: 100%;
+}
+
+.params-panel__body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  padding-bottom: var(--space-2);
+}
+
+.params-panel__empty,
+.params-panel__param,
+.params-panel__output {
+  text-align: center;
+  width: 100%;
+}
+
+/* ── Learn about parameters button ─────────────────────────────────────── */
+
+.params-panel__learn-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  background: var(--color-surface);
+  border: none;
+  border-radius: 8px;
+  padding: 4px var(--space-2);
+  cursor: pointer;
+}
+
+.params-panel__learn-btn:hover { opacity: 0.7; }
+
+/* 20px circle with 2px border, bold italic "i" */
+.params-panel__info-icon {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--color-text);
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.params-panel__learn-text {
+  font-weight: 700;
+}
+
+/* ── Input rows ─────────────────────────────────────────────────────────── */
+
+.params-panel__input-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+  width: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.params-panel__input-row:hover .body-text {
+  color: var(--color-text-secondary);
+}
+
+.params-panel__chevron {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--color-text);
+  flex-shrink: 0;
+}
