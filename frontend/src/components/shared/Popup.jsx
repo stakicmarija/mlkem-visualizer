@@ -13,7 +13,7 @@ function CloseIcon() {
   )
 }
 
-function Popup({ title, children, body, value, valueLabel, isOpen, onClose }) {
+function Popup({ title, children, body, value, valueLabel, items, isOpen, onClose }) {
   if (!isOpen) return null
 
   const bodyContent = children ?? body
@@ -27,14 +27,27 @@ function Popup({ title, children, body, value, valueLabel, isOpen, onClose }) {
             <CloseIcon />
           </button>
         </div>
-        {bodyContent && (
-          <p className="body-text popup__body">{bodyContent}</p>
-        )}
-        {value && (
-          <div className="popup__value body-text">
-            {valueLabel && <div className="popup__value-label">{valueLabel}</div>}
-            <div>{value}</div>
+        {items ? (
+          <div className="popup__items">
+            {items.map(({ label, body: itemBody }, i) => (
+              <div key={i} className="popup__item">
+                <p className="label popup__item-label">{label}</p>
+                <p className="body-text popup__item-body">{itemBody}</p>
+              </div>
+            ))}
           </div>
+        ) : (
+          <>
+            {bodyContent && (
+              <p className="body-text popup__body">{bodyContent}</p>
+            )}
+            {value && (
+              <div className="popup__value body-text">
+                {valueLabel && <div className="popup__value-label">{valueLabel}</div>}
+                <div>{value}</div>
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>

@@ -1,13 +1,15 @@
 import { useState } from 'react'
 import Popup from '../shared/Popup.jsx'
+import { explanations } from '../../data/explanations.js'
 import './ParamsPanel.css'
 
 function InfoIcon() {
   return <span className="params-panel__info-icon" aria-hidden="true">i</span>
 }
 
-function ParamsPanel({ parameters = [], inputs = [], outputs = [], onLearnMoreClick }) {
+function ParamsPanel({ parameters = [], inputs = [], outputs = [] }) {
   const [openIndex, setOpenIndex] = useState(null)
+  const [paramsOpen, setParamsOpen] = useState(false)
 
   return (
     <div className="params-panel">
@@ -25,7 +27,7 @@ function ParamsPanel({ parameters = [], inputs = [], outputs = [], onLearnMoreCl
               <p key={label} className="body-text params-panel__param">{label} = {value}</p>
             ))
           )}
-          <button className="params-panel__learn-btn" onClick={onLearnMoreClick}>
+          <button className="params-panel__learn-btn" onClick={() => setParamsOpen(true)}>
             <InfoIcon />
             <span className="micro-label params-panel__learn-text">Learn about parameters</span>
           </button>
@@ -71,6 +73,13 @@ function ParamsPanel({ parameters = [], inputs = [], outputs = [], onLearnMoreCl
           onClose={() => setOpenIndex(null)}
         />
       )}
+
+      <Popup
+        title="Parameters"
+        items={explanations.parameters}
+        isOpen={paramsOpen}
+        onClose={() => setParamsOpen(false)}
+      />
     </div>
   )
 }

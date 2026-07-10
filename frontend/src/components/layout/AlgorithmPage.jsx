@@ -17,7 +17,6 @@ function AlgorithmPage({
   parameters,
   inputs,
   outputs,
-  onLearnMoreClick,
   generatedValues,
   onPrev,
   onNext,
@@ -50,7 +49,6 @@ function AlgorithmPage({
             parameters={parameters}
             inputs={inputs}
             outputs={outputs}
-            onLearnMoreClick={onLearnMoreClick}
           />
           <GeneratedValuesPanel items={generatedValues} />
         </div>
