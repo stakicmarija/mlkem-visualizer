@@ -69,7 +69,7 @@ export const explanations = {
   },
   s: {
     title: 's (secret vector)',
-    body: "Alice's secret key material -- a vector of k small polynomials, each coefficient sampled from a centered binomial distribution (typically -2 to 2). s must never be shared; it is what lets Alice (and only Alice) recover the shared secret later.",
+    body: "Alice's secret key material. A vector of k small polynomials, each coefficient sampled from a centered binomial distribution (typically -2 to 2). s must never be shared; it is what lets Alice (and only Alice) recover the shared secret later.",
   },
   e: {
     title: 'e (error vector)',

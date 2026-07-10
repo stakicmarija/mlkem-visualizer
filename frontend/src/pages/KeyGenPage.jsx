@@ -4,6 +4,7 @@ import CheckInputsStep from '../steps/keygen/CheckInputsStep.jsx'
 import DeriveRhoSigmaStep from '../steps/keygen/DeriveRhoSigmaStep.jsx'
 import ExpandMatrixAStep from '../steps/keygen/ExpandMatrixAStep.jsx'
 import GenerateSecretVectorStep from '../steps/keygen/GenerateSecretVectorStep.jsx'
+import GenerateErrorVectorStep from '../steps/keygen/GenerateErrorVectorStep.jsx'
 import { keygenSteps } from '../data/steps.js'
 import { explanations } from '../data/explanations.js'
 import data from '../data/mlkem_768_data.json'
@@ -26,8 +27,8 @@ const BASE_GENERATED_VALUES = [
   { symbol: 'ρ', title: explanations.rho.title, body: explanations.rho.body },
   { symbol: 'σ', title: explanations.sigma.title, body: explanations.sigma.body },
   { symbol: 'A', title: explanations.A.title },
-  { symbol: 's', title: explanations.s.title },
-  { symbol: 'e', title: explanations.e.title },
+  { symbol: 's', title: explanations.s.title, body: explanations.s.body },
+  { symbol: 'e', title: explanations.e.title, body: explanations.e.body },
   { symbol: 't', title: explanations.t.title },
   { symbol: 'ek', title: explanations.ek.title },
   { symbol: 'dk', title: explanations.dk.title },
@@ -47,6 +48,24 @@ function getGeneratedValues(stepId) {
     return BASE_GENERATED_VALUES.map((item, i) => ({
       ...item,
       state: i < 3 ? 'done' : 'pending',
+      value: i === 0 ? toSpacedHex(data.keygen.rho)
+           : i === 1 ? toSpacedHex(data.keygen.sigma)
+           : undefined,
+    }))
+  }
+  if (stepId === 'generate-secret-vector') {
+    return BASE_GENERATED_VALUES.map((item, i) => ({
+      ...item,
+      state: i < 4 ? 'done' : 'pending',
+      value: i === 0 ? toSpacedHex(data.keygen.rho)
+           : i === 1 ? toSpacedHex(data.keygen.sigma)
+           : undefined,
+    }))
+  }
+  if (stepId === 'generate-error-vector') {
+    return BASE_GENERATED_VALUES.map((item, i) => ({
+      ...item,
+      state: i < 5 ? 'done' : 'pending',
       value: i === 0 ? toSpacedHex(data.keygen.rho)
            : i === 1 ? toSpacedHex(data.keygen.sigma)
            : undefined,
@@ -76,6 +95,11 @@ function getStepContent(stepId) {
       return {
         formula: 'for (i ← 0; i < k; i++)\n   s[i] ← SamplePolyCBD(PRF(σ, N))\n   N ← N + 1',
         content: <GenerateSecretVectorStep />,
+      }
+    case 'generate-error-vector':
+      return {
+        formula: 'for (i ← 0; i < k; i++)\n   e[i] ← SamplePolyCBD(PRF(σ, N))\n   N ← N + 1',
+        content: <GenerateErrorVectorStep />,
       }
     default:
       return { formula: '', content: null }

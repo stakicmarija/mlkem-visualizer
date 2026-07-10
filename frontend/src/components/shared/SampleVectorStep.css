@@ -1,0 +1,93 @@
+.sample-vector-step {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: -20px;
+}
+
+/* Row holds σ and N nodes — same 240px / gap:73px layout as DeriveRhoSigmaStep */
+.sample-vector-step__top-row {
+  width: 240px;
+  display: flex;
+  justify-content: center;
+  gap: 73px;
+}
+
+.sample-vector-step__vline {
+  width: 3px;
+  height: 20px;
+  background: var(--color-transform);
+}
+
+.sample-vector-step .transform-box {
+  width: 120px;
+  min-height: 72px;
+}
+
+/* Loop connector SVG — absolutely placed, never intercepts clicks */
+.sample-vector-step__loop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 300px;
+  height: 500px;
+  pointer-events: none;
+}
+
+/* ── Output vector row ──────────────────────────────────────────────── */
+
+.vector-row {
+  display: flex;
+  gap: 4px;
+}
+
+/* --vector-color / --vector-tint are set inline on .sample-vector-step */
+.vector-cell {
+  width: 44px;
+  height: 44px;
+  border: 2px solid var(--vector-color);
+  border-radius: 0;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  font: inherit;
+  appearance: none;
+  position: relative;
+}
+
+.vector-cell:hover {
+  background: var(--vector-tint);
+}
+
+.vector-cell:first-child { border-radius: 4px 0 0 4px; }
+.vector-cell:last-child  { border-radius: 0 4px 4px 0; }
+
+.vector-cell__label {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  white-space: nowrap;
+  font-size: 0;
+  text-align: center;
+  line-height: 0;
+}
+
+.vector-cell__symbol {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--color-text);
+}
+
+.vector-cell__index {
+  font-family: var(--font-index);
+  font-size: 9px;
+  line-height: 1.4;
+  color: var(--color-text);
+  vertical-align: baseline;
+}

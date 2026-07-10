@@ -1,24 +1,15 @@
-import TransformBox from '../../components/shared/TransformBox.jsx'
-import CbdPopupBody from '../../components/shared/CbdPopupBody.jsx'
+import SampleVectorStep from '../../components/shared/SampleVectorStep.jsx'
 import data from '../../data/mlkem_768_data.json'
-import './GenerateSecretVectorStep.css'
 
 function GenerateSecretVectorStep() {
-  const cbdPopup = (
-    <CbdPopupBody
-      prfRawHex={data.keygen.s_prf_raw[0]}
-      coeffsSigned={data.keygen.s[0].coeffs_signed}
-    />
-  )
-
   return (
-    <div className="generate-secret-vector">
-      <TransformBox
-        name="SamplePolyCBD"
-        explanationKey="SamplePolyCBD"
-        popupChildren={cbdPopup}
-      />
-    </div>
+    <SampleVectorStep
+      label="s"
+      colorToken="secret-s"
+      explanationKey="s"
+      vectors={data.keygen.s}
+      prfRawHexes={data.keygen.s_prf_raw}
+    />
   )
 }
 
