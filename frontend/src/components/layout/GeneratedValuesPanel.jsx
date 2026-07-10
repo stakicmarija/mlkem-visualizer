@@ -38,7 +38,8 @@ function GeneratedValuesPanel({ items = [] }) {
 
       {openIndex !== null && items[openIndex] && (
         <Popup
-          title={items[openIndex].symbol}
+          title={items[openIndex].title || items[openIndex].symbol}
+          body={items[openIndex].body}
           value={items[openIndex].value}
           isOpen
           onClose={() => setOpenIndex(null)}

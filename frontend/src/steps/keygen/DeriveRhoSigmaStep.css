@@ -1,0 +1,41 @@
+.derive-rho-sigma {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Row holds two nodes, centers at x=60 and x=180 within the 240px SVG width */
+.derive-rho-sigma__row {
+  width: 240px;
+  display: flex;
+  justify-content: center;
+  gap: 73px;
+}
+
+.derive-rho-sigma__svg {
+  display: block;
+}
+
+/* Concatenation operator box — dark fill, condensed font, non-interactive */
+.derive-rho-sigma__concat {
+  background: var(--color-transform);
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-family: var(--font-index);
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--color-button-text);
+  text-align: center;
+}
+
+.derive-rho-sigma__vline {
+  width: 3px;
+  height: 36px;
+  background: var(--color-transform);
+}
+
+/* Make G box taller and wider than the default TransformBox */
+.derive-rho-sigma .transform-box {
+  width: 120px;
+  min-height: 100px;
+}

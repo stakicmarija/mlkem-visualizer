@@ -13,7 +13,7 @@
 }
 
 .node--leaf {
-  background: var(--color-node-leaf-bg);
+  background: var(--color-matrix-a-tint);
 }
 
 .node__micro {
