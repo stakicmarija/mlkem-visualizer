@@ -74,6 +74,7 @@ body {
   /* --- Semantic: step content --- */
   --color-formula-bg: var(--c-light-yellow);   /* the yellow formula box on every step */
   --color-transform: var(--c-algo);            /* G / PRF / NTT / SampleNTT boxes + their arrows */
+  --color-transform-hover: var(--c-black);     /* transform box hover state */
 
   /* --- Semantic: cryptographic objects (each one keeps one color everywhere) --- */
   --color-matrix-a: var(--c-kryptonite-green);
