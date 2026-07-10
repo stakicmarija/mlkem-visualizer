@@ -1,0 +1,22 @@
+.expand-matrix-a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.matrix-a-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.matrix-a-grid__row {
+  display: flex;
+  gap: 4px;
+}
+
+/* Only the four outer corners of the 3×3 grid are rounded */
+.matrix-a-grid__row:first-child .matrix-cell:first-child { border-radius: 8px 0 0 0; }
+.matrix-a-grid__row:first-child .matrix-cell:last-child  { border-radius: 0 8px 0 0; }
+.matrix-a-grid__row:last-child  .matrix-cell:first-child { border-radius: 0 0 0 8px; }
+.matrix-a-grid__row:last-child  .matrix-cell:last-child  { border-radius: 0 0 8px 0; }

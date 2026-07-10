@@ -1,0 +1,64 @@
+.matrix-cell {
+  width: 44px;
+  height: 44px;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+  /* reset browser button defaults */
+  padding: 0;
+  border: none;
+  background: transparent;
+}
+
+button.matrix-cell {
+  cursor: pointer;
+  font: inherit;
+  appearance: none;
+}
+
+/* ── State variants ──────────────────────────────────────────────────────── */
+
+.matrix-cell--done {
+  border: 2px solid var(--color-matrix-a);
+}
+
+.matrix-cell--done:hover {
+  background: var(--color-matrix-a-tint);
+}
+
+.matrix-cell--active {
+  background: var(--color-bg);
+  box-shadow: 0 0 8px 2px var(--color-accent-glow);
+}
+
+.matrix-cell--pending {
+  background: var(--color-surface);
+}
+
+/* ── Label: "A" (mono 14px) + subscript index (condensed 9px) ───────────── */
+
+.matrix-cell__label {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  white-space: nowrap;
+  font-size: 0; /* collapses container; child spans set their own sizes */
+  text-align: center;
+  line-height: 0;
+}
+
+.matrix-cell__symbol {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--color-text);
+}
+
+.matrix-cell__index {
+  font-family: var(--font-index);
+  font-size: 9px;
+  line-height: 1.4;
+  color: var(--color-text);
+  vertical-align: baseline;
+}

@@ -2,6 +2,7 @@ import { useState } from 'react'
 import AlgorithmPage from '../components/layout/AlgorithmPage.jsx'
 import CheckInputsStep from '../steps/keygen/CheckInputsStep.jsx'
 import DeriveRhoSigmaStep from '../steps/keygen/DeriveRhoSigmaStep.jsx'
+import ExpandMatrixAStep from '../steps/keygen/ExpandMatrixAStep.jsx'
 import { keygenSteps } from '../data/steps.js'
 import { explanations } from '../data/explanations.js'
 import data from '../data/mlkem_768_data.json'
@@ -41,7 +42,24 @@ function getGeneratedValues(stepId) {
            : undefined,
     }))
   }
+  if (stepId === 'expand-matrix-a') {
+    return BASE_GENERATED_VALUES.map((item, i) => ({
+      ...item,
+      state: i < 3 ? 'done' : 'pending',
+      value: i === 0 ? toSpacedHex(data.keygen.rho)
+           : i === 1 ? toSpacedHex(data.keygen.sigma)
+           : undefined,
+    }))
+  }
   return BASE_GENERATED_VALUES.map(item => ({ ...item, state: 'pending' }))
+}
+
+function Idx({ children }) {
+  return (
+    <span style={{ fontFamily: 'var(--font-index)', verticalAlign: 'baseline' }}>
+      {children}
+    </span>
+  )
 }
 
 function getStepContent(stepId) {
@@ -55,6 +73,11 @@ function getStepContent(stepId) {
       return {
         formula: '(ρ, σ) ← G(d‖k)',
         content: <DeriveRhoSigmaStep />,
+      }
+    case 'expand-matrix-a':
+      return {
+        formula: <>A<Idx>[i][j]</Idx>{' ← SampleNTT(ρ ‖ j ‖ i)'}</>,
+        content: <ExpandMatrixAStep />,
       }
     default:
       return { formula: '', content: null }
