@@ -1,6 +1,7 @@
 import AlgorithmPage from '../components/layout/AlgorithmPage.jsx'
 import CheckInputsStep from '../steps/keygen/CheckInputsStep.jsx'
 import { keygenSteps } from '../data/steps.js'
+import { explanations } from '../data/explanations.js'
 import data from '../data/mlkem_768_data.json'
 
 function toSpacedHex(hex) {
@@ -8,8 +9,8 @@ function toSpacedHex(hex) {
 }
 
 const INPUTS = [
-  { label: 'd (32B seed)', value: toSpacedHex(data.inputs.d) },
-  { label: 'z (32B seed)', value: toSpacedHex(data.inputs.z) },
+  { label: explanations.d.title, body: explanations.d.body, value: toSpacedHex(data.inputs.d) },
+  { label: explanations.z.title, body: explanations.z.body, value: toSpacedHex(data.inputs.z) },
 ]
 
 const GENERATED_VALUES = [

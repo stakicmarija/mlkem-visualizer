@@ -85,6 +85,8 @@ body {
   --color-public-t: var(--c-pine-green);
   --color-public-t-tint: var(--c-light-pine);
 
+  --color-node-leaf-bg: var(--c-light-pine);  /* leaf node tint -- accent (pine green) at 20% */
+
   /* --- Semantic: CBD bit-counting widget --- */
   --color-cbd-x-bits: var(--c-nectarine-orange);
   --color-cbd-y-bits: var(--c-electric-blue);

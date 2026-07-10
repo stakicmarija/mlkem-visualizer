@@ -68,6 +68,7 @@ function ParamsPanel({ parameters = [], inputs = [], outputs = [] }) {
       {openIndex !== null && (
         <Popup
           title={inputs[openIndex].label}
+          body={inputs[openIndex].body}
           value={inputs[openIndex].value}
           isOpen
           onClose={() => setOpenIndex(null)}

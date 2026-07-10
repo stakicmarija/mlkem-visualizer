@@ -17,7 +17,7 @@ export const explanations = {
   // ---- KeyGen inputs / seeds ----------------------------------------
   d: {
     title: 'd (32-byte seed)',
-    body: 'A random 32-byte value that serves as the single source of randomness for key generation. Every other secret value in this process -- ρ, σ, the secret vector s, and the error vector e -- is deterministically derived from d. This means the same d always produces the same key pair.',
+    body: 'The single random seed for key generation. All other secret values (ρ, σ, s, e) are derived from it.',
   },
   z: {
     title: 'z (32-byte seed)',
@@ -35,7 +35,7 @@ export const explanations = {
   // ---- KeyGen transforms ----------------------------------------------
   G: {
     title: 'G (hash function)',
-    body: 'A hash function based on SHA3-512. It takes the seed d concatenated with a domain-separator byte and produces 64 bytes, split into two 32-byte halves: ρ (public, used to build matrix A) and σ (secret, used to sample s and e). The same input always produces the same output, so key generation is fully deterministic.',
+    body: 'A SHA3-512 hash that takes d and outputs 64 bytes, split into ρ (first 32 bytes) and σ (last 32 bytes). The same input always produces the same output, so key generation is fully deterministic.',
   },
   H: {
     title: 'H (hash function)',

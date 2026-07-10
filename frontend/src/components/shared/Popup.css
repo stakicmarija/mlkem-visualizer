@@ -58,19 +58,11 @@
   height: 14px;
 }
 
-.popup__body {
-  /* inherits .body-text layout; no extra sizing needed */
-}
-
 .popup__value {
   background: var(--color-surface);
   border-radius: 8px;
   padding: 4px var(--space-2);
   text-align: center;
-}
-
-.popup__value-label {
-  /* same .body-text styling as value, just a separate line */
 }
 
 /* ── Items list (parameters popup) ─────────────────────────────────────── */
