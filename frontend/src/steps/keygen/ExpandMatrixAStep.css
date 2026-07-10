@@ -2,8 +2,38 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: -20px;
 }
 
+.expand-matrix-a__svg {
+  display: block;
+}
+
+/* Three RhoIJColumns in a fixed-width grid so SVG column centers align exactly */
+.expand-matrix-a__columns {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  width: 320px;
+}
+
+.expand-matrix-a__vline {
+  width: 3px;
+  height: 8px;
+  background: var(--color-transform);
+}
+
+.expand-matrix-a__caption {
+  text-align: center;
+  margin-top: 8px;
+}
+
+.expand-matrix-a .transform-box {
+  width: 120px;
+  min-height: 72px;
+}
+
+/* Matrix grid */
 .matrix-a-grid {
   display: flex;
   flex-direction: column;

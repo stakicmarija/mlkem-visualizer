@@ -30,12 +30,11 @@
 
 .derive-rho-sigma__vline {
   width: 3px;
-  height: 36px;
+  height: 20px;
   background: var(--color-transform);
 }
 
-/* Make G box taller and wider than the default TransformBox */
 .derive-rho-sigma .transform-box {
   width: 120px;
-  min-height: 100px;
+  min-height: 72px;
 }

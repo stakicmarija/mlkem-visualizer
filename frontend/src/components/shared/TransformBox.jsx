@@ -3,7 +3,7 @@ import Popup from './Popup.jsx'
 import { explanations } from '../../data/explanations.js'
 import './TransformBox.css'
 
-function TransformBox({ name, subtitle, explanationKey }) {
+function TransformBox({ name, subtitle, explanationKey, popupChildren }) {
   const [open, setOpen] = useState(false)
   const explanation = explanations[explanationKey]
 
@@ -16,13 +16,15 @@ function TransformBox({ name, subtitle, explanationKey }) {
         )}
       </button>
 
-      {open && explanation && (
+      {open && (explanation || popupChildren) && (
         <Popup
-          title={explanation.title}
-          body={explanation.body}
+          title={explanation?.title ?? name}
+          body={popupChildren ? undefined : explanation?.body}
           isOpen
           onClose={() => setOpen(false)}
-        />
+        >
+          {popupChildren}
+        </Popup>
       )}
     </>
   )

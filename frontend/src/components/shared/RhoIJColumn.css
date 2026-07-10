@@ -1,0 +1,21 @@
+.rho-ij-column {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-transform);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.rho-ij-column__item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1px;
+}
+
+/* Card provides the outer frame — suppress individual box borders inside */
+.rho-ij-column .rho-ij-box {
+  border-color: transparent;
+}

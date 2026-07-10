@@ -6,7 +6,7 @@
 }
 
 .formula-box__text {
-  text-align: center;
+  text-align: left;
   white-space: pre-wrap;
   word-break: break-word;
 }

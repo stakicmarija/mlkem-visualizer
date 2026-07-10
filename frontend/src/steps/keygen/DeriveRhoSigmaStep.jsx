@@ -12,18 +12,15 @@ function DeriveRhoSigmaStep() {
 
       <svg
         className="derive-rho-sigma__svg"
-        viewBox="0 0 240 75"
+        viewBox="0 0 240 48"
         width="240"
-        height="75"
+        height="48"
         style={{ overflow: 'visible' }}
         aria-hidden="true"
       >
-        {/* d: down to crossbar, then right to center */}
-        <path d="M 60 0 V 37.5 H 120" fill="none" stroke="var(--color-transform)" strokeWidth="3" />
-        {/* k: down to crossbar, then left to center */}
-        <path d="M 180 0 V 37.5 H 120" fill="none" stroke="var(--color-transform)" strokeWidth="3" />
-        {/* center drop to ‖ */}
-        <line x1="120" y1="37.5" x2="120" y2="75" stroke="var(--color-transform)" strokeWidth="3" />
+        <path d="M 60 0 V 19 Q 60 24 65 24 H 120" fill="none" stroke="var(--color-transform)" strokeWidth="3" />
+        <path d="M 180 0 V 19 Q 180 24 175 24 H 120" fill="none" stroke="var(--color-transform)" strokeWidth="3" />
+        <line x1="120" y1="24" x2="120" y2="48" stroke="var(--color-transform)" strokeWidth="3" />
       </svg>
 
       <div className="derive-rho-sigma__concat">||</div>
@@ -34,18 +31,15 @@ function DeriveRhoSigmaStep() {
 
       <svg
         className="derive-rho-sigma__svg"
-        viewBox="0 0 240 75"
+        viewBox="0 0 240 48"
         width="240"
-        height="75"
+        height="48"
         style={{ overflow: 'visible' }}
         aria-hidden="true"
       >
-        {/* center drop from G to crossbar */}
-        <line x1="120" y1="0" x2="120" y2="37.5" stroke="var(--color-transform)" strokeWidth="3" />
-        {/* crossbar left to ρ, then drop */}
-        <path d="M 120 37.5 H 60 V 75" fill="none" stroke="var(--color-transform)" strokeWidth="3" />
-        {/* crossbar right to σ, then drop */}
-        <path d="M 120 37.5 H 180 V 75" fill="none" stroke="var(--color-transform)" strokeWidth="3" />
+        <line x1="120" y1="0" x2="120" y2="24" stroke="var(--color-transform)" strokeWidth="3" />
+        <path d="M 120 24 H 65 Q 60 24 60 29 V 48" fill="none" stroke="var(--color-transform)" strokeWidth="3" />
+        <path d="M 120 24 H 175 Q 180 24 180 29 V 48" fill="none" stroke="var(--color-transform)" strokeWidth="3" />
       </svg>
 
       <div className="derive-rho-sigma__row">

@@ -51,7 +51,7 @@ export const explanations = {
   },
   SampleNTT: {
     title: 'SampleNTT',
-    body: 'A function based on an extendable-output function (XOF/SHAKE128). For each pair of indices (i, j), it takes ρ‖j‖i and deterministically generates one polynomial A[i][j] with 256 coefficients, each reduced mod q = 3329, directly in the NTT domain. Deterministic -- the same ρ always yields the same matrix A.',
+    body: 'A function based on an extendable-output function (XOF/SHAKE128). For each pair of indices (i, j), it takes ρ‖j‖i and deterministically generates one polynomial A[i][j] with 256 coefficients, each reduced mod q = 3329, directly in the NTT domain. Deterministic, the same ρ always yields the same matrix A.',
   },
   SamplePolyCBD: {
     title: 'SamplePolyCBD',
@@ -65,7 +65,7 @@ export const explanations = {
   // ---- KeyGen values ----------------------------------------------------
   A: {
     title: 'A (matrix)',
-    body: 'A k×k matrix of polynomials in Rq, generated entirely from the public seed ρ. Each entry has 256 coefficients, uniformly random mod q = 3329. Because A is public and uniformly random, its structure hides nothing -- the security of ML-KEM comes from combining A with a small secret, not from A itself.',
+    body: 'A k×k matrix of polynomials in Rq, generated entirely from the public seed ρ. Each entry has 256 coefficients, uniformly random mod q = 3329. Because A is public and uniformly random, its structure hides nothing, the security of ML-KEM comes from combining A with a small secret, not from A itself.',
   },
   s: {
     title: 's (secret vector)',

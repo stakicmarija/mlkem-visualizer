@@ -1,0 +1,170 @@
+.cbd-popup-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.cbd-popup-body__formula {
+  text-align: center;
+}
+
+/* ── Bit strip ─────────────────────────────────────────────────────────────── */
+
+.cbd-popup-body__strip-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.cbd-popup-body__strip {
+  display: flex;
+  gap: 2px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.cbd-popup-body__strip-label {
+  color: var(--color-text-secondary);
+}
+
+/* ── x / y bit groups + sums (tightly coupled) ─────────────────────────────── */
+
+.cbd-popup-body__xy-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.cbd-popup-body__groups {
+  display: flex;
+  gap: 64px;
+  align-items: flex-start;
+}
+
+.cbd-popup-body__group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  width: 52px;
+}
+
+.cbd-popup-body__group-label {
+  color: var(--color-text-secondary);
+}
+
+.cbd-popup-body__group-bits {
+  display: flex;
+  gap: 4px;
+}
+
+/* Sums row mirrors the groups layout so values sit under their bit groups */
+.cbd-popup-body__sums {
+  display: flex;
+  gap: 64px;
+}
+
+.cbd-popup-body__sums span {
+  width: 52px;
+  text-align: center;
+}
+
+.cbd-popup-body__result {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--color-text);
+  margin: 0;
+  text-align: center;
+}
+
+/* ── Coefficient chip row ──────────────────────────────────────────────────── */
+
+.cbd-popup-body__chips {
+  display: flex;
+  gap: 2px;
+}
+
+.cbd-chip {
+  width: 24px;
+  height: 24px;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  background: var(--color-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.cbd-chip .micro-label {
+  color: var(--color-text);
+}
+
+/* ── BitBox variants ───────────────────────────────────────────────────────── */
+
+.cbd-bit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+/* Small: used in the bit strip (16×16px) */
+.cbd-bit--small {
+  width: 16px;
+  height: 16px;
+}
+
+.cbd-bit--small .cbd-bit__text {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  line-height: 1;
+}
+
+/* Large: used in x/y bit groups (24px wide, content-height) */
+.cbd-bit--large {
+  width: 24px;
+  padding: 2px 7px;
+}
+
+.cbd-bit--large .cbd-bit__text {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+/* Color variants */
+.cbd-bit--x {
+  background: var(--color-cbd-x-bits);
+}
+.cbd-bit--x .cbd-bit__text {
+  color: var(--color-button-text);
+}
+
+.cbd-bit--y {
+  background: var(--color-cbd-y-bits);
+}
+.cbd-bit--y .cbd-bit__text {
+  color: var(--color-button-text);
+}
+
+.cbd-bit--gray1 {
+  background: var(--color-inactive);
+}
+.cbd-bit--gray1 .cbd-bit__text {
+  color: var(--color-button-text);
+}
+
+.cbd-bit--gray0 {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+}
+.cbd-bit--gray0 .cbd-bit__text {
+  color: var(--color-text-secondary);
+}

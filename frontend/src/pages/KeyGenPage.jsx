@@ -3,6 +3,7 @@ import AlgorithmPage from '../components/layout/AlgorithmPage.jsx'
 import CheckInputsStep from '../steps/keygen/CheckInputsStep.jsx'
 import DeriveRhoSigmaStep from '../steps/keygen/DeriveRhoSigmaStep.jsx'
 import ExpandMatrixAStep from '../steps/keygen/ExpandMatrixAStep.jsx'
+import GenerateSecretVectorStep from '../steps/keygen/GenerateSecretVectorStep.jsx'
 import { keygenSteps } from '../data/steps.js'
 import { explanations } from '../data/explanations.js'
 import data from '../data/mlkem_768_data.json'
@@ -54,14 +55,6 @@ function getGeneratedValues(stepId) {
   return BASE_GENERATED_VALUES.map(item => ({ ...item, state: 'pending' }))
 }
 
-function Idx({ children }) {
-  return (
-    <span style={{ fontFamily: 'var(--font-index)', verticalAlign: 'baseline' }}>
-      {children}
-    </span>
-  )
-}
-
 function getStepContent(stepId) {
   switch (stepId) {
     case 'check-inputs':
@@ -76,8 +69,13 @@ function getStepContent(stepId) {
       }
     case 'expand-matrix-a':
       return {
-        formula: <>A<Idx>[i][j]</Idx>{' ← SampleNTT(ρ ‖ j ‖ i)'}</>,
+        formula: 'for (i ← 0; i < k; i++)\n   for (j ← 0; j < k; j++)\n         A[i, j] ← SampleNTT(ρ‖j‖i)',
         content: <ExpandMatrixAStep />,
+      }
+    case 'generate-secret-vector':
+      return {
+        formula: 'for (i ← 0; i < k; i++)\n   s[i] ← SamplePolyCBD(PRF(σ, N))\n   N ← N + 1',
+        content: <GenerateSecretVectorStep />,
       }
     default:
       return { formula: '', content: null }
@@ -85,7 +83,7 @@ function getStepContent(stepId) {
 }
 
 function KeyGenPage() {
-  const [currentStepIndex, setCurrentStepIndex] = useState(0)
+  const [currentStepIndex, setCurrentStepIndex] = useState(5)
 
   const currentStep = navSteps[currentStepIndex]
   const { formula, content } = getStepContent(currentStep.id)

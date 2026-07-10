@@ -16,8 +16,6 @@ function CloseIcon() {
 function Popup({ title, children, body, value, valueLabel, items, isOpen, onClose }) {
   if (!isOpen) return null
 
-  const bodyContent = children ?? body
-
   return (
     <div className="popup-overlay" onClick={onClose}>
       <div className="popup-panel" onClick={e => e.stopPropagation()}>
@@ -38,8 +36,9 @@ function Popup({ title, children, body, value, valueLabel, items, isOpen, onClos
           </div>
         ) : (
           <>
-            {bodyContent && (
-              <p className="body-text popup__body">{bodyContent}</p>
+            {children}
+            {body && (
+              <p className="body-text popup__body">{body}</p>
             )}
             {value && (
               <div className="popup__value body-text">
