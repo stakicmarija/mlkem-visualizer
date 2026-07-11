@@ -13,19 +13,53 @@
   background: var(--color-bg);
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-  padding: 14px var(--space-4);
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
   overflow: hidden;
 }
 
-/* Title is truly centered; close button floats absolutely so it doesn't shift the title. */
+/* Title is truly centered when nav arrows are absent; close button floats
+   absolutely so it never shifts the title. When onPrev/onNext are given,
+   the arrows sit in-flow around the title — since both are equal width,
+   the (arrow, title, arrow) group still centers as a whole.
+   Top padding matches .popup__content's bottom padding so the panel is symmetric. */
 .popup__header {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-6) var(--space-4) var(--space-2);
+}
+
+.popup__nav {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: var(--space-1);
+  color: var(--color-text);
+  font-family: var(--font-mono);
+  font-size: 18px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.popup__nav:hover:not(:disabled) {
+  color: var(--color-text-secondary);
+}
+
+.popup__nav:disabled {
+  color: var(--color-inactive);
+  cursor: default;
+}
+
+.popup__content {
+  padding: 0 var(--space-6) var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
 }
 
 .popup__title {
@@ -35,8 +69,13 @@
 
 .popup__close {
   position: absolute;
-  right: 0;
-  top: 50%;
+  right: var(--space-3);
+  /* Header padding is asymmetric (more space above the title than below,
+     for outer panel symmetry — see .popup__header). top: 50% alone centers
+     against the full padding box, while the title centers against the
+     content box only, so the two land on different lines — this offset
+     corrects for that gap. */
+  top: calc(50% + (var(--space-6) - var(--space-2)) / 2);
   transform: translateY(-50%);
   background: none;
   border: none;
@@ -63,6 +102,25 @@
   border-radius: 8px;
   padding: 4px var(--space-2);
   text-align: center;
+}
+
+.popup__value--coeffs {
+  max-height: 160px;
+  overflow-y: auto;
+}
+
+.popup__expand {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text-secondary);
+  text-align: center;
+  align-self: center;
+  padding: 0;
+}
+
+.popup__expand:hover {
+  color: var(--color-text);
 }
 
 /* ── Items list (parameters popup) ─────────────────────────────────────── */

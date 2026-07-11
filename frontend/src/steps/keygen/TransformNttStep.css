@@ -1,0 +1,29 @@
+.transform-ntt-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.transform-ntt-step__columns {
+  display: flex;
+  gap: 64px;
+}
+
+.transform-ntt-step__column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+.transform-ntt-step__vline {
+  width: 3px;
+  height: 20px;
+  background: var(--color-transform);
+}
+
+.transform-ntt-step__note {
+  max-width: 528px;
+  text-align: center;
+}

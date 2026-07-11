@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import PageHeader from '../components/layout/PageHeader.jsx'
 import TunnelArrow from '../components/shared/TunnelArrow.jsx'
 import ParticipantPanel from '../components/shared/ParticipantPanel.jsx'
@@ -19,6 +20,7 @@ const ABOUT_TEXT = `A post-quantum key encapsulation mechanism standardized by N
 
 function HomePage() {
   const [aboutOpen, setAboutOpen] = useState(false)
+  const navigate = useNavigate()
 
   return (
     <main className="home-page">
@@ -40,7 +42,9 @@ function HomePage() {
       </div>
 
       <div className="home__cta">
-        <Button variant="primary" icon="next">Start Visualization</Button>
+        <Button variant="primary" icon="next" onClick={() => navigate('/keygen')}>
+          Start Visualization
+        </Button>
         <p className="micro-label home__cta-hint">
           You will be guided through each step of the algorithm.
         </p>

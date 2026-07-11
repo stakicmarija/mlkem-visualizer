@@ -19,11 +19,19 @@ button.matrix-cell {
 /* ── State variants ──────────────────────────────────────────────────────── */
 
 .matrix-cell--done {
-  border: 2px solid var(--color-matrix-a);
+  border: 2px solid var(--cell-color);
 }
 
 .matrix-cell--done:hover {
-  background: var(--color-matrix-a-tint);
+  background: var(--cell-tint);
+}
+
+.matrix-cell--tinted.matrix-cell--done {
+  background: var(--cell-tint);
+}
+
+.matrix-cell--strong.matrix-cell--tinted.matrix-cell--done {
+  background: var(--cell-tint-strong);
 }
 
 .matrix-cell--active {
@@ -53,6 +61,10 @@ button.matrix-cell {
   font-size: 14px;
   line-height: 1.4;
   color: var(--color-text);
+}
+
+.matrix-cell--strong .matrix-cell__symbol {
+  font-weight: 700;
 }
 
 .matrix-cell__index {

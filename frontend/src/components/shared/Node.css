@@ -8,6 +8,12 @@
   border: 3px solid var(--color-transform);
 }
 
+button.node {
+  cursor: pointer;
+  font: inherit;
+  appearance: none;
+}
+
 .node--default {
   background: transparent;
 }

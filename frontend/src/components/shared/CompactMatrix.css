@@ -1,0 +1,16 @@
+.compact-matrix {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.compact-matrix__row {
+  display: flex;
+  gap: 4px;
+}
+
+/* Outer corners only */
+.compact-matrix__row:first-child .matrix-cell:first-child { border-radius: 8px 0 0 0; }
+.compact-matrix__row:first-child .matrix-cell:last-child  { border-radius: 0 8px 0 0; }
+.compact-matrix__row:last-child  .matrix-cell:first-child { border-radius: 0 0 0 8px; }
+.compact-matrix__row:last-child  .matrix-cell:last-child  { border-radius: 0 0 8px 0; }

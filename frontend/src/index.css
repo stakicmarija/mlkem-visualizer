@@ -46,6 +46,10 @@ body {
   --c-light-pink: rgba(255, 192, 255, 0.2);
   --c-light-orange: rgba(255, 90, 0, 0.2);
   --c-light-pine: rgba(0, 144, 108, 0.2);
+  --c-light-green-strong: rgba(171, 255, 90, 0.4);
+  --c-light-pink-strong: rgba(255, 192, 255, 0.4);
+  --c-light-orange-strong: rgba(255, 90, 0, 0.4);
+  --c-light-pine-strong: rgba(0, 144, 108, 0.4);
 
   --c-gray: #8F9193;
   --c-darker-gray: #787B7E;
@@ -79,12 +83,16 @@ body {
   /* --- Semantic: cryptographic objects (each one keeps one color everywhere) --- */
   --color-matrix-a: var(--c-kryptonite-green);
   --color-matrix-a-tint: var(--c-light-green);
+  --color-matrix-a-tint-strong: var(--c-light-green-strong);
   --color-secret-s: var(--c-candy-pink);
   --color-secret-s-tint: var(--c-light-pink);
+  --color-secret-s-tint-strong: var(--c-light-pink-strong);
   --color-noise-e: var(--c-party-orange);
   --color-noise-e-tint: var(--c-light-orange);
+  --color-noise-e-tint-strong: var(--c-light-orange-strong);
   --color-public-t: var(--c-pine-green);
   --color-public-t-tint: var(--c-light-pine);
+  --color-public-t-tint-strong: var(--c-light-pine-strong);
 
   --color-node-leaf-bg: var(--c-light-pine);  /* leaf node tint -- accent (pine green) at 20% */
 

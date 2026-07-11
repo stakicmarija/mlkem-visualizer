@@ -1,23 +1,24 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import AlgorithmPage from '../components/layout/AlgorithmPage.jsx'
 import CheckInputsStep from '../steps/keygen/CheckInputsStep.jsx'
 import DeriveRhoSigmaStep from '../steps/keygen/DeriveRhoSigmaStep.jsx'
 import ExpandMatrixAStep from '../steps/keygen/ExpandMatrixAStep.jsx'
 import GenerateSecretVectorStep from '../steps/keygen/GenerateSecretVectorStep.jsx'
 import GenerateErrorVectorStep from '../steps/keygen/GenerateErrorVectorStep.jsx'
+import TransformNttStep from '../steps/keygen/TransformNttStep.jsx'
 import ComputePublicKeyStep from '../steps/keygen/ComputePublicKeyStep.jsx'
+import PackKeysStep from '../steps/keygen/PackKeysStep.jsx'
+import BuildDkStep from '../steps/keygen/BuildDkStep.jsx'
 import { keygenSteps } from '../data/steps.js'
 import { explanations } from '../data/explanations.js'
+import { toSpacedHex, truncateHex } from '../utils/hex.js'
 import data from '../data/mlkem_768_data.json'
-
-function toSpacedHex(hex) {
-  return (hex.match(/.{2}/g) || []).join(' ')
-}
 
 const navSteps = keygenSteps.filter(s => !s.isGroupLabel)
 
 // Steps that only delegate, or aren't built yet — skip over them when navigating
-const TRANSITION_IDS = new Set(['run-internal', 'generate-pke-pair', 'transform-ntt'])
+const TRANSITION_IDS = new Set(['run-internal', 'generate-pke-pair'])
 
 const { k, q, n, eta1 } = data.params
 
@@ -33,8 +34,6 @@ function getParameters(stepId) {
       return [{ label: 'k', value: k }, { label: 'n', value: n }, { label: 'η₁', value: eta1 }]
     case 'transform-ntt':
       return [{ label: 'n', value: n }]
-    case 'pack-keys':
-      return [{ label: 'k', value: k }]
     default:
       return []
   }
@@ -48,12 +47,32 @@ const INPUTS = [
 const BASE_GENERATED_VALUES = [
   { symbol: 'ρ', title: explanations.rho.title, body: explanations.rho.body },
   { symbol: 'σ', title: explanations.sigma.title, body: explanations.sigma.body },
-  { symbol: 'A', title: explanations.A.title },
-  { symbol: 's', title: explanations.s.title, body: explanations.s.body },
-  { symbol: 'e', title: explanations.e.title, body: explanations.e.body },
-  { symbol: 't', title: explanations.t.title, body: explanations.t.body },
-  { symbol: 'ek', title: explanations.ek.title },
-  { symbol: 'dk', title: explanations.dk.title },
+  {
+    symbol: 'A',
+    title: explanations.A.title,
+    body: explanations.A.body,
+    coeffsGrid: data.keygen.A.map(row => row.map(poly => poly.coeffs)),
+  },
+  {
+    symbol: 's',
+    title: explanations.s.title,
+    body: explanations.s.body,
+    coeffsList: data.keygen.s.map(poly => poly.coeffs_signed),
+  },
+  {
+    symbol: 'e',
+    title: explanations.e.title,
+    body: explanations.e.body,
+    coeffsList: data.keygen.e.map(poly => poly.coeffs_signed),
+  },
+  {
+    symbol: 't',
+    title: explanations.t.title,
+    body: explanations.t.body,
+    coeffsList: data.keygen.t.map(poly => poly.coeffs),
+  },
+  { symbol: 'ek', title: explanations.ek.title, body: explanations.ek.body, value: truncateHex(data.keygen.ek) },
+  { symbol: 'dk', title: explanations.dk.title, body: explanations.dk.body, value: truncateHex(data.keygen.dk) },
 ]
 
 function getGeneratedValues(stepId) {
@@ -84,7 +103,7 @@ function getGeneratedValues(stepId) {
            : undefined,
     }))
   }
-  if (stepId === 'generate-error-vector') {
+  if (stepId === 'generate-error-vector' || stepId === 'transform-ntt') {
     return BASE_GENERATED_VALUES.map((item, i) => ({
       ...item,
       state: i < 5 ? 'done' : 'pending',
@@ -100,6 +119,25 @@ function getGeneratedValues(stepId) {
       value: i === 0 ? toSpacedHex(data.keygen.rho)
            : i === 1 ? toSpacedHex(data.keygen.sigma)
            : undefined,
+    }))
+  }
+  if (stepId === 'pack-keys') {
+    // ek_pke IS the final ek at this point; dk still needs Build decapsulation key
+    return BASE_GENERATED_VALUES.map((item, i) => ({
+      ...item,
+      state: i < 7 ? 'done' : 'pending',
+      value: i === 0 ? toSpacedHex(data.keygen.rho)
+           : i === 1 ? toSpacedHex(data.keygen.sigma)
+           : undefined,
+    }))
+  }
+  if (stepId === 'build-dk' || stepId === 'return-ek-dk') {
+    return BASE_GENERATED_VALUES.map((item, i) => ({
+      ...item,
+      state: 'done',
+      value: i === 0 ? toSpacedHex(data.keygen.rho)
+           : i === 1 ? toSpacedHex(data.keygen.sigma)
+           : item.value,
     }))
   }
   return BASE_GENERATED_VALUES.map(item => ({ ...item, state: 'pending' }))
@@ -132,10 +170,34 @@ function getStepContent(stepId) {
         formula: 'for (i ← 0; i < k; i++)\n   e[i] ← SamplePolyCBD(PRF(σ, N))\n   N ← N + 1',
         content: <GenerateErrorVectorStep />,
       }
+    case 'transform-ntt':
+      return {
+        formula: 'ŝ ← NTT(s)\nê ← NTT(e)',
+        content: <TransformNttStep />,
+      }
     case 'compute-t':
       return {
         formula: 't ← A · s + e',
         content: <ComputePublicKeyStep />,
+      }
+    case 'pack-keys':
+      return {
+        formula: (
+          <>
+            ek<sub>pke</sub>{' ← ByteEncode₁₂(t)‖ρ\n'}
+            dk<sub>pke</sub>{' ← ByteEncode₁₂(s)'}
+          </>
+        ),
+        content: <PackKeysStep />,
+      }
+    case 'build-dk':
+      return {
+        formula: (
+          <>
+            {'ek ← ek'}<sub>pke</sub>{'\ndk ← (dk'}<sub>pke</sub>{'‖ek‖H(ek)‖z)'}
+          </>
+        ),
+        content: <BuildDkStep />,
       }
     default:
       return { formula: '', content: null }
@@ -143,7 +205,8 @@ function getStepContent(stepId) {
 }
 
 function KeyGenPage() {
-  const [currentStepIndex, setCurrentStepIndex] = useState(8)
+  const [currentStepIndex, setCurrentStepIndex] = useState(0)
+  const navigate = useNavigate()
 
   const currentStep = navSteps[currentStepIndex]
   const { formula, content } = getStepContent(currentStep.id)
@@ -159,6 +222,10 @@ function KeyGenPage() {
   }
 
   function goPrev() {
+    if (currentStepIndex === 0) {
+      navigate('/')
+      return
+    }
     let prev = currentStepIndex - 1
     while (prev >= 0 && TRANSITION_IDS.has(navSteps[prev].id)) {
       prev--
@@ -177,7 +244,7 @@ function KeyGenPage() {
       inputs={INPUTS}
       outputs={['ek (public key)', 'dk (private key)']}
       generatedValues={generatedValues}
-      canGoPrev={currentStepIndex > 0}
+      canGoPrev={true}
       canGoNext={currentStepIndex < navSteps.length - 1}
       onPrev={goPrev}
       onNext={goNext}

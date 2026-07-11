@@ -69,6 +69,13 @@ Typography classes (already defined): `.th1`, `.th2`, `.label`,
 `.body-text`, `.formula`, `.btn-text`, `.micro-label`, `.index-text`. Use
 these instead of writing new font-size/weight declarations.
 
+When A, s, e, or t appear as INPUTS to an operation (not being newly 
+generated for the first time), always use the compact tinted-block 
+style (single label centered, e.g. "A" or "s"), not the detailed 
+per-index cell style. The detailed style is reserved only for the step 
+where that value is FIRST generated (e.g. "Expand matrix A" for A, 
+"Generate secret vector" for s).
+
 ## Interaction rules
 
 - A chevron (`›`) next to a value means it's clickable and opens an

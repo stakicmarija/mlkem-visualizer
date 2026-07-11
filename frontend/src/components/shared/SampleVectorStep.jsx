@@ -1,25 +1,14 @@
-import { useState } from 'react'
 import Node from './Node.jsx'
 import TransformBox from './TransformBox.jsx'
 import Popup from './Popup.jsx'
 import CbdPopupBody from './CbdPopupBody.jsx'
 import { explanations } from '../../data/explanations.js'
+import { formatPolynomialPreview } from '../../utils/polynomial.js'
+import { useCellPopup } from '../../utils/useCellPopup.js'
 import './SampleVectorStep.css'
 
 const SUB = ['₀', '₁', '₂']
 const W = 240  // matches DeriveRhoSigmaStep row width; node centers at x=60 and x=180
-
-function Idx({ children }) {
-  return (
-    <span style={{ fontFamily: 'var(--font-index)', fontSize: '9px', verticalAlign: 'baseline' }}>
-      {children}
-    </span>
-  )
-}
-
-function formatCoeffsSigned(coeffs) {
-  return coeffs.slice(0, 8).join(', ') + ', ...'
-}
 
 function VectorCell({ label, index, onClick }) {
   return (
@@ -33,7 +22,7 @@ function VectorCell({ label, index, onClick }) {
 }
 
 function SampleVectorStep({ label, colorToken, explanationKey, vectors, prfRawHexes }) {
-  const [openIdx, setOpenIdx] = useState(null)
+  const popup = useCellPopup(vectors.length)
   const explanation = explanations[explanationKey]
 
   const cbdPopup = (
@@ -105,7 +94,7 @@ function SampleVectorStep({ label, colorToken, explanationKey, vectors, prfRawHe
 
       <div className="vector-row">
         {[0, 1, 2].map(i => (
-          <VectorCell key={i} label={label} index={i} onClick={() => setOpenIdx(i)} />
+          <VectorCell key={i} label={label} index={i} onClick={() => popup.open(i)} />
         ))}
       </div>
 
@@ -113,14 +102,18 @@ function SampleVectorStep({ label, colorToken, explanationKey, vectors, prfRawHe
 
       <Node label="N = N + 1" />
 
-      {openIdx !== null && (
+      {popup.index !== null && (
         <Popup
-          title={<>{label}<Idx>{SUB[openIdx]}</Idx></>}
+          title={`${label}${SUB[popup.index]}`}
           body={explanation.body}
-          value={formatCoeffsSigned(vectors[openIdx].coeffs_signed)}
-          valueLabel="coefficients (η₁ = 2, signed)"
+          polynomialPreview={formatPolynomialPreview(`${label}${SUB[popup.index]}`, vectors[popup.index].coeffs_signed)}
+          fullCoefficients={vectors[popup.index].coeffs_signed}
+          onPrev={popup.goPrev}
+          onNext={popup.goNext}
+          hasPrev={popup.hasPrev}
+          hasNext={popup.hasNext}
           isOpen
-          onClose={() => setOpenIdx(null)}
+          onClose={popup.close}
         />
       )}
     </div>

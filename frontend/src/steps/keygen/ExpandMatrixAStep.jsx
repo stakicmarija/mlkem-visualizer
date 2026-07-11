@@ -1,10 +1,11 @@
-import { useState } from 'react'
 import Node from '../../components/shared/Node.jsx'
 import MatrixCell from '../../components/shared/MatrixCell.jsx'
 import RhoIJColumn from '../../components/shared/RhoIJColumn.jsx'
 import TransformBox from '../../components/shared/TransformBox.jsx'
 import Popup from '../../components/shared/Popup.jsx'
 import { explanations } from '../../data/explanations.js'
+import { formatPolynomialPreview } from '../../utils/polynomial.js'
+import { useCellPopup } from '../../utils/useCellPopup.js'
 import data from '../../data/mlkem_768_data.json'
 import './ExpandMatrixAStep.css'
 
@@ -15,16 +16,18 @@ const SUB = ['₀', '₁', '₂']
 const W = 320
 const CX = [48, 160, 272]
 
-function Idx({ children }) {
-  return <span style={{ fontFamily: 'var(--font-index)', verticalAlign: 'baseline' }}>{children}</span>
-}
-
-function formatCoeffs(coeffs) {
-  return coeffs.slice(0, 8).join(', ') + ', ...'
-}
+// Flat list of A's 9 cells, in row-major order — index i*3+j — so prev/next
+// navigation in the popup can walk straight through this array.
+const CELLS = [0, 1, 2].flatMap(i =>
+  [0, 1, 2].map(j => ({
+    label: `A${SUB[i]}${SUB[j]}`,
+    coeffs: data.keygen.A[i][j].coeffs,
+  }))
+)
 
 function ExpandMatrixAStep() {
-  const [openCell, setOpenCell] = useState(null)
+  const popup = useCellPopup(CELLS.length)
+  const cell = popup.index !== null ? CELLS[popup.index] : null
 
   return (
     <div className="expand-matrix-a">
@@ -82,7 +85,7 @@ function ExpandMatrixAStep() {
                 key={j}
                 label={`A${SUB[i]}${SUB[j]}`}
                 state="done"
-                onClick={() => setOpenCell([i, j])}
+                onClick={() => popup.open(i * 3 + j)}
               />
             ))}
           </div>
@@ -95,14 +98,18 @@ function ExpandMatrixAStep() {
         each reduced mod q = 3329.
       </p>
 
-      {openCell && (
+      {cell && (
         <Popup
-          title={<>A<Idx>{SUB[openCell[0]]}{SUB[openCell[1]]}</Idx></>}
+          title={cell.label}
           body={explanations.A.body}
-          value={formatCoeffs(data.keygen.A[openCell[0]][openCell[1]].coeffs)}
-          valueLabel="coefficients (mod q = 3329)"
+          polynomialPreview={formatPolynomialPreview(cell.label, cell.coeffs)}
+          fullCoefficients={cell.coeffs}
+          onPrev={popup.goPrev}
+          onNext={popup.goNext}
+          hasPrev={popup.hasPrev}
+          hasNext={popup.hasNext}
           isOpen
-          onClose={() => setOpenCell(null)}
+          onClose={popup.close}
         />
       )}
     </div>

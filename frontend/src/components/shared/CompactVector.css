@@ -1,0 +1,8 @@
+.compact-vector {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.compact-vector .matrix-cell:first-child { border-radius: 4px 4px 0 0; }
+.compact-vector .matrix-cell:last-child  { border-radius: 0 0 4px 4px; }

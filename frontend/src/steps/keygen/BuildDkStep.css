@@ -1,0 +1,65 @@
+.build-dk-step {
+  display: flex;
+  justify-content: center;
+  gap: 100px;
+}
+
+/* No ambient gap — every transition between nodes is bridged by an
+   explicit vline/svg/branch element below, so lines connect flush. */
+.build-dk-step__column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.build-dk-step__col-title {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.build-dk-step__vline {
+  width: 3px;
+  height: 20px;
+  background: var(--color-transform);
+}
+
+/* Row/branch/merge all share a 480px, 4-lane coordinate system:
+   x=60 dkPKE, x=180 ek/H, x=300 ek's raw bypass, x=420 z. */
+.build-dk-step__row {
+  width: 480px;
+  display: flex;
+}
+
+/* Bottom-align, not top-align: dkPKE's node is taller than ek/z (its
+   subscript adds height), so bottom-aligning keeps every node's bottom
+   edge — where its connector line starts — on the same line. */
+.build-dk-step__row-quarter {
+  width: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+/* ek drops into H (lane 2); dkPKE, ek's raw bypass, and z pass straight
+   down alongside (lanes 1, 3, 4) for the same total height, so all four
+   arrive flush at the merge svg below. */
+.build-dk-step__branch {
+  width: 480px;
+  display: flex;
+}
+
+.build-dk-step__branch-line {
+  width: 3px;
+  height: 100px;
+  background: var(--color-transform);
+}
+
+.build-dk-step__svg {
+  display: block;
+}
+
+.build-dk-step .transform-box {
+  width: 120px;
+  height: 100px;
+}

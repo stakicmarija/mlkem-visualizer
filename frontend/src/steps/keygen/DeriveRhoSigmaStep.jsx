@@ -1,5 +1,6 @@
 import Node from '../../components/shared/Node.jsx'
 import TransformBox from '../../components/shared/TransformBox.jsx'
+import ConcatBox from '../../components/shared/ConcatBox.jsx'
 import './DeriveRhoSigmaStep.css'
 
 function DeriveRhoSigmaStep() {
@@ -23,7 +24,7 @@ function DeriveRhoSigmaStep() {
         <line x1="120" y1="24" x2="120" y2="48" stroke="var(--color-transform)" strokeWidth="3" />
       </svg>
 
-      <div className="derive-rho-sigma__concat">||</div>
+      <ConcatBox />
 
       <div className="derive-rho-sigma__vline" />
 

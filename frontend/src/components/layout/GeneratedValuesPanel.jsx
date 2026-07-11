@@ -1,14 +1,43 @@
 import { useState } from 'react'
 import ValueChecklistItem from '../shared/ValueChecklistItem.jsx'
 import Popup from '../shared/Popup.jsx'
+import { formatPolynomialPreview } from '../../utils/polynomial.js'
 import './GeneratedValuesPanel.css'
+
+const SUB = ['₀', '₁', '₂']
+
+// Flattens a matrix/vector item's coeffsGrid or coeffsList into one
+// ordered list of { label, coeffs } cells, so its popup can start at the
+// first element (e.g. A₀₀) and page through the rest with prev/next —
+// the same navigable popup used for individual matrix-cell clicks.
+function cellsFor(item) {
+  if (item.coeffsGrid) {
+    return item.coeffsGrid.flatMap((row, i) =>
+      row.map((coeffs, j) => ({ label: `${item.symbol}${SUB[i]}${SUB[j]}`, coeffs }))
+    )
+  }
+  if (item.coeffsList) {
+    return item.coeffsList.map((coeffs, i) => ({ label: `${item.symbol}${SUB[i]}`, coeffs }))
+  }
+  return null
+}
 
 function GeneratedValuesPanel({ items = [] }) {
   const [openIndex, setOpenIndex] = useState(null)
+  const [cellIndex, setCellIndex] = useState(0)
 
   const mid = Math.ceil(items.length / 2)
   const leftCol = items.slice(0, mid)
   const rightCol = items.slice(mid)
+
+  function openItem(i) {
+    setOpenIndex(i)
+    setCellIndex(0)
+  }
+
+  const activeItem = openIndex !== null ? items[openIndex] : null
+  const cells = activeItem ? cellsFor(activeItem) : null
+  const cell = cells ? cells[cellIndex] : null
 
   return (
     <div className="gen-values-panel">
@@ -20,7 +49,7 @@ function GeneratedValuesPanel({ items = [] }) {
               key={symbol}
               symbol={symbol}
               state={state}
-              onClick={state === 'done' ? () => setOpenIndex(i) : undefined}
+              onClick={state === 'done' ? () => openItem(i) : undefined}
             />
           ))}
         </div>
@@ -30,20 +59,35 @@ function GeneratedValuesPanel({ items = [] }) {
               key={symbol}
               symbol={symbol}
               state={state}
-              onClick={state === 'done' ? () => setOpenIndex(mid + i) : undefined}
+              onClick={state === 'done' ? () => openItem(mid + i) : undefined}
             />
           ))}
         </div>
       </div>
 
-      {openIndex !== null && items[openIndex] && (
-        <Popup
-          title={items[openIndex].title || items[openIndex].symbol}
-          body={items[openIndex].body}
-          value={items[openIndex].value}
-          isOpen
-          onClose={() => setOpenIndex(null)}
-        />
+      {activeItem && (
+        cell ? (
+          <Popup
+            title={cell.label}
+            body={activeItem.body}
+            polynomialPreview={formatPolynomialPreview(cell.label, cell.coeffs)}
+            fullCoefficients={cell.coeffs}
+            onPrev={() => setCellIndex(i => Math.max(0, i - 1))}
+            onNext={() => setCellIndex(i => Math.min(cells.length - 1, i + 1))}
+            hasPrev={cellIndex > 0}
+            hasNext={cellIndex < cells.length - 1}
+            isOpen
+            onClose={() => setOpenIndex(null)}
+          />
+        ) : (
+          <Popup
+            title={activeItem.title || activeItem.symbol}
+            body={activeItem.body}
+            value={activeItem.value}
+            isOpen
+            onClose={() => setOpenIndex(null)}
+          />
+        )
       )}
     </div>
   )

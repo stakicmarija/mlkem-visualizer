@@ -59,7 +59,11 @@ export const explanations = {
   },
   NTT: {
     title: 'NTT (Number-Theoretic Transform)',
-    body: 'Transforms a polynomial into an alternative representation where polynomial multiplication becomes simple pointwise multiplication, making matrix operations much faster in later steps. The polynomial itself is unchanged -- only its representation differs. NTT is the finite-field analogue of the Fast Fourier Transform (FFT).',
+    body: 'Transforms a polynomial into an alternative representation where polynomial multiplication becomes simple pointwise multiplication, making matrix operations much faster in later steps. The polynomial itself is unchanged, only its representation differs. NTT is the finite-field analogue of the Fast Fourier Transform (FFT).',
+  },
+  ByteEncode: {
+    title: 'ByteEncode₁₂',
+    body: 'Packs a polynomial\'s 256 coefficients into a compact byte string, using 12 bits per coefficient (enough to represent any value mod q = 3329 exactly). This is how polynomials become the actual bytes stored in ek and dk.',
   },
 
   // ---- KeyGen values ----------------------------------------------------

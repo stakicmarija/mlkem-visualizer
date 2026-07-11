@@ -16,18 +16,6 @@
   display: block;
 }
 
-/* Concatenation operator box — dark fill, condensed font, non-interactive */
-.derive-rho-sigma__concat {
-  background: var(--color-transform);
-  border-radius: 8px;
-  padding: 10px 16px;
-  font-family: var(--font-index);
-  font-size: 14px;
-  line-height: 1.4;
-  color: var(--color-button-text);
-  text-align: center;
-}
-
 .derive-rho-sigma__vline {
   width: 3px;
   height: 20px;

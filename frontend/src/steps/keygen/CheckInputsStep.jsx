@@ -2,17 +2,9 @@ import { useState } from 'react'
 import InputCard from '../../components/shared/InputCard.jsx'
 import Popup from '../../components/shared/Popup.jsx'
 import { explanations } from '../../data/explanations.js'
+import { toSpacedHex, truncateHex } from '../../utils/hex.js'
 import data from '../../data/mlkem_768_data.json'
 import './CheckInputsStep.css'
-
-function toSpacedHex(hex) {
-  return (hex.match(/.{2}/g) || []).join(' ')
-}
-
-function truncateHex(hex) {
-  const bytes = hex.match(/.{2}/g) || []
-  return `${bytes.slice(0, 6).join(' ')} ... ${bytes[bytes.length - 1]}`
-}
 
 const SEEDS = [
   { key: 'd', hex: data.inputs.d, explanation: explanations.d },

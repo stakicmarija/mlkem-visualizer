@@ -1,0 +1,69 @@
+.pack-keys-step {
+  display: flex;
+  justify-content: center;
+  gap: 100px;
+}
+
+/* No ambient gap here — every transition between nodes is bridged by an
+   explicit vline/svg/branch element below, so lines connect flush. */
+.pack-keys-step__column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.pack-keys-step__col-title {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Row holds two nodes, centers at x=60 and x=180 within the 240px SVG width */
+.pack-keys-step__row {
+  width: 240px;
+  display: flex;
+  justify-content: center;
+  gap: 73px;
+}
+
+.pack-keys-step__svg {
+  display: block;
+}
+
+.pack-keys-step__vline {
+  width: 3px;
+  height: 20px;
+  background: var(--color-transform);
+}
+
+/* t drops into Byte Encode (left half, under x=60); ρ passes straight down
+   alongside (right half, at x=180) for the same total height, so both
+   branches arrive flush at the fan-in svg below. */
+.pack-keys-step__branch {
+  width: 240px;
+  display: flex;
+}
+
+.pack-keys-step__branch-left,
+.pack-keys-step__branch-right {
+  width: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.pack-keys-step__branch-lead {
+  width: 3px;
+  height: 20px;
+  background: var(--color-transform);
+}
+
+.pack-keys-step__branch-line {
+  width: 3px;
+  height: 100px;
+  background: var(--color-transform);
+}
+
+.pack-keys-step .transform-box {
+  width: 80px;
+  height: 80px;
+}
