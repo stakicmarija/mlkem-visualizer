@@ -19,10 +19,6 @@
   gap: 10px;
 }
 
-.compute-t-step__op {
-  /* vertically centered by parent flex align-items: center */
-}
-
 .compute-t-step__dim {
   text-align: center;
 }

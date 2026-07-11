@@ -19,7 +19,7 @@ function formatCoeffs(coeffs) {
   return coeffs.slice(0, 8).join(', ') + ', ...'
 }
 
-function LweVector({ symbol, colorClass, polynomials, onCellClick }) {
+function LweVector({ symbol, colorClass, onCellClick }) {
   return (
     <div className={`lwe-vector ${colorClass}`}>
       {[0, 1, 2].map(i => (
