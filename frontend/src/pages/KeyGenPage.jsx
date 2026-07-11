@@ -5,6 +5,7 @@ import DeriveRhoSigmaStep from '../steps/keygen/DeriveRhoSigmaStep.jsx'
 import ExpandMatrixAStep from '../steps/keygen/ExpandMatrixAStep.jsx'
 import GenerateSecretVectorStep from '../steps/keygen/GenerateSecretVectorStep.jsx'
 import GenerateErrorVectorStep from '../steps/keygen/GenerateErrorVectorStep.jsx'
+import ComputePublicKeyStep from '../steps/keygen/ComputePublicKeyStep.jsx'
 import { keygenSteps } from '../data/steps.js'
 import { explanations } from '../data/explanations.js'
 import data from '../data/mlkem_768_data.json'
@@ -15,8 +16,29 @@ function toSpacedHex(hex) {
 
 const navSteps = keygenSteps.filter(s => !s.isGroupLabel)
 
-// Steps that only delegate — skip over them when navigating
-const TRANSITION_IDS = new Set(['run-internal', 'generate-pke-pair'])
+// Steps that only delegate, or aren't built yet — skip over them when navigating
+const TRANSITION_IDS = new Set(['run-internal', 'generate-pke-pair', 'transform-ntt'])
+
+const { k, q, n, eta1 } = data.params
+
+function getParameters(stepId) {
+  switch (stepId) {
+    case 'derive-rho-sigma':
+      return [{ label: 'k', value: k }]
+    case 'expand-matrix-a':
+    case 'compute-t':
+      return [{ label: 'k', value: k }, { label: 'n', value: n }, { label: 'q', value: q }]
+    case 'generate-secret-vector':
+    case 'generate-error-vector':
+      return [{ label: 'k', value: k }, { label: 'n', value: n }, { label: 'η₁', value: eta1 }]
+    case 'transform-ntt':
+      return [{ label: 'n', value: n }]
+    case 'pack-keys':
+      return [{ label: 'k', value: k }]
+    default:
+      return []
+  }
+}
 
 const INPUTS = [
   { label: explanations.d.title, body: explanations.d.body, value: toSpacedHex(data.inputs.d) },
@@ -29,7 +51,7 @@ const BASE_GENERATED_VALUES = [
   { symbol: 'A', title: explanations.A.title },
   { symbol: 's', title: explanations.s.title, body: explanations.s.body },
   { symbol: 'e', title: explanations.e.title, body: explanations.e.body },
-  { symbol: 't', title: explanations.t.title },
+  { symbol: 't', title: explanations.t.title, body: explanations.t.body },
   { symbol: 'ek', title: explanations.ek.title },
   { symbol: 'dk', title: explanations.dk.title },
 ]
@@ -71,6 +93,15 @@ function getGeneratedValues(stepId) {
            : undefined,
     }))
   }
+  if (stepId === 'compute-t') {
+    return BASE_GENERATED_VALUES.map((item, i) => ({
+      ...item,
+      state: i < 6 ? 'done' : 'pending',
+      value: i === 0 ? toSpacedHex(data.keygen.rho)
+           : i === 1 ? toSpacedHex(data.keygen.sigma)
+           : undefined,
+    }))
+  }
   return BASE_GENERATED_VALUES.map(item => ({ ...item, state: 'pending' }))
 }
 
@@ -101,17 +132,23 @@ function getStepContent(stepId) {
         formula: 'for (i ← 0; i < k; i++)\n   e[i] ← SamplePolyCBD(PRF(σ, N))\n   N ← N + 1',
         content: <GenerateErrorVectorStep />,
       }
+    case 'compute-t':
+      return {
+        formula: 't ← A · s + e',
+        content: <ComputePublicKeyStep />,
+      }
     default:
       return { formula: '', content: null }
   }
 }
 
 function KeyGenPage() {
-  const [currentStepIndex, setCurrentStepIndex] = useState(5)
+  const [currentStepIndex, setCurrentStepIndex] = useState(8)
 
   const currentStep = navSteps[currentStepIndex]
   const { formula, content } = getStepContent(currentStep.id)
   const generatedValues = getGeneratedValues(currentStep.id)
+  const parameters = getParameters(currentStep.id)
 
   function goNext() {
     let next = currentStepIndex + 1
@@ -136,7 +173,7 @@ function KeyGenPage() {
       formulaContent={formula}
       steps={keygenSteps}
       currentStepIndex={currentStepIndex}
-      parameters={[]}
+      parameters={parameters}
       inputs={INPUTS}
       outputs={['ek (public key)', 'dk (private key)']}
       generatedValues={generatedValues}

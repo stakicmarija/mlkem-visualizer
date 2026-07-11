@@ -73,11 +73,11 @@ export const explanations = {
   },
   e: {
     title: 'e (error vector)',
-    body: 'A vector of k small polynomials, sampled the same way as s. Added to A·s when computing the public key t, e is what makes recovering s from t computationally hard -- the noise "hides" the secret inside a value that otherwise looks uniformly random.',
+    body: 'A vector of k small polynomials, sampled the same way as s. Added to A·s when computing the public key t, e is what makes recovering s from t computationally hard, the noise "hides" the secret inside a value that otherwise looks uniformly random.',
   },
   t: {
     title: 't (public key)',
-    body: "Alice's public key: t = A·s + e. Combines the public matrix A, the secret s, and the small noise e. Because e hides s, recovering s from t is the Learning With Errors (LWE) problem -- believed to be hard even for quantum computers, and the basis of ML-KEM's security.",
+    body: "Alice's public key: t = A·s + e. Combines the public matrix A, the secret s, and the small noise e. Because e hides s, recovering s from t is the Learning With Errors (LWE) problem, believed to be hard even for quantum computers, and the basis of ML-KEM's security.",
   },
   ek: {
     title: 'ek (encapsulation key)',
