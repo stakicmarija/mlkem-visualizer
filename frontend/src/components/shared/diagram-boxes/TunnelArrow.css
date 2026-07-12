@@ -28,6 +28,32 @@
   color: var(--color-text-secondary);
 }
 
+/* Continuous line the badge sits/travels on top of (used instead of the
+   two-segment layout above whenever the badge is shown, static or animated). */
+.tunnel-arrow__track {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.tunnel-arrow__line--full {
+  width: 100%;
+  border-top: 2px dashed var(--color-border);
+}
+
+.tunnel-arrow__traveling-badge {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  padding: 0 4px;
+  background: var(--color-bg);
+}
+
+.tunnel-arrow__traveling-badge .node {
+  padding: 4px var(--space-2);
+}
+
 .tunnel-arrow__head {
   width: 8px;
   height: 14px;

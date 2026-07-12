@@ -1,10 +1,14 @@
 import StepCircle from './step-content/StepCircle.jsx'
+import Node from './diagram-boxes/Node.jsx'
 import './ParticipantPanel.css'
 
-function ParticipantPanel({ name, steps, activeStep }) {
+function ParticipantPanel({ name, steps, activeStep, badge }) {
   return (
     <div className="participant-panel">
-      <p className="th2 participant-panel__name">{name}</p>
+      <div className="participant-panel__header">
+        <p className="th2 participant-panel__name">{name}</p>
+        {badge && <Node label={badge} variant="leaf" />}
+      </div>
       <div className="participant-panel__card">
         <div className="participant-panel__steps">
           {steps.map((step, i) => (

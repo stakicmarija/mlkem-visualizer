@@ -4,8 +4,19 @@
   gap: var(--space-2);
 }
 
+.participant-panel__header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+}
+
 .participant-panel__name {
   text-align: center;
+}
+
+.participant-panel__header .node {
+  padding: 4px var(--space-2);
 }
 
 .participant-panel__card {

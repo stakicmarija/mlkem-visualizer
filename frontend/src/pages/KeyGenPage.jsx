@@ -220,12 +220,22 @@ function KeyGenPage() {
   const generatedValues = getGeneratedValues(currentStep.id)
   const parameters = getParameters(currentStep.id)
 
+  const isLastStep = currentStepIndex === navSteps.length - 1
+
   function handlePrev() {
     if (currentStepIndex === 0) {
       navigate('/')
       return
     }
     goPrev()
+  }
+
+  function handleNext() {
+    if (isLastStep) {
+      navigate('/', { state: { keygenComplete: true } })
+      return
+    }
+    goNext()
   }
 
   return (
@@ -240,9 +250,9 @@ function KeyGenPage() {
       outputs={['ek (public key)', 'dk (private key)']}
       generatedValues={generatedValues}
       canGoPrev={true}
-      canGoNext={!isAnimating && currentStepIndex < navSteps.length - 1}
+      canGoNext={!isAnimating}
       onPrev={handlePrev}
-      onNext={goNext}
+      onNext={handleNext}
     >
       {content}
     </AlgorithmPage>

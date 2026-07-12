@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import './App.css'
 import HomePage from './pages/HomePage.jsx'
 import KeyGenPage from './pages/KeyGenPage.jsx'
+import EncapsPage from './pages/EncapsPage.jsx'
 import Footer from './components/layout/Footer.jsx'
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
           </>
         } />
         <Route path="/keygen" element={<KeyGenPage />} />
+        <Route path="/encaps" element={<EncapsPage />} />
       </Routes>
     </BrowserRouter>
   )
