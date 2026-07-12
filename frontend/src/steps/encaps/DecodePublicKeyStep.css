@@ -1,0 +1,50 @@
+.decode-public-key {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.decode-public-key__svg {
+  display: block;
+}
+
+/* Two 180px lanes centered at x=90/x=270, matching the 360px viewBox used
+   by the fan-out SVG above -- wide enough that the longer slice label
+   ("ekpke [384k : 384k+32]B") stays on one line, with clear separation
+   between the two branches. */
+.decode-public-key__row {
+  width: 360px;
+  display: flex;
+}
+
+.decode-public-key__lane {
+  width: 180px;
+  display: flex;
+  justify-content: center;
+}
+
+/* Independent columns of different total height below the shared fan-out --
+   the ByteDecode branch is taller than the direct-copy ρ branch, and that's
+   expected, not a layout bug. */
+.decode-public-key__columns {
+  width: 360px;
+  display: flex;
+}
+
+.decode-public-key__column {
+  width: 180px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.decode-public-key__vline {
+  width: 3px;
+  height: 20px;
+  background: var(--color-transform);
+}
+
+.decode-public-key .transform-box {
+  width: 100px;
+  height: 80px;
+}

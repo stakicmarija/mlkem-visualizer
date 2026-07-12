@@ -1,4 +1,5 @@
 import PageHeader from './PageHeader.jsx'
+import Breadcrumb from './Breadcrumb.jsx'
 import FormulaBox from '../shared/step-content/FormulaBox.jsx'
 import StepTree from './StepTree.jsx'
 import ParamsPanel from './ParamsPanel.jsx'
@@ -10,6 +11,7 @@ import './AlgorithmPage.css'
 function AlgorithmPage({
   title,
   subtitle,
+  breadcrumbStage,
   formulaContent,
   steps,
   currentStepIndex,
@@ -26,6 +28,8 @@ function AlgorithmPage({
 }) {
   return (
     <div className="algorithm-page">
+      {breadcrumbStage && <Breadcrumb stage={breadcrumbStage} />}
+
       <div className="algorithm-page__top">
         <PageHeader title={title} subtitle={subtitle} />
       </div>

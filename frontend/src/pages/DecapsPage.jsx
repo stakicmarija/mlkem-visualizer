@@ -32,6 +32,7 @@ function DecapsPage() {
     <AlgorithmPage
       title="Decapsulation"
       subtitle="Alice"
+      breadcrumbStage="decaps"
       formulaContent={null}
       steps={decapsSteps}
       currentStepIndex={treeIndex}

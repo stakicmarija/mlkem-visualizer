@@ -1,0 +1,49 @@
+/* Fixed to the viewport, not wherever it's mounted in the DOM, so it lands
+   in the exact same screen position on every page (HomePage's transitional
+   states and every AlgorithmPage) -- mirrors the .home-page top-left
+   padding (var(--space-8) var(--space-6)). */
+.breadcrumb {
+  position: fixed;
+  top: var(--space-8);
+  left: var(--space-6);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  column-gap: 6px;
+}
+
+@media (max-width: 1440px) {
+  .breadcrumb {
+    top: 20px;
+  }
+}
+
+.breadcrumb__segment {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.breadcrumb__sep {
+  color: var(--color-inactive);
+}
+
+.breadcrumb__link {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  font: inherit;
+  color: var(--color-text-secondary);
+}
+
+.breadcrumb__link:hover {
+  color: var(--color-text);
+}
+
+.breadcrumb__current {
+  color: var(--color-accent);
+  font-weight: 700;
+}

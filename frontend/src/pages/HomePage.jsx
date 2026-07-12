@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import PageHeader from '../components/layout/PageHeader.jsx'
+import Breadcrumb from '../components/layout/Breadcrumb.jsx'
 import TunnelArrow from '../components/shared/diagram-boxes/TunnelArrow.jsx'
 import ParticipantPanel from '../components/shared/ParticipantPanel.jsx'
 import Button from '../components/shared/buttons/Button.jsx'
@@ -31,6 +32,10 @@ function HomePage() {
   // persistence needed" stance; it's fine for this to reset on a hard refresh.
   const keygenComplete = !!location.state?.keygenComplete
   const encapsComplete = !!location.state?.encapsComplete
+
+  // No breadcrumb on the very first, initial HomePage state (nothing
+  // complete yet) -- it only appears once the flow has actually started.
+  const breadcrumbStage = encapsComplete ? 'c-sent' : keygenComplete ? 'ek-sent' : null
 
   // 'traveling' -> ek slides along the tunnel, Key Generation glows
   // 'arrived'   -> ek at rest near Bob's side, Encapsulation glows
@@ -63,6 +68,8 @@ function HomePage() {
 
   return (
     <main className="home-page">
+      {breadcrumbStage && <Breadcrumb stage={breadcrumbStage} />}
+
       <div className="home__intro">
         <PageHeader title="ML-KEM 768" subtitle="AN INTERACTIVE VISUALIZATION" />
         <p className="body-text home__description">{ABOUT_TEXT}</p>

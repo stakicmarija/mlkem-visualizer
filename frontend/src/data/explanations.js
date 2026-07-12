@@ -65,6 +65,10 @@ export const explanations = {
     title: 'ByteEncode₁₂',
     body: 'Packs a polynomial\'s 256 coefficients into a compact byte string, using 12 bits per coefficient (enough to represent any value mod q = 3329 exactly). This is how polynomials become the actual bytes stored in ek and dk.',
   },
+  ByteDecode: {
+    title: 'ByteDecode₁₂',
+    body: 'The inverse of ByteEncode₁₂: unpacks a byte string 12 bits at a time back into a polynomial\'s 256 coefficients mod q = 3329. This is how Bob recovers Alice\'s public polynomial t̂ from the raw bytes of ek.',
+  },
 
   // ---- KeyGen values ----------------------------------------------------
   A: {

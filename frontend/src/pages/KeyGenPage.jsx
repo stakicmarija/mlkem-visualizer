@@ -242,6 +242,7 @@ function KeyGenPage() {
     <AlgorithmPage
       title="Key Generation"
       subtitle="Alice"
+      breadcrumbStage="keygen"
       formulaContent={formula}
       steps={keygenSteps}
       currentStepIndex={treeIndex}
