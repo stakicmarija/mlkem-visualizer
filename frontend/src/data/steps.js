@@ -34,6 +34,7 @@ export const keygenSteps = [
 ];
 
 export const encapsSteps = [
+  { id: 'ml-kem', label: 'ML-KEM', level: 0, isGroupLabel: true },
   { id: 'generate-m', label: 'Generate m', level: 0 },
   { id: 'run-internal', label: 'Run internal algorithm', level: 0 },
   { id: 'internal', label: 'Internal', level: 1, isGroupLabel: true },
