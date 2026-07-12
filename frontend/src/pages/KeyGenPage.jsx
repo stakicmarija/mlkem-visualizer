@@ -1,5 +1,5 @@
-import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useStepNavigation } from '../utils/useStepNavigation.js'
 import AlgorithmPage from '../components/layout/AlgorithmPage.jsx'
 import CheckInputsStep from '../steps/keygen/CheckInputsStep.jsx'
 import DeriveRhoSigmaStep from '../steps/keygen/DeriveRhoSigmaStep.jsx'
@@ -211,32 +211,21 @@ function getStepContent(stepId) {
 }
 
 function KeyGenPage() {
-  const [currentStepIndex, setCurrentStepIndex] = useState(0)
   const navigate = useNavigate()
+  const { currentStepIndex, treeIndex, goNext, goPrev, isAnimating } =
+    useStepNavigation(navSteps, TRANSITION_IDS)
 
   const currentStep = navSteps[currentStepIndex]
   const { formula, content } = getStepContent(currentStep.id)
   const generatedValues = getGeneratedValues(currentStep.id)
   const parameters = getParameters(currentStep.id)
 
-  function goNext() {
-    let next = currentStepIndex + 1
-    while (next < navSteps.length && TRANSITION_IDS.has(navSteps[next].id)) {
-      next++
-    }
-    if (next < navSteps.length) setCurrentStepIndex(next)
-  }
-
-  function goPrev() {
+  function handlePrev() {
     if (currentStepIndex === 0) {
       navigate('/')
       return
     }
-    let prev = currentStepIndex - 1
-    while (prev >= 0 && TRANSITION_IDS.has(navSteps[prev].id)) {
-      prev--
-    }
-    if (prev >= 0) setCurrentStepIndex(prev)
+    goPrev()
   }
 
   return (
@@ -245,14 +234,14 @@ function KeyGenPage() {
       subtitle="Alice"
       formulaContent={formula}
       steps={keygenSteps}
-      currentStepIndex={currentStepIndex}
+      currentStepIndex={treeIndex}
       parameters={parameters}
       inputs={INPUTS}
       outputs={['ek (public key)', 'dk (private key)']}
       generatedValues={generatedValues}
       canGoPrev={true}
-      canGoNext={currentStepIndex < navSteps.length - 1}
-      onPrev={goPrev}
+      canGoNext={!isAnimating && currentStepIndex < navSteps.length - 1}
+      onPrev={handlePrev}
       onNext={goNext}
     >
       {content}

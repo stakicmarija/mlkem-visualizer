@@ -23,11 +23,11 @@ function HomePage() {
   const [isStarting, setIsStarting] = useState(false)
   const navigate = useNavigate()
 
-  // Brief "loading into" pause: the Key Generation circle glows, then we
-  // move on — no interaction needed during the wait.
+  // Brief "loading into" pause: the Key Generation circle glows and the
+  // button reads "Starting...", then we move on — no interaction needed.
   useEffect(() => {
     if (!isStarting) return
-    const timer = setTimeout(() => navigate('/keygen'), 1500)
+    const timer = setTimeout(() => navigate('/keygen'), 900)
     return () => clearTimeout(timer)
   }, [isStarting, navigate])
 
@@ -52,7 +52,7 @@ function HomePage() {
 
       <div className="home__cta">
         <Button variant="primary" icon="next" onClick={() => setIsStarting(true)} disabled={isStarting}>
-          Start Visualization
+          {isStarting ? 'Starting...' : 'Start Visualization'}
         </Button>
         <p className="micro-label home__cta-hint">
           You will be guided through each step of the algorithm.
