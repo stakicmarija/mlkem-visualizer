@@ -60,11 +60,32 @@
   min-width: 280px;
 }
 
+/* Fixed to the viewport, not the flex flow, and sized to wrap only the
+   button — the caption below is positioned absolutely (see
+   .home__cta-hint) so it can't shift the button's own position. This
+   keeps the button at the exact same screen position as
+   .algorithm-page__nav's Prev/Next row; keep bottom offsets in sync with
+   AlgorithmPage.css. 88px = 56px footer height + var(--space-8) clearance. */
 .home__cta {
+  position: fixed;
+  left: 50%;
+  bottom: 88px;
+  transform: translateX(-50%);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--space-2);
+  z-index: 10;
+}
+
+.home__cta-hint {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: var(--space-2);
+  width: max-content;
+  white-space: nowrap;
+  text-align: center;
 }
 
 /* ── Small screen (13" laptop / 1280×800) ──────────────────────────────── */
@@ -98,7 +119,13 @@
     gap: 196px;
   }
 
+  /* 36px footer height (small screen) + var(--space-6) clearance — keep in
+     sync with .algorithm-page__nav's small-screen bottom in AlgorithmPage.css. */
   .home__cta {
-    gap: 4px;
+    bottom: 60px;
+  }
+
+  .home__cta-hint {
+    margin-top: 4px;
   }
 }

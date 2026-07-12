@@ -46,11 +46,19 @@
   gap: var(--space-2);
 }
 
+/* Fixed to the viewport (not the flex flow) so this lines up with
+   HomePage's .home__cta button at the exact same screen position on every
+   page — 88px = 56px footer height + var(--space-8) clearance above it.
+   Keep this bottom offset in sync with .home__cta in HomePage.css. */
 .algorithm-page__nav {
+  position: fixed;
+  left: 50%;
+  bottom: 88px;
+  transform: translateX(-50%);
   display: flex;
   justify-content: center;
   gap: var(--space-2);
-  padding: var(--space-6) 120px;
+  z-index: 10;
 }
 
 /* ── Small screen (≤1440px) ─────────────────────────────────────────────── */
@@ -71,7 +79,8 @@
     right: 56px;
   }
 
+  /* 36px footer height (small screen) + var(--space-6) clearance. */
   .algorithm-page__nav {
-    padding: var(--space-4) 56px;
+    bottom: 60px;
   }
 }
