@@ -1,6 +1,6 @@
-import Node from '../../components/shared/Node.jsx'
-import TransformBox from '../../components/shared/TransformBox.jsx'
-import ConcatBox from '../../components/shared/ConcatBox.jsx'
+import Node from '../../components/shared/diagram-boxes/Node.jsx'
+import TransformBox from '../../components/shared/diagram-boxes/TransformBox.jsx'
+import ConcatBox from '../../components/shared/diagram-boxes/ConcatBox.jsx'
 import './PackKeysStep.css'
 
 function PackKeysStep() {

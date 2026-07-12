@@ -1,4 +1,4 @@
-import SampleVectorStep from '../../components/shared/SampleVectorStep.jsx'
+import SampleVectorStep from '../../components/shared/step-content/SampleVectorStep.jsx'
 import data from '../../data/mlkem_768_data.json'
 
 function GenerateErrorVectorStep() {

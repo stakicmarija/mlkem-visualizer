@@ -1,10 +1,10 @@
-import Node from './Node.jsx'
-import TransformBox from './TransformBox.jsx'
-import Popup from './Popup.jsx'
-import CbdPopupBody from './CbdPopupBody.jsx'
-import { explanations } from '../../data/explanations.js'
-import { formatPolynomialPreview } from '../../utils/polynomial.js'
-import { useCellPopup } from '../../utils/useCellPopup.js'
+import Node from '../diagram-boxes/Node.jsx'
+import TransformBox from '../diagram-boxes/TransformBox.jsx'
+import Popup from '../popup/Popup.jsx'
+import CbdPopupBody from '../popup/CbdPopupBody.jsx'
+import { explanations } from '../../../data/explanations.js'
+import { formatPolynomialPreview } from '../../../utils/polynomial.js'
+import { useCellPopup } from '../../../utils/useCellPopup.js'
 import './SampleVectorStep.css'
 
 const SUB = ['₀', '₁', '₂']

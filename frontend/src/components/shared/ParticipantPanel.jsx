@@ -1,4 +1,4 @@
-import StepCircle from './StepCircle.jsx'
+import StepCircle from './step-content/StepCircle.jsx'
 import './ParticipantPanel.css'
 
 function ParticipantPanel({ name, steps, activeStep }) {

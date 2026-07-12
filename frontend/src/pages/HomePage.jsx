@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import PageHeader from '../components/layout/PageHeader.jsx'
-import TunnelArrow from '../components/shared/TunnelArrow.jsx'
+import TunnelArrow from '../components/shared/diagram-boxes/TunnelArrow.jsx'
 import ParticipantPanel from '../components/shared/ParticipantPanel.jsx'
-import Button from '../components/shared/Button.jsx'
-import Popup from '../components/shared/Popup.jsx'
+import Button from '../components/shared/buttons/Button.jsx'
+import Popup from '../components/shared/popup/Popup.jsx'
 import './HomePage.css'
 
 const ALICE_STEPS = [

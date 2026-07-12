@@ -1,9 +1,9 @@
 import PageHeader from './PageHeader.jsx'
-import FormulaBox from '../shared/FormulaBox.jsx'
+import FormulaBox from '../shared/step-content/FormulaBox.jsx'
 import StepTree from './StepTree.jsx'
 import ParamsPanel from './ParamsPanel.jsx'
 import GeneratedValuesPanel from './GeneratedValuesPanel.jsx'
-import Button from '../shared/Button.jsx'
+import Button from '../shared/buttons/Button.jsx'
 import Footer from './Footer.jsx'
 import './AlgorithmPage.css'
 

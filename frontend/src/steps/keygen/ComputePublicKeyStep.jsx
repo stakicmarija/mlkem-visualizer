@@ -1,5 +1,5 @@
-import CompactMatrixField from '../../components/shared/CompactMatrixField.jsx'
-import CompactVectorField from '../../components/shared/CompactVectorField.jsx'
+import CompactMatrixField from '../../components/shared/matrix/CompactMatrixField.jsx'
+import CompactVectorField from '../../components/shared/matrix/CompactVectorField.jsx'
 import { explanations } from '../../data/explanations.js'
 import data from '../../data/mlkem_768_data.json'
 import './ComputePublicKeyStep.css'

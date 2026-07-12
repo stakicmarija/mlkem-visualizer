@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import Popup from '../shared/Popup.jsx'
+import Popup from '../shared/popup/Popup.jsx'
 import { explanations } from '../../data/explanations.js'
 import './ParamsPanel.css'
 

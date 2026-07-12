@@ -1,7 +1,7 @@
 import CompactVector from './CompactVector.jsx'
-import Popup from './Popup.jsx'
-import { formatPolynomialPreview } from '../../utils/polynomial.js'
-import { useCellPopup } from '../../utils/useCellPopup.js'
+import Popup from '../popup/Popup.jsx'
+import { formatPolynomialPreview } from '../../../utils/polynomial.js'
+import { useCellPopup } from '../../../utils/useCellPopup.js'
 
 const SUB = ['₀', '₁', '₂']
 

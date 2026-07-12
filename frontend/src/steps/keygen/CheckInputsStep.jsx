@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import InputCard from '../../components/shared/InputCard.jsx'
-import Popup from '../../components/shared/Popup.jsx'
+import InputCard from '../../components/shared/diagram-boxes/InputCard.jsx'
+import Popup from '../../components/shared/popup/Popup.jsx'
 import { explanations } from '../../data/explanations.js'
 import { toSpacedHex, truncateHex } from '../../utils/hex.js'
 import data from '../../data/mlkem_768_data.json'

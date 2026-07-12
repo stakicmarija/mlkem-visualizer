@@ -1,5 +1,5 @@
-import CompactVectorField from '../../components/shared/CompactVectorField.jsx'
-import TransformBox from '../../components/shared/TransformBox.jsx'
+import CompactVectorField from '../../components/shared/matrix/CompactVectorField.jsx'
+import TransformBox from '../../components/shared/diagram-boxes/TransformBox.jsx'
 import { explanations } from '../../data/explanations.js'
 import data from '../../data/mlkem_768_data.json'
 import './TransformNttStep.css'

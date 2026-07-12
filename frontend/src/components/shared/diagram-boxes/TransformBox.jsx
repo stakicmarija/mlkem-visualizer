@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import Popup from './Popup.jsx'
-import { explanations } from '../../data/explanations.js'
+import Popup from '../popup/Popup.jsx'
+import { explanations } from '../../../data/explanations.js'
 import './TransformBox.css'
 
 function TransformBox({ name, subtitle, explanationKey, popupChildren }) {

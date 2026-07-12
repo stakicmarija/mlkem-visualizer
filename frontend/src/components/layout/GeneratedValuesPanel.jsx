@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import ValueChecklistItem from '../shared/ValueChecklistItem.jsx'
-import Popup from '../shared/Popup.jsx'
+import ValueChecklistItem from '../shared/checklist/ValueChecklistItem.jsx'
+import Popup from '../shared/popup/Popup.jsx'
 import { formatPolynomialPreview } from '../../utils/polynomial.js'
 import './GeneratedValuesPanel.css'
 
