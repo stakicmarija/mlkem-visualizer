@@ -19,6 +19,9 @@ function cellsFor(item) {
   if (item.coeffsList) {
     return item.coeffsList.map((coeffs, i) => ({ label: `${item.symbol}${SUB[i]}`, coeffs }))
   }
+  if (item.coeffs) {
+    return [{ label: item.symbol, coeffs: item.coeffs }]
+  }
   return null
 }
 
