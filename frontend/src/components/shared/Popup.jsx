@@ -94,7 +94,7 @@ function Popup({
               </div>
               {fullCoefficients && (
                 expanded ? (
-                  <div className="popup__value popup__value--coeffs body-text">
+                  <div className="popup__value body-text">
                     <div>{fullCoefficients.join(', ')}</div>
                   </div>
                 ) : (

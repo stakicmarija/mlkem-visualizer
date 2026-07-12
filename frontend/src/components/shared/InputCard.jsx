@@ -15,7 +15,7 @@ function CheckIcon() {
   )
 }
 
-function InputCard({ symbol, truncatedHex, onClick }) {
+function InputCard({ symbol, truncatedHex, caption, onClick }) {
   return (
     <button className="input-card" onClick={onClick}>
       <div className="input-card__header">
@@ -25,6 +25,11 @@ function InputCard({ symbol, truncatedHex, onClick }) {
       <div className="input-card__hex">
         <span className="body-text">{truncatedHex}</span>
       </div>
+      {caption && (
+        <div className="input-card__caption">
+          <span className="micro-label">{caption}</span>
+        </div>
+      )}
     </button>
   )
 }

@@ -1,7 +1,7 @@
 import StepCircle from './StepCircle.jsx'
 import './ParticipantPanel.css'
 
-function ParticipantPanel({ name, steps }) {
+function ParticipantPanel({ name, steps, activeStep }) {
   return (
     <div className="participant-panel">
       <p className="th2 participant-panel__name">{name}</p>
@@ -9,7 +9,7 @@ function ParticipantPanel({ name, steps }) {
         <div className="participant-panel__steps">
           {steps.map((step, i) => (
             <div key={i} className="participant-panel__step">
-              <StepCircle title={step.title} isActive={false} />
+              <StepCircle title={step.title} isActive={step.title === activeStep} />
               <p className="micro-label participant-panel__desc">{step.description}</p>
             </div>
           ))}

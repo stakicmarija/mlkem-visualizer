@@ -46,3 +46,14 @@
   padding: var(--space-2);
   text-align: center;
 }
+
+.input-card__caption {
+  padding: 0 var(--space-2) var(--space-2);
+  text-align: center;
+}
+
+/* Higher specificity than the shared .micro-label rule's own color, which
+   would otherwise win since it's set directly on this same span. */
+.input-card__caption .micro-label {
+  color: var(--color-text-secondary);
+}

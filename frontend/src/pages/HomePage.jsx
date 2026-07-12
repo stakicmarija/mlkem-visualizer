@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import PageHeader from '../components/layout/PageHeader.jsx'
 import TunnelArrow from '../components/shared/TunnelArrow.jsx'
@@ -20,7 +20,16 @@ const ABOUT_TEXT = `A post-quantum key encapsulation mechanism standardized by N
 
 function HomePage() {
   const [aboutOpen, setAboutOpen] = useState(false)
+  const [isStarting, setIsStarting] = useState(false)
   const navigate = useNavigate()
+
+  // Brief "loading into" pause: the Key Generation circle glows, then we
+  // move on — no interaction needed during the wait.
+  useEffect(() => {
+    if (!isStarting) return
+    const timer = setTimeout(() => navigate('/keygen'), 1500)
+    return () => clearTimeout(timer)
+  }, [isStarting, navigate])
 
   return (
     <main className="home-page">
@@ -33,7 +42,7 @@ function HomePage() {
       </div>
 
       <div className="home__diagram">
-        <ParticipantPanel name="ALICE" steps={ALICE_STEPS} />
+        <ParticipantPanel name="ALICE" steps={ALICE_STEPS} activeStep={isStarting ? 'KEY GENERATION' : null} />
         <div className="home__arrows">
           <TunnelArrow label="ek" detail="(public key)" direction="forward" />
           <TunnelArrow label="c" detail="(ciphertext)" direction="backward" />
@@ -42,7 +51,7 @@ function HomePage() {
       </div>
 
       <div className="home__cta">
-        <Button variant="primary" icon="next" onClick={() => navigate('/keygen')}>
+        <Button variant="primary" icon="next" onClick={() => setIsStarting(true)} disabled={isStarting}>
           Start Visualization
         </Button>
         <p className="micro-label home__cta-hint">

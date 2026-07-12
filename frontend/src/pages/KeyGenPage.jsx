@@ -10,6 +10,7 @@ import TransformNttStep from '../steps/keygen/TransformNttStep.jsx'
 import ComputePublicKeyStep from '../steps/keygen/ComputePublicKeyStep.jsx'
 import PackKeysStep from '../steps/keygen/PackKeysStep.jsx'
 import BuildDkStep from '../steps/keygen/BuildDkStep.jsx'
+import ReturnKeysStep from '../steps/keygen/ReturnKeysStep.jsx'
 import { keygenSteps } from '../data/steps.js'
 import { explanations } from '../data/explanations.js'
 import { toSpacedHex, truncateHex } from '../utils/hex.js'
@@ -198,6 +199,11 @@ function getStepContent(stepId) {
           </>
         ),
         content: <BuildDkStep />,
+      }
+    case 'return-ek-dk':
+      return {
+        formula: 'return (ek, dk)',
+        content: <ReturnKeysStep />,
       }
     default:
       return { formula: '', content: null }

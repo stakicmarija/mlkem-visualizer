@@ -40,7 +40,7 @@ function AlgorithmPage({
         </div>
 
         <div className="algorithm-page__center">
-          <FormulaBox>{formulaContent}</FormulaBox>
+          {formulaContent && <FormulaBox>{formulaContent}</FormulaBox>}
           {children}
         </div>
 

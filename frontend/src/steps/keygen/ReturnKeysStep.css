@@ -1,0 +1,11 @@
+.return-keys-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+}
+
+.return-keys-step__note {
+  max-width: 480px;
+  text-align: center;
+}
