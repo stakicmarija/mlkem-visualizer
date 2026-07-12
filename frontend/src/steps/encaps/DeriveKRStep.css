@@ -1,0 +1,56 @@
+.derive-k-r {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Two 120px lanes centered at x=60 (m/K) and x=180 (ek/r), matching the
+   240px viewBox used by the connector SVGs below. */
+.derive-k-r__row {
+  width: 240px;
+  display: flex;
+}
+
+.derive-k-r__lane {
+  width: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+/* Short connector between each input node and the branch row below --
+   without it, ek's box would sit flush against H's box with a hard edge
+   instead of a visible wire. */
+.derive-k-r__connector {
+  width: 240px;
+  display: flex;
+}
+
+/* ek drops into H (right lane); m bypasses straight down (left lane) for
+   the same height, so both arrive flush at the merge SVG below. */
+.derive-k-r__branch {
+  width: 240px;
+  display: flex;
+}
+
+.derive-k-r__branch-line {
+  width: 3px;
+  height: 100px;
+  background: var(--color-transform);
+}
+
+.derive-k-r__svg {
+  display: block;
+}
+
+.derive-k-r__vline {
+  width: 3px;
+  height: 20px;
+  background: var(--color-transform);
+}
+
+.derive-k-r .transform-box {
+  width: 120px;
+  height: 100px;
+}

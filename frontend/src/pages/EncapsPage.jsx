@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import AlgorithmPage from '../components/layout/AlgorithmPage.jsx'
 import GenerateMStep from '../steps/encaps/GenerateMStep.jsx'
+import DeriveKRStep from '../steps/encaps/DeriveKRStep.jsx'
 import RegenerateMatrixAStep from '../steps/encaps/RegenerateMatrixAStep.jsx'
 import { encapsSteps } from '../data/steps.js'
 import { explanations } from '../data/explanations.js'
@@ -81,6 +82,11 @@ function getStepContent(stepId) {
       return {
         formula: 'if m == NULL then\n   return ⊥',
         content: <GenerateMStep />,
+      }
+    case 'derive-k-r':
+      return {
+        formula: '(K, r) ← G(m‖H(ek))',
+        content: <DeriveKRStep />,
       }
     case 'regenerate-matrix-a':
       return {
