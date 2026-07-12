@@ -19,21 +19,33 @@ const BOB_STEPS = [
 const ABOUT_TEXT = `A post-quantum key encapsulation mechanism standardized by NIST (FIPS 203) in 2024. Its security relies on the Module-LWE problem over lattices, resistant to both classical and quantum attacks. All values shown are generated using the 768 parameter set.`
 
 const EK_TRAVEL_DURATION = 1 // seconds
+const C_TRAVEL_DURATION = 1 // seconds
 
 function HomePage() {
   const [aboutOpen, setAboutOpen] = useState(false)
   const [isStarting, setIsStarting] = useState(false)
   const navigate = useNavigate()
   const location = useLocation()
-  // Set by KeyGenPage when Next is clicked on its last step. Plain router
-  // state rather than localStorage — matches CLAUDE.md's "no persistence
-  // needed" stance; it's fine for this to reset on a hard refresh.
+  // Set by KeyGenPage/EncapsPage when Next is clicked on their last step.
+  // Plain router state rather than localStorage — matches CLAUDE.md's "no
+  // persistence needed" stance; it's fine for this to reset on a hard refresh.
   const keygenComplete = !!location.state?.keygenComplete
+  const encapsComplete = !!location.state?.encapsComplete
 
   // 'traveling' -> ek slides along the tunnel, Key Generation glows
   // 'arrived'   -> ek at rest near Bob's side, Encapsulation glows
-  // Starts automatically on landing here post-KeyGen — no button needed.
-  const [ekPhase, setEkPhase] = useState(keygenComplete ? 'traveling' : null)
+  // Landing here straight from Encaps means ek already made its trip in an
+  // earlier visit — skip straight to 'arrived' instead of replaying it.
+  const [ekPhase, setEkPhase] = useState(
+    encapsComplete ? 'arrived' : keygenComplete ? 'traveling' : null
+  )
+
+  // 'traveling' -> c slides back along the tunnel, Encapsulation glows
+  // 'arrived'   -> c at rest near Alice's side, Decapsulation glows
+  // Starts automatically the same moment we land here post-Encaps — no
+  // separate flag to skip a replay yet, since there's no post-Decaps
+  // HomePage state (and therefore no repeat visit) built so far.
+  const [cPhase, setCPhase] = useState(encapsComplete ? 'traveling' : null)
 
   // Brief "loading into" pause: the Key Generation circle glows and the
   // button reads "Starting...", then we move on — no interaction needed.
@@ -43,8 +55,11 @@ function HomePage() {
     return () => clearTimeout(timer)
   }, [isStarting, navigate])
 
-  const aliceActiveStep = isStarting || ekPhase === 'traveling' ? 'KEY GENERATION' : null
-  const bobActiveStep = ekPhase === 'arrived' ? 'ENCAPSULATION' : null
+  const aliceActiveStep =
+    isStarting || ekPhase === 'traveling' ? 'KEY GENERATION'
+    : cPhase === 'arrived' ? 'DECAPSULATION'
+    : null
+  const bobActiveStep = ekPhase === 'arrived' && cPhase !== 'arrived' ? 'ENCAPSULATION' : null
 
   return (
     <main className="home-page">
@@ -73,9 +88,22 @@ function HomePage() {
             travelDuration={EK_TRAVEL_DURATION}
             onTravelComplete={() => setEkPhase('arrived')}
           />
-          <TunnelArrow label="c" detail="(ciphertext)" direction="backward" />
+          <TunnelArrow
+            label="c"
+            detail="(ciphertext)"
+            direction="backward"
+            compact={cPhase === 'arrived'}
+            traveling={cPhase === 'traveling'}
+            travelDuration={C_TRAVEL_DURATION}
+            onTravelComplete={() => setCPhase('arrived')}
+          />
         </div>
-        <ParticipantPanel name="BOB" steps={BOB_STEPS} activeStep={bobActiveStep} />
+        <ParticipantPanel
+          name="BOB"
+          steps={BOB_STEPS}
+          activeStep={bobActiveStep}
+          footerBadge={encapsComplete ? 'K' : undefined}
+        />
       </div>
 
       {!keygenComplete && (
@@ -89,13 +117,24 @@ function HomePage() {
         </div>
       )}
 
-      {ekPhase === 'arrived' && (
+      {ekPhase === 'arrived' && !encapsComplete && (
         <div className="home__cta">
           <Button variant="primary" icon="next" onClick={() => navigate('/encaps')}>
             Enter Encapsulation
           </Button>
           <p className="micro-label home__cta-hint">
             Bob has received ek and is ready to encapsulate the shared secret.
+          </p>
+        </div>
+      )}
+
+      {cPhase === 'arrived' && (
+        <div className="home__cta">
+          <Button variant="primary" icon="next" onClick={() => navigate('/decaps')}>
+            Enter Decapsulation
+          </Button>
+          <p className="micro-label home__cta-hint">
+            Alice has received c and is ready to decapsulate the shared secret.
           </p>
         </div>
       )}

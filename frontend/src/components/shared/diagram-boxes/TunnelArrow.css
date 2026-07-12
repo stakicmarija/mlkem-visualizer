@@ -52,6 +52,7 @@
 
 .tunnel-arrow__traveling-badge .node {
   padding: 4px var(--space-2);
+  min-width: 40px;
 }
 
 .tunnel-arrow__head {

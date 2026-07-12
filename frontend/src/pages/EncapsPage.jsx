@@ -106,12 +106,22 @@ function EncapsPage() {
   const parameters = getParameters(currentStep.id)
   const generatedValues = getGeneratedValues(currentStep.id)
 
+  const isLastStep = currentStepIndex === navSteps.length - 1
+
   function handlePrev() {
     if (currentStepIndex === 0) {
       navigate('/', { state: { keygenComplete: true } })
       return
     }
     goPrev()
+  }
+
+  function handleNext() {
+    if (isLastStep) {
+      navigate('/', { state: { keygenComplete: true, encapsComplete: true } })
+      return
+    }
+    goNext()
   }
 
   return (
@@ -126,9 +136,9 @@ function EncapsPage() {
       outputs={['K (shared secret)', 'c (ciphertext)']}
       generatedValues={generatedValues}
       canGoPrev={true}
-      canGoNext={!isAnimating && currentStepIndex < navSteps.length - 1}
+      canGoNext={!isAnimating}
       onPrev={handlePrev}
-      onNext={goNext}
+      onNext={handleNext}
     >
       {content || <p className="body-text">{currentStep.label} — coming soon.</p>}
     </AlgorithmPage>

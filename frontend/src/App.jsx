@@ -3,6 +3,7 @@ import './App.css'
 import HomePage from './pages/HomePage.jsx'
 import KeyGenPage from './pages/KeyGenPage.jsx'
 import EncapsPage from './pages/EncapsPage.jsx'
+import DecapsPage from './pages/DecapsPage.jsx'
 import Footer from './components/layout/Footer.jsx'
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
         } />
         <Route path="/keygen" element={<KeyGenPage />} />
         <Route path="/encaps" element={<EncapsPage />} />
+        <Route path="/decaps" element={<DecapsPage />} />
       </Routes>
     </BrowserRouter>
   )

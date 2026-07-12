@@ -17,6 +17,17 @@
 
 .participant-panel__header .node {
   padding: 4px var(--space-2);
+  min-width: 40px;
+}
+
+.participant-panel__footer-badge {
+  display: flex;
+  justify-content: center;
+}
+
+.participant-panel__footer-badge .node {
+  padding: 4px var(--space-2);
+  min-width: 40px;
 }
 
 .participant-panel__card {
