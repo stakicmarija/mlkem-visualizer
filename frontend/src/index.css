@@ -37,6 +37,7 @@ body {
 
   --c-algo: #414141;
   --c-party-orange: #FF5A00;
+  --c-burnt-orange: #B33F00;
   --c-nectarine-orange: #FF9800;
   --c-summer-yellow: #FFEA00;
   --c-candy-pink: #FFC0FF;
@@ -45,11 +46,15 @@ body {
   --c-light-green: rgba(171, 255, 90, 0.2);
   --c-light-pink: rgba(255, 192, 255, 0.2);
   --c-light-orange: rgba(255, 90, 0, 0.2);
+  --c-light-burnt-orange: rgba(179, 63, 0, 0.2);
   --c-light-pine: rgba(0, 144, 108, 0.2);
   --c-light-green-strong: rgba(171, 255, 90, 0.4);
   --c-light-pink-strong: rgba(255, 192, 255, 0.4);
   --c-light-orange-strong: rgba(255, 90, 0, 0.4);
   --c-light-pine-strong: rgba(0, 144, 108, 0.4);
+
+  --c-cyan: #00E1F3;
+  --c-light-cyan: rgba(0, 225, 243, 0.2);
 
   --c-gray: #8F9193;
   --c-darker-gray: #787B7E;
@@ -90,9 +95,13 @@ body {
   --color-noise-e: var(--c-party-orange);
   --color-noise-e-tint: var(--c-light-orange);
   --color-noise-e-tint-strong: var(--c-light-orange-strong);
+  --color-noise-e2: var(--c-burnt-orange);
+  --color-noise-e2-tint: var(--c-light-burnt-orange);
   --color-public-t: var(--c-pine-green);
   --color-public-t-tint: var(--c-light-pine);
   --color-public-t-tint-strong: var(--c-light-pine-strong);
+  --color-ephemeral-y: var(--c-cyan);
+  --color-ephemeral-y-tint: var(--c-light-cyan);
 
   --color-node-leaf-bg: var(--c-light-pine);  /* leaf node tint -- accent (pine green) at 20% */
 

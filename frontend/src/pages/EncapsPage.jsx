@@ -4,6 +4,8 @@ import GenerateMStep from '../steps/encaps/GenerateMStep.jsx'
 import DeriveKRStep from '../steps/encaps/DeriveKRStep.jsx'
 import DecodePublicKeyStep from '../steps/encaps/DecodePublicKeyStep.jsx'
 import RegenerateMatrixAStep from '../steps/encaps/RegenerateMatrixAStep.jsx'
+import GenerateEphemeralYStep from '../steps/encaps/GenerateEphemeralYStep.jsx'
+import GenerateErrorVectorsStep from '../steps/encaps/GenerateErrorVectorsStep.jsx'
 import { encapsSteps } from '../data/steps.js'
 import { explanations } from '../data/explanations.js'
 import { toSpacedHex, truncateHex } from '../utils/hex.js'
@@ -119,6 +121,16 @@ function getStepContent(stepId) {
       return {
         formula: 'for (i ← 0; i < k; i++)\n   for (j ← 0; j < k; j++)\n         A[i, j] ← SampleNTT(ρ‖j‖i)',
         content: <RegenerateMatrixAStep />,
+      }
+    case 'generate-ephemeral-y':
+      return {
+        formula: 'for (i ← 0; i < k; i++)\n   y[i] ← SamplePolyCBDη₁(PRFη₁(r, N))\n   N ← N + 1',
+        content: <GenerateEphemeralYStep />,
+      }
+    case 'generate-error-vectors':
+      return {
+        formula: 'for (i ← 0; i < k; i++)\n   e1[i] ← SamplePolyCBDη₂(PRFη₂(r, N))\n   N ← N + 1\ne2 ← SamplePolyCBDη₂(PRFη₂(r, N))',
+        content: <GenerateErrorVectorsStep />,
       }
     default:
       return { formula: '', content: null }

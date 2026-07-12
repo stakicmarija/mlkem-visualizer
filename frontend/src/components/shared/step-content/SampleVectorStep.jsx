@@ -1,5 +1,6 @@
 import Node from '../diagram-boxes/Node.jsx'
 import TransformBox from '../diagram-boxes/TransformBox.jsx'
+import VectorCell from '../diagram-boxes/VectorCell.jsx'
 import Popup from '../popup/Popup.jsx'
 import CbdPopupBody from '../popup/CbdPopupBody.jsx'
 import { explanations } from '../../../data/explanations.js'
@@ -10,18 +11,7 @@ import './SampleVectorStep.css'
 const SUB = ['₀', '₁', '₂']
 const W = 240  // matches DeriveRhoSigmaStep row width; node centers at x=60 and x=180
 
-function VectorCell({ label, index, onClick }) {
-  return (
-    <button className="vector-cell" onClick={onClick}>
-      <span className="vector-cell__label">
-        <span className="vector-cell__symbol">{label}</span>
-        <span className="vector-cell__index">{SUB[index]}</span>
-      </span>
-    </button>
-  )
-}
-
-function SampleVectorStep({ label, colorToken, explanationKey, vectors, prfRawHexes }) {
+function SampleVectorStep({ label, colorToken, explanationKey, vectors, prfRawHexes, seedLabel = 'σ' }) {
   const popup = useCellPopup(vectors.length)
   const explanation = explanations[explanationKey]
 
@@ -67,9 +57,9 @@ function SampleVectorStep({ label, colorToken, explanationKey, vectors, prfRawHe
         />
       </svg>
 
-      {/* σ and N input nodes */}
+      {/* seed and N input nodes -- σ for KeyGen's s/e, r for Encaps' y */}
       <div className="sample-vector-step__top-row">
-        <Node label="σ" />
+        <Node label={seedLabel} />
         <Node label="N" />
       </div>
 

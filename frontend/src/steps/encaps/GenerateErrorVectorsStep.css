@@ -1,0 +1,64 @@
+.generate-error-vectors-step {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: -20px;
+}
+
+/* Row holds r and N nodes — same 240px / gap:73px layout as SampleVectorStep */
+.generate-error-vectors-step__top-row {
+  width: 240px;
+  display: flex;
+  justify-content: center;
+  gap: 73px;
+}
+
+.generate-error-vectors-step__vline {
+  width: 3px;
+  height: 20px;
+  background: var(--color-transform);
+}
+
+.generate-error-vectors-step .transform-box {
+  width: 120px;
+  min-height: 72px;
+}
+
+/* Loop connector SVG — absolutely placed, never intercepts clicks */
+.generate-error-vectors-step__loop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 300px;
+  height: 500px;
+  pointer-events: none;
+}
+
+/* Branch connector from SamplePolyCBD's output over to e2 -- height matches
+   the 20px vline gap above the e1 row exactly, so it never crosses into the
+   e1 cells or the loop-back line further right (which starts around x=259). */
+.generate-error-vectors-step__branch {
+  position: absolute;
+  top: 341px;
+  left: 0;
+  width: 240px;
+  height: 20px;
+  pointer-events: none;
+}
+
+/* e1's vector row + N=N+1 shift left as one unit, matching e2's rightward
+   offset from SamplePolyCBD's center (120 → 18, same distance as 120 → 222
+   for e2) so both connector lines leaving SamplePolyCBD are equal length. */
+.generate-error-vectors-step__e1-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform: translateX(-102px);
+}
+
+.generate-error-vectors-step__e2 {
+  position: absolute;
+  top: 361px;
+  left: 200px;
+}
