@@ -1,11 +1,13 @@
 import './MatrixCell.css'
 
-function MatrixCell({ label, state = 'pending', colorToken = 'matrix-a', tinted = false, strong = false, onClick }) {
+function MatrixCell({ label, state = 'pending', colorToken = 'matrix-a', tinted = false, strong = false, symbolOnly = false, onClick }) {
   const isClickable = state === 'done' && typeof onClick === 'function'
   const Tag = isClickable ? 'button' : 'div'
 
-  const symbol = label?.[0] ?? ''
-  const index  = label?.slice(1) ?? ''
+  // symbolOnly: label is an atomic symbol (e.g. "e1", "Aᵀy") shown whole,
+  // not split into a base symbol + subscript position index like "A₀₀".
+  const symbol = symbolOnly ? (label ?? '') : (label?.[0] ?? '')
+  const index  = symbolOnly ? '' : (label?.slice(1) ?? '')
 
   return (
     <Tag

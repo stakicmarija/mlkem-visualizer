@@ -61,6 +61,10 @@ export const explanations = {
     title: 'NTT (Number-Theoretic Transform)',
     body: 'Transforms a polynomial into an alternative representation where polynomial multiplication becomes simple pointwise multiplication, making matrix operations much faster in later steps. The polynomial itself is unchanged, only its representation differs. NTT is the finite-field analogue of the Fast Fourier Transform (FFT).',
   },
+  NTT_inverse: {
+    title: 'NTT⁻¹ (Inverse NTT)',
+    body: 'The inverse of NTT: converts a polynomial back from the NTT domain into ordinary coefficient form. Used after a pointwise (NTT-domain) multiplication, so the result can be combined with coefficient-form values like the error vector e1.',
+  },
   ByteEncode: {
     title: 'ByteEncode₁₂',
     body: 'Packs a polynomial\'s 256 coefficients into a compact byte string, using 12 bits per coefficient (enough to represent any value mod q = 3329 exactly). This is how polynomials become the actual bytes stored in ek and dk.',
@@ -124,6 +128,10 @@ export const explanations = {
   u: {
     title: 'u (ciphertext part 1)',
     body: 'Computed as u = Aᵀy + e1. Together with v, forms the ciphertext c sent to Alice. u lets Alice reconstruct enough information to cancel out the shared A·s·y term when decrypting, without ever learning y or s directly from it.',
+  },
+  Aty: {
+    title: 'Aᵀy (intermediate value)',
+    body: 'The result of NTT⁻¹(Aᵀ ∘ ŷ), back in ordinary coefficient form. Not a named object with its own identity in ML-KEM, just the mid-point of computing u -- e1 is added to it next to produce the final ciphertext part u.',
   },
   v: {
     title: 'v (ciphertext part 2)',

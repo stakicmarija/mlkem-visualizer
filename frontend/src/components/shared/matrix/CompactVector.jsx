@@ -16,6 +16,7 @@ function CompactVector({ symbol, colorToken, onCellClick, strong = false }) {
           colorToken={colorToken}
           tinted
           strong={strong}
+          symbolOnly
           onClick={() => onCellClick(i)}
         />
       ))}

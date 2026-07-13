@@ -1,0 +1,65 @@
+/* Fixed width so every child centers against the same stable reference --
+   without it, the equation row (roughly as wide as the top row) would
+   become the container's own width determinant and break the alignment
+   between the fan-in's convergence point and the rest of the diagram. */
+.compute-u-step {
+  width: 560px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Wraps the whole diagram (top row through the equation) so it can be
+   shifted as one rigid block -- the equation row is wider on the right
+   (Aᵀy sits under the fan-in's convergence point, which is right-of-center
+   since Aᵀ is much wider than ŷ), so the block as a whole needs pulling
+   left to end up visually centered on the page. */
+.compute-u-step__diagram {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-left: -127px;
+}
+
+.compute-u-step__top-row {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.compute-u-step__svg {
+  display: block;
+}
+
+.compute-u-step__vline {
+  width: 3px;
+  height: 20px;
+  background: var(--color-transform);
+}
+
+/* Shifts an item right so it sits under the fan-in's convergence point
+   (the midpoint between Aᵀ and ŷ, right of the row's own center) --
+   margin-left on a centered flex child shifts its visual center by
+   margin-left/2, regardless of the item's own width. */
+.compute-u-step__centered-under-ntt {
+  margin-left: 48px;
+}
+
+.compute-u-step__equation {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-left: 249px;
+}
+
+/* Wraps a matrix/vector with its dimension label below */
+.compute-u-step__operand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.compute-u-step__dim {
+  text-align: center;
+}

@@ -17,6 +17,7 @@ function CompactMatrix({ symbol, colorToken, onCellClick }) {
               state="done"
               colorToken={colorToken}
               tinted
+              symbolOnly
               onClick={() => onCellClick(i, j)}
             />
           ))}

@@ -6,6 +6,8 @@ import DecodePublicKeyStep from '../steps/encaps/DecodePublicKeyStep.jsx'
 import RegenerateMatrixAStep from '../steps/encaps/RegenerateMatrixAStep.jsx'
 import GenerateEphemeralYStep from '../steps/encaps/GenerateEphemeralYStep.jsx'
 import GenerateErrorVectorsStep from '../steps/encaps/GenerateErrorVectorsStep.jsx'
+import TransformNttStep from '../steps/encaps/TransformNttStep.jsx'
+import ComputeUStep from '../steps/encaps/ComputeUStep.jsx'
 import { encapsSteps } from '../data/steps.js'
 import { explanations } from '../data/explanations.js'
 import { toSpacedHex, truncateHex } from '../utils/hex.js'
@@ -131,6 +133,16 @@ function getStepContent(stepId) {
       return {
         formula: 'for (i ← 0; i < k; i++)\n   e1[i] ← SamplePolyCBDη₂(PRFη₂(r, N))\n   N ← N + 1\ne2 ← SamplePolyCBDη₂(PRFη₂(r, N))',
         content: <GenerateErrorVectorsStep />,
+      }
+    case 'transform-ntt':
+      return {
+        formula: 'ŷ ← NTT(y)',
+        content: <TransformNttStep />,
+      }
+    case 'compute-u':
+      return {
+        formula: 'u ← NTT⁻¹(Aᵀ ∘ ŷ) + e1',
+        content: <ComputeUStep />,
       }
     default:
       return { formula: '', content: null }

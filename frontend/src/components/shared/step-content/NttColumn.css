@@ -1,0 +1,12 @@
+.ntt-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+.ntt-column__vline {
+  width: 3px;
+  height: 20px;
+  background: var(--color-transform);
+}

@@ -55,10 +55,15 @@ body {
 
   --c-cyan: #00E1F3;
   --c-light-cyan: rgba(0, 225, 243, 0.2);
+  --c-light-cyan-strong: rgba(0, 225, 243, 0.4);
+
+  --c-violet: #9B51E0;
+  --c-light-violet: rgba(155, 81, 224, 0.2);
 
   --c-gray: #8F9193;
   --c-darker-gray: #787B7E;
   --c-light-gray: rgba(143, 145, 147, 0.10);
+  --c-light-gray-tint: rgba(143, 145, 147, 0.2);
 
   /* --- Semantic: base text / background --- */
   --color-text: var(--c-black);
@@ -68,6 +73,7 @@ body {
   /* --- Semantic: neutral UI surfaces --- */
   --color-surface: var(--c-light-gray);   /* panel backgrounds (GENERATED VALUES box, cards) */
   --color-inactive: var(--c-gray);        /* pending/disabled state - unchecked steps, dimmed text */
+  --color-inactive-tint: var(--c-light-gray-tint); /* neutral tint for unnamed intermediate values */
   --color-border: var(--c-gray);          /* dividers, step-tree lines */
 
   /* --- Semantic: interactive elements  */
@@ -102,6 +108,9 @@ body {
   --color-public-t-tint-strong: var(--c-light-pine-strong);
   --color-ephemeral-y: var(--c-cyan);
   --color-ephemeral-y-tint: var(--c-light-cyan);
+  --color-ephemeral-y-tint-strong: var(--c-light-cyan-strong);
+  --color-ciphertext-u: var(--c-violet);
+  --color-ciphertext-u-tint: var(--c-light-violet);
 
   --color-node-leaf-bg: var(--c-light-pine);  /* leaf node tint -- accent (pine green) at 20% */
 
