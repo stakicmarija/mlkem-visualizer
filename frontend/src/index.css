@@ -60,6 +60,12 @@ body {
   --c-violet: #9B51E0;
   --c-light-violet: rgba(155, 81, 224, 0.2);
 
+  --c-rose: #E0519B;
+  --c-light-rose: rgba(224, 81, 155, 0.2);
+
+  --c-royal-blue: #2D6CDF;
+  --c-light-royal-blue: rgba(45, 108, 223, 0.2);
+
   --c-gray: #8F9193;
   --c-darker-gray: #787B7E;
   --c-light-gray: rgba(143, 145, 147, 0.10);
@@ -111,6 +117,10 @@ body {
   --color-ephemeral-y-tint-strong: var(--c-light-cyan-strong);
   --color-ciphertext-u: var(--c-violet);
   --color-ciphertext-u-tint: var(--c-light-violet);
+  --color-encoded-message: var(--c-rose);
+  --color-encoded-message-tint: var(--c-light-rose);
+  --color-ciphertext-v: var(--c-royal-blue);
+  --color-ciphertext-v-tint: var(--c-light-royal-blue);
 
   --color-node-leaf-bg: var(--c-light-pine);  /* leaf node tint -- accent (pine green) at 20% */
 

@@ -8,6 +8,7 @@ import GenerateEphemeralYStep from '../steps/encaps/GenerateEphemeralYStep.jsx'
 import GenerateErrorVectorsStep from '../steps/encaps/GenerateErrorVectorsStep.jsx'
 import TransformNttStep from '../steps/encaps/TransformNttStep.jsx'
 import ComputeUStep from '../steps/encaps/ComputeUStep.jsx'
+import ComputeVStep from '../steps/encaps/ComputeVStep.jsx'
 import { encapsSteps } from '../data/steps.js'
 import { explanations } from '../data/explanations.js'
 import { toSpacedHex, truncateHex } from '../utils/hex.js'
@@ -143,6 +144,11 @@ function getStepContent(stepId) {
       return {
         formula: 'u ← NTT⁻¹(Aᵀ ∘ ŷ) + e1',
         content: <ComputeUStep />,
+      }
+    case 'compute-v':
+      return {
+        formula: 'v ← NTT⁻¹(t̂ᵀ ∘ ŷ) + e2 + μ',
+        content: <ComputeVStep />,
       }
     default:
       return { formula: '', content: null }

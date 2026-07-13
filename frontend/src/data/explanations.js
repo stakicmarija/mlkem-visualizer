@@ -133,6 +133,10 @@ export const explanations = {
     title: 'Aᵀy (intermediate value)',
     body: 'The result of NTT⁻¹(Aᵀ ∘ ŷ), back in ordinary coefficient form. Not a named object with its own identity in ML-KEM, just the mid-point of computing u -- e1 is added to it next to produce the final ciphertext part u.',
   },
+  tTy: {
+    title: 't̂ᵀy (intermediate value)',
+    body: 'The result of NTT⁻¹(t̂ᵀ ∘ ŷ), back in ordinary coefficient form. Not a named object with its own identity in ML-KEM, just the mid-point of computing v -- e2 and μ are added to it next to produce the final ciphertext part v.',
+  },
   v: {
     title: 'v (ciphertext part 2)',
     body: 'Computed as v = tᵀy + e2 + μ. Carries the encoded message μ, hidden under noise. Alice recovers μ (and therefore m) by computing v − sᵀu, which cancels the shared term and leaves only μ plus a small, correctable error.',

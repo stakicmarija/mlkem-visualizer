@@ -1,0 +1,49 @@
+/* Fixed width so every child centers against the same stable reference --
+   without it, the equation row (four single cells + operators, wider than
+   the top row here) would become the container's own width determinant
+   and break the alignment between the fan-in's convergence point and the
+   rest of the diagram. */
+.compute-v-step {
+  width: 480px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Wraps the whole diagram (top row through the equation) so it can be
+   shifted as one rigid block to end up visually centered on the page --
+   the equation row (4 single cells + operators) is wider on the right
+   once t̂ᵀy is pulled under the fan-in's convergence point. */
+.compute-v-step__diagram {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-left: -227px;
+}
+
+.compute-v-step__top-row {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.compute-v-step__svg {
+  display: block;
+}
+
+.compute-v-step__vline {
+  width: 3px;
+  height: 20px;
+  background: var(--color-transform);
+}
+
+.compute-v-step__centered-under-ntt {
+  margin-left: 0;
+}
+
+.compute-v-step__equation {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-left: 277px;
+}
