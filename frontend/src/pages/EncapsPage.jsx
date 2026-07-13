@@ -8,6 +8,7 @@ import GenerateEphemeralYStep from '../steps/encaps/GenerateEphemeralYStep.jsx'
 import GenerateErrorVectorsStep from '../steps/encaps/GenerateErrorVectorsStep.jsx'
 import TransformNttStep from '../steps/encaps/TransformNttStep.jsx'
 import ComputeUStep from '../steps/encaps/ComputeUStep.jsx'
+import EncodePlaintextStep from '../steps/encaps/EncodePlaintextStep.jsx'
 import ComputeVStep from '../steps/encaps/ComputeVStep.jsx'
 import { encapsSteps } from '../data/steps.js'
 import { explanations } from '../data/explanations.js'
@@ -144,6 +145,11 @@ function getStepContent(stepId) {
       return {
         formula: 'u ← NTT⁻¹(Aᵀ ∘ ŷ) + e1',
         content: <ComputeUStep />,
+      }
+    case 'encode-plaintext':
+      return {
+        formula: 'μ ← Decompress₁(ByteDecode₁(m))',
+        content: <EncodePlaintextStep />,
       }
     case 'compute-v':
       return {

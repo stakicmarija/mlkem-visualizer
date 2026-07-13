@@ -43,7 +43,7 @@ export const explanations = {
   },
   J: {
     title: 'J (hash function)',
-    body: 'A hash function based on SHAKE256, used only during decapsulation to derive K̃ -- the fallback shared secret returned when ciphertext verification fails (implicit rejection).',
+    body: 'A hash function based on SHAKE256, used only during decapsulation to derive K̃, the fallback shared secret returned when ciphertext verification fails (implicit rejection).',
   },
   PRF: {
     title: 'PRF (pseudorandom function)',
@@ -72,6 +72,14 @@ export const explanations = {
   ByteDecode: {
     title: 'ByteDecode₁₂',
     body: 'The inverse of ByteEncode₁₂: unpacks a byte string 12 bits at a time back into a polynomial\'s 256 coefficients mod q = 3329. This is how Bob recovers Alice\'s public polynomial t̂ from the raw bytes of ek.',
+  },
+  ByteDecode1: {
+    title: 'ByteDecode₁',
+    body: 'The d=1 case of ByteDecode: unpacks the 32-byte message m into 256 individual bits, one per coefficient position. Each "coefficient" is just a single 0 or 1 before Decompress spreads it across the mod-q range.',
+  },
+  Decompress: {
+    title: 'Decompress',
+    body: 'Maps a d-bit compressed value back onto the full mod-q range, spacing the 2^d possible values as evenly as possible around the ring. For d=1 (one message bit), 0 maps to 0 and 1 maps to ⌈q/2⌋ = 1665. As far apart as two points on the ring can be, which is what makes the encoded bit resistant to noise.',
   },
 
   // ---- KeyGen values ----------------------------------------------------
@@ -131,11 +139,11 @@ export const explanations = {
   },
   Aty: {
     title: 'Aᵀy (intermediate value)',
-    body: 'The result of NTT⁻¹(Aᵀ ∘ ŷ), back in ordinary coefficient form. Not a named object with its own identity in ML-KEM, just the mid-point of computing u -- e1 is added to it next to produce the final ciphertext part u.',
+    body: 'The result of NTT⁻¹(Aᵀ ∘ ŷ), back in ordinary coefficient form. Not a named object with its own identity in ML-KEM, just the mid-point of computing u, e1 is added to it next to produce the final ciphertext part u.',
   },
   tTy: {
     title: 't̂ᵀy (intermediate value)',
-    body: 'The result of NTT⁻¹(t̂ᵀ ∘ ŷ), back in ordinary coefficient form. Not a named object with its own identity in ML-KEM, just the mid-point of computing v -- e2 and μ are added to it next to produce the final ciphertext part v.',
+    body: 'The result of NTT⁻¹(t̂ᵀ ∘ ŷ), back in ordinary coefficient form. Not a named object with its own identity in ML-KEM, just the mid-point of computing v, e2 and μ are added to it next to produce the final ciphertext part v.',
   },
   v: {
     title: 'v (ciphertext part 2)',
@@ -161,7 +169,7 @@ export const explanations = {
   },
   KPrime: {
     title: "K' (derived shared secret)",
-    body: "Derived from m' and h (the stored hash of ek), the same way Bob derived K from m and H(ek). If m' matches Bob's original m, K' will equal Bob's K exactly -- this is the shared secret both parties now hold.",
+    body: "Derived from m' and h (the stored hash of ek), the same way Bob derived K from m and H(ek). If m' matches Bob's original m, K' will equal Bob's K exactly. This is the shared secret both parties now hold.",
   },
   rPrime: {
     title: "r' (re-derived randomness)",
@@ -169,7 +177,7 @@ export const explanations = {
   },
   KTilde: {
     title: 'K̃ (fallback secret)',
-    body: 'A pseudorandom value derived from z (Alice\'s private rejection seed) and the received ciphertext c. Returned as the "shared secret" instead of K\' whenever the re-encryption check fails -- so an attacker sending a tampered ciphertext gets back a plausible-looking but useless key, with no visible error to signal that anything went wrong.',
+    body: 'A pseudorandom value derived from z (Alice\'s private rejection seed) and the received ciphertext c. Returned as the "shared secret" instead of K\' whenever the re-encryption check fails, so an attacker sending a tampered ciphertext gets back a plausible-looking but useless key, with no visible error to signal that anything went wrong.',
   },
   cPrime: {
     title: "c' (re-encrypted ciphertext)",

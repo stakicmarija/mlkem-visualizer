@@ -1,3 +1,4 @@
+import DataChip from '../diagram-boxes/DataChip.jsx'
 import './CbdPopupBody.css'
 
 const ETA = 2
@@ -9,14 +10,6 @@ function hexToBits(hex) {
     for (let b = 0; b < 8; b++) bits.push((byte >> b) & 1)
   }
   return bits
-}
-
-function BitBox({ value, variant, size = 'small' }) {
-  return (
-    <div className={`cbd-bit cbd-bit--${variant} cbd-bit--${size}`}>
-      <span className="cbd-bit__text">{value}</span>
-    </div>
-  )
 }
 
 function CbdPopupBody({ prfRawHex, coeffsSigned }) {
@@ -37,11 +30,9 @@ function CbdPopupBody({ prfRawHex, coeffsSigned }) {
       <div className="cbd-popup-body__strip-wrap">
         <div className="cbd-popup-body__strip">
           {first20.map((bit, i) => {
-            let variant
-            if (i < ETA) variant = 'x'
-            else if (i < ETA * 2) variant = 'y'
-            else variant = bit === 1 ? 'gray1' : 'gray0'
-            return <BitBox key={i} value={bit} variant={variant} size="small" />
+            if (i < ETA) return <DataChip key={i} value={bit} size="sm" colorToken="cbd-x-bits" />
+            if (i < ETA * 2) return <DataChip key={i} value={bit} size="sm" colorToken="cbd-y-bits" />
+            return <DataChip key={i} value={bit} size="sm" tone={bit === 1 ? 'filled' : 'outline'} />
           })}
         </div>
         <p className="micro-label cbd-popup-body__strip-label">b first 20b</p>
@@ -52,13 +43,13 @@ function CbdPopupBody({ prfRawHex, coeffsSigned }) {
           <div className="cbd-popup-body__group">
             <p className="micro-label cbd-popup-body__group-label">x bits</p>
             <div className="cbd-popup-body__group-bits">
-              {xBits.map((b, i) => <BitBox key={i} value={b} variant="x" size="large" />)}
+              {xBits.map((b, i) => <DataChip key={i} value={b} size="md" colorToken="cbd-x-bits" />)}
             </div>
           </div>
           <div className="cbd-popup-body__group">
             <p className="micro-label cbd-popup-body__group-label">y bits</p>
             <div className="cbd-popup-body__group-bits">
-              {yBits.map((b, i) => <BitBox key={i} value={b} variant="y" size="large" />)}
+              {yBits.map((b, i) => <DataChip key={i} value={b} size="md" colorToken="cbd-y-bits" />)}
             </div>
           </div>
         </div>

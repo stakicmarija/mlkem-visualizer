@@ -1,0 +1,55 @@
+.data-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+/* sm: single bit (16×16px) */
+.data-chip--sm {
+  width: 16px;
+  height: 16px;
+  font-size: 10px;
+}
+
+/* md: content-height, used for grouped x/y bits (24px wide) */
+.data-chip--md {
+  width: 24px;
+  padding: 2px 7px;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+/* lg: a hex byte pair, e.g. "5f" (wider, fixed height) */
+.data-chip--lg {
+  width: 32px;
+  height: 24px;
+  font-size: 12px;
+}
+
+/* auto: content-width, for variable-length values like "1665" */
+.data-chip--auto {
+  min-width: 32px;
+  height: 24px;
+  padding: 0 6px;
+  font-size: 12px;
+}
+
+.data-chip--outline {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
+}
+
+.data-chip--filled {
+  background: var(--color-inactive);
+  color: var(--color-button-text);
+}
+
+.data-chip--accent {
+  background: var(--chip-color);
+  color: var(--color-button-text);
+}

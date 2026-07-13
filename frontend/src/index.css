@@ -66,6 +66,12 @@ body {
   --c-royal-blue: #2D6CDF;
   --c-light-royal-blue: rgba(45, 108, 223, 0.2);
 
+  --c-teal: #0D9488;
+  --c-light-teal: rgba(13, 148, 136, 0.2);
+
+  --c-coral: #F97066;
+  --c-light-coral: rgba(249, 112, 102, 0.2);
+
   --c-gray: #8F9193;
   --c-darker-gray: #787B7E;
   --c-light-gray: rgba(143, 145, 147, 0.10);
@@ -127,6 +133,12 @@ body {
   /* --- Semantic: CBD bit-counting widget --- */
   --color-cbd-x-bits: var(--c-nectarine-orange);
   --color-cbd-y-bits: var(--c-electric-blue);
+
+  /* --- Semantic: mod-q ring decision regions (Decompress/decode popups) --- */
+  --color-decompress-zero: var(--c-teal);     /* region + anchor that decodes to 0 */
+  --color-decompress-zero-tint: var(--c-light-teal);
+  --color-decompress-one: var(--c-coral);     /* region + anchor that decodes to q/2 */
+  --color-decompress-one-tint: var(--c-light-coral);
 
 
   /* --- Spacing scale --- */
