@@ -22,6 +22,22 @@ const ABOUT_TEXT = `A post-quantum key encapsulation mechanism standardized by N
 const EK_TRAVEL_DURATION = 1 // seconds
 const C_TRAVEL_DURATION = 1 // seconds
 
+// 'traveling' -> arrow slides along the tunnel, source side glows
+// 'arrived'   -> arrow at rest, destination side glows
+// Only animates on the flag's natural forward arrival (justArrived); any
+// other way of reaching this combination of flags (breadcrumb, browser
+// back/forward, Prev from the next phase) shows the settled state.
+function getEkPhase(keygenComplete, encapsComplete, justArrived) {
+  if (encapsComplete) return 'arrived'
+  if (keygenComplete) return justArrived ? 'traveling' : 'arrived'
+  return null
+}
+
+function getCPhase(encapsComplete, justArrived) {
+  if (encapsComplete) return justArrived ? 'traveling' : 'arrived'
+  return null
+}
+
 function HomePage() {
   const [aboutOpen, setAboutOpen] = useState(false)
   const [isStarting, setIsStarting] = useState(false)
@@ -32,25 +48,30 @@ function HomePage() {
   // persistence needed" stance; it's fine for this to reset on a hard refresh.
   const keygenComplete = !!location.state?.keygenComplete
   const encapsComplete = !!location.state?.encapsComplete
+  const justArrived = !!location.state?.justArrived
 
   // No breadcrumb on the very first, initial HomePage state (nothing
   // complete yet) -- it only appears once the flow has actually started.
   const breadcrumbStage = encapsComplete ? 'c-sent' : keygenComplete ? 'ek-sent' : null
 
-  // 'traveling' -> ek slides along the tunnel, Key Generation glows
-  // 'arrived'   -> ek at rest near Bob's side, Encapsulation glows
-  // Landing here straight from Encaps means ek already made its trip in an
-  // earlier visit — skip straight to 'arrived' instead of replaying it.
-  const [ekPhase, setEkPhase] = useState(
-    encapsComplete ? 'arrived' : keygenComplete ? 'traveling' : null
-  )
+  const [ekPhase, setEkPhase] = useState(() => getEkPhase(keygenComplete, encapsComplete, justArrived))
+  const [cPhase, setCPhase] = useState(() => getCPhase(encapsComplete, justArrived))
 
-  // 'traveling' -> c slides back along the tunnel, Encapsulation glows
-  // 'arrived'   -> c at rest near Alice's side, Decapsulation glows
-  // Starts automatically the same moment we land here post-Encaps — no
-  // separate flag to skip a replay yet, since there's no post-Decaps
-  // HomePage state (and therefore no repeat visit) built so far.
-  const [cPhase, setCPhase] = useState(encapsComplete ? 'traveling' : null)
+  // HomePage/ek-sent/c-sent all share the SAME route ('/'), just different
+  // router state -- e.g. the breadcrumb's "EK SENT" link while already on
+  // "c sent". That's a same-route navigation, so React Router re-renders
+  // this same component instance instead of remounting it, and the
+  // useState initializers above never re-run. Without this effect,
+  // ekPhase/cPhase go stale (still reflecting the PREVIOUS state) while
+  // keygenComplete/encapsComplete update immediately, producing
+  // inconsistent renders — e.g. both the ek-sent and c-sent CTAs/glows
+  // visible at once. location.key is unique per navigation (even
+  // same-route ones), so this keeps phase state in sync on every visit.
+  useEffect(() => {
+    setEkPhase(getEkPhase(keygenComplete, encapsComplete, justArrived))
+    setCPhase(getCPhase(encapsComplete, justArrived))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.key])
 
   // Brief "loading into" pause: the Key Generation circle glows and the
   // button reads "Starting...", then we move on — no interaction needed.

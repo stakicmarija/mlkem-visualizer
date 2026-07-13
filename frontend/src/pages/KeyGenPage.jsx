@@ -232,7 +232,11 @@ function KeyGenPage() {
 
   function handleNext() {
     if (isLastStep) {
-      navigate('/', { state: { keygenComplete: true } })
+      // justArrived tells HomePage this is the natural forward arrival, so
+      // the ek travel animation should play. Any other way of landing on
+      // '/' with keygenComplete (breadcrumb, browser back/forward, Prev
+      // from Encaps) omits it, showing the settled end state immediately.
+      navigate('/', { state: { keygenComplete: true, justArrived: true } })
       return
     }
     goNext()

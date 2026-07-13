@@ -175,7 +175,11 @@ function EncapsPage() {
 
   function handleNext() {
     if (isLastStep) {
-      navigate('/', { state: { keygenComplete: true, encapsComplete: true } })
+      // justArrived tells HomePage this is the natural forward arrival, so
+      // the c travel animation should play. Any other way of landing on
+      // '/' with encapsComplete (breadcrumb, browser back/forward, Prev
+      // from Decaps) omits it, showing the settled end state immediately.
+      navigate('/', { state: { keygenComplete: true, encapsComplete: true, justArrived: true } })
       return
     }
     goNext()
