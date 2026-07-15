@@ -2,10 +2,76 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  /* Pulls this step closer to the formula box above it -- AlgorithmPage's
+     center column has a fixed 40px gap there, more than this step needs. */
+  margin-top: -20px;
+}
+
+.encode-plaintext-step__node--sm {
+  padding: 6px 12px;
 }
 
 .encode-plaintext-step__vline {
   width: 3px;
   height: 20px;
   background: var(--color-transform);
+}
+
+/* The whole Decompress walkthrough (formula, input-bit strip, Z_q ring,
+   one-bit example, output row) lives inline in a bordered panel instead of
+   behind a popup -- it's compact enough to fit next to the rest of the
+   step's node/transform chain. */
+.encode-plaintext-step__panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  width: 380px;
+  box-sizing: border-box;
+  padding: 8px;
+  border: 3px solid var(--color-transform);
+  border-radius: 8px;
+}
+
+.encode-plaintext-step__panel-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  text-align: center;
+}
+
+.encode-plaintext-step__panel-title {
+  font-family: var(--font-mono);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.encode-plaintext-step__strip-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.encode-plaintext-step__strip {
+  display: flex;
+  gap: 2px;
+}
+
+.encode-plaintext-step__strip-label {
+  color: var(--color-text-secondary);
+}
+
+.encode-plaintext-step__mapping {
+  margin: 0;
+}
+
+.encode-plaintext-step__output-row {
+  display: flex;
+  gap: 2px;
+  justify-content: center;
+  width: 100%;
 }

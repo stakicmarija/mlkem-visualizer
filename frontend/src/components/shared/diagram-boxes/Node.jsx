@@ -1,10 +1,10 @@
 import './Node.css'
 
-function Node({ label, microLabel, variant = 'default', onClick }) {
+function Node({ label, microLabel, variant = 'default', onClick, className }) {
   const Tag = onClick ? 'button' : 'div'
 
   return (
-    <Tag className={`node node--${variant}`} onClick={onClick}>
+    <Tag className={`node node--${variant}${className ? ` ${className}` : ''}`} onClick={onClick}>
       <span className="formula">{label}</span>
       {microLabel && (
         <span className="micro-label node__micro">{microLabel}</span>

@@ -50,11 +50,11 @@
 
 /* centers the dashed line under the 14px circle: margin-left = (14/2) - (1.5/2) ≈ 6px */
 .step__connector {
-  height: 20px;
+  height: 14px;
   width: 0;
   border-left: 1.5px dashed var(--color-border);
   margin-left: 6px;
-  margin-top: 2px;
+  margin-top: 1px;
 }
 
 .step--done .step__connector,

@@ -54,3 +54,29 @@
   text-anchor: middle;
   dominant-baseline: middle;
 }
+
+/* compact: for small inline use (e.g. next to a Node), not a large
+   centered illustration -- thinner strokes, smaller labels. */
+.mod-q-ring--compact .mod-q-ring__circle {
+  stroke-width: 2;
+}
+
+.mod-q-ring--compact .mod-q-ring__tick {
+  stroke-width: 1.5;
+}
+
+.mod-q-ring--compact .mod-q-ring__tick-label {
+  font-size: 8px;
+}
+
+.mod-q-ring--compact .mod-q-ring__center-label {
+  font-size: 9px;
+}
+
+.mod-q-ring--compact .mod-q-ring__center-label-sub {
+  font-size: 6px;
+}
+
+.mod-q-ring--compact .mod-q-ring__anchor-label {
+  font-size: 9px;
+}

@@ -64,7 +64,7 @@
 /* ── Small screen (≤1440px) ─────────────────────────────────────────────── */
 @media (max-width: 1440px) {
   .algorithm-page__top {
-    padding: var(--space-6) 56px var(--space-6);
+    padding: var(--space-4) 56px var(--space-4);
   }
 
   .algorithm-page__body {

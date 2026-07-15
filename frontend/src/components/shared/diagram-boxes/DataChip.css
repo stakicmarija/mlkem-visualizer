@@ -53,3 +53,10 @@
   background: var(--chip-color);
   color: var(--color-button-text);
 }
+
+.data-chip--outline-accent {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  color: var(--chip-color);
+  font-weight: 700;
+}

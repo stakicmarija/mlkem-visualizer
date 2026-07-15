@@ -22,11 +22,18 @@ function arcPath(fromAngle, toAngle, radius, cx, cy) {
 // the anchor's more specific label (e.g. "1665") replaces the tick's
 // generic one ("q/2"). `regions` paints colored arcs along the ring itself
 // (e.g. the "decodes to 0" vs "decodes to q/2" halves) -- optional, so the
-// same component still works as a plain labeled ring elsewhere.
-function ModQRing({ q, size = 220, anchors = [], regions = [] }) {
+// same component still works as a plain labeled ring elsewhere. `compact`
+// tightens the border reserve/tick/label offsets for inline use at small
+// sizes (e.g. next to a Node) instead of the popup-scale spacing.
+// `tickLabels=false` keeps the unlabeled quarter ticks as plain marks with
+// no text -- for compact rings where only the anchors need callouts.
+function ModQRing({ q, size = 220, anchors = [], regions = [], compact = false, tickLabels = true }) {
   const cx = size / 2
   const cy = size / 2
-  const radius = size / 2 - 36
+  const borderReserve = compact ? 10 : 36
+  const tickHalf = compact ? 3 : 6
+  const labelOffset = compact ? 8 : 22
+  const radius = size / 2 - borderReserve
   const anchorAngles = new Set(anchors.map(a => a.angle))
 
   const ticks = [
@@ -37,7 +44,14 @@ function ModQRing({ q, size = 220, anchors = [], regions = [] }) {
   ]
 
   return (
-    <svg className="mod-q-ring" viewBox={`0 0 ${size} ${size}`} width={size} height={size} aria-hidden="true">
+    <svg
+      className={`mod-q-ring${compact ? ' mod-q-ring--compact' : ''}`}
+      viewBox={`0 0 ${size} ${size}`}
+      width={size}
+      height={size}
+      aria-hidden="true"
+      style={{ overflow: 'visible' }}
+    >
       <circle cx={cx} cy={cy} r={radius} className="mod-q-ring__circle" />
 
       {regions.map((region, i) => (
@@ -50,13 +64,13 @@ function ModQRing({ q, size = 220, anchors = [], regions = [] }) {
       ))}
 
       {ticks.map(tick => {
-        const inner = pointOnRing(tick.angle, radius - 6, cx, cy)
-        const outer = pointOnRing(tick.angle, radius + 6, cx, cy)
-        const labelPt = pointOnRing(tick.angle, radius + 22, cx, cy)
+        const inner = pointOnRing(tick.angle, radius - tickHalf, cx, cy)
+        const outer = pointOnRing(tick.angle, radius + tickHalf, cx, cy)
+        const labelPt = pointOnRing(tick.angle, radius + labelOffset, cx, cy)
         return (
           <g key={tick.angle}>
             <line x1={inner.x} y1={inner.y} x2={outer.x} y2={outer.y} className="mod-q-ring__tick" />
-            {!anchorAngles.has(tick.angle) && (
+            {tickLabels && !anchorAngles.has(tick.angle) && (
               <text x={labelPt.x} y={labelPt.y} className="mod-q-ring__tick-label">{tick.label}</text>
             )}
           </g>
@@ -69,10 +83,10 @@ function ModQRing({ q, size = 220, anchors = [], regions = [] }) {
 
       {anchors.map(anchor => {
         const dot = pointOnRing(anchor.angle, radius, cx, cy)
-        const labelPt = pointOnRing(anchor.angle, radius + 22, cx, cy)
+        const labelPt = pointOnRing(anchor.angle, radius + labelOffset, cx, cy)
         return (
           <g key={anchor.angle} style={{ '--anchor-color': `var(--color-${anchor.colorToken})` }}>
-            <circle cx={dot.x} cy={dot.y} r={5} className="mod-q-ring__anchor-dot" />
+            <circle cx={dot.x} cy={dot.y} r={compact ? 3 : 5} className="mod-q-ring__anchor-dot" />
             <text x={labelPt.x} y={labelPt.y} className="mod-q-ring__anchor-label">{anchor.label}</text>
           </g>
         )
