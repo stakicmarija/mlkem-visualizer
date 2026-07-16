@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import AlgorithmPage from '../components/layout/AlgorithmPage.jsx'
 import ExtractDataStep from '../steps/decaps/ExtractDataStep.jsx'
 import ExtractC1C2Step from '../steps/decaps/ExtractC1C2Step.jsx'
+import DecodeCiphertextStep from '../steps/decaps/DecodeCiphertextStep.jsx'
 import { decapsSteps } from '../data/steps.js'
 import { explanations } from '../data/explanations.js'
 import { toSpacedHex, truncateHex } from '../utils/hex.js'
@@ -122,6 +123,16 @@ function getStepContent(stepId) {
           </>
         ),
         content: <ExtractC1C2Step />,
+      }
+    case 'decode-ciphertext':
+      return {
+        formula: (
+          <>
+            u' ← Decompress<sub>du</sub>(ByteDecode<sub>du</sub>(c1)){'\n'}
+            v' ← Decompress<sub>dv</sub>(ByteDecode<sub>dv</sub>(c2))
+          </>
+        ),
+        content: <DecodeCiphertextStep />,
       }
     default:
       return { formula: null, content: null }

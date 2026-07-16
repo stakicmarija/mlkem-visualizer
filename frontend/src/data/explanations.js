@@ -89,6 +89,10 @@ export const explanations = {
     title: 'ByteEncode',
     body: 'Packs a polynomial\'s 256 already-compressed coefficients into a byte string, using exactly d bits per coefficient instead of the full 12 -- this is what actually shrinks the ciphertext down to a fixed, compact size.',
   },
+  ByteDecodeD: {
+    title: 'ByteDecode',
+    body: 'The inverse of ByteEncode: unpacks a byte string back into a polynomial\'s coefficients, using exactly d bits per coefficient -- the same d used to compress it. This recovers the still-compressed (0 to 2^d − 1) values, not yet the full mod-q range; Decompress does that next.',
+  },
 
   // ---- KeyGen values ----------------------------------------------------
   A: {

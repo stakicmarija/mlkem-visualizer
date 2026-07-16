@@ -8,17 +8,34 @@ const RING_DOT_COUNT = 16 // always schematic -- real d (e.g. du=10) means 1024 
 // one-value example, compressed output row), inline in a bordered panel --
 // same shape as EncodePlaintextStep's inline Decompress panel, generalized
 // for reuse wherever a compress step needs it (u -> c1 here, v -> c2 later).
-function CompressionPanel({ symbol, d, inputValues, outputValues, highlightIndex = 0, stripLabel }) {
-  const highlightDot = Math.min(
-    RING_DOT_COUNT - 1,
-    Math.floor((outputValues[highlightIndex] / 2 ** d) * RING_DOT_COUNT)
-  )
+// `direction="reverse"` runs the same ring/strip/row grammar backwards for
+// Decompress steps: `inputValues` becomes the small (0..2^d-1) index strip,
+// `outputValues` becomes the real Zq values, and the ring highlights off
+// the index directly instead of scaling a compressed output down to it.
+function CompressionPanel({
+  symbol,
+  d,
+  inputValues,
+  outputValues,
+  highlightIndex = 0,
+  stripLabel,
+  direction = 'forward',
+}) {
+  const isReverse = direction === 'reverse'
+
+  const highlightDot = isReverse
+    ? Math.min(RING_DOT_COUNT - 1, inputValues[highlightIndex])
+    : Math.min(RING_DOT_COUNT - 1, Math.floor((outputValues[highlightIndex] / 2 ** d) * RING_DOT_COUNT))
 
   return (
     <div className="compression-panel">
       <div className="compression-panel__header">
-        <p className="compression-panel__title">Compress</p>
-        <p className="body-text">x = &#8968;(2&#7496;/q) &middot; x&#8969; mod 2&#7496;, d = {symbol}</p>
+        <p className="compression-panel__title">{isReverse ? 'Decompress' : 'Compress'}</p>
+        {isReverse ? (
+          <p className="body-text">x = &#8968;(q/2&#7496;) &middot; x&#8969;, d = {symbol}</p>
+        ) : (
+          <p className="body-text">x = &#8968;(2&#7496;/q) &middot; x&#8969; mod 2&#7496;, d = {symbol}</p>
+        )}
       </div>
 
       <div className="compression-panel__strip-wrap">

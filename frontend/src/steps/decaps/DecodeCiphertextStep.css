@@ -1,0 +1,25 @@
+.decode-ciphertext-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.decode-ciphertext-step__vline {
+  width: 3px;
+  height: 20px;
+  background: var(--color-transform);
+}
+
+.decode-ciphertext-step__notes {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  max-width: 528px;
+  margin-top: 8px;
+}
+
+.decode-ciphertext-step__caption {
+  text-align: center;
+  margin: 0;
+}
