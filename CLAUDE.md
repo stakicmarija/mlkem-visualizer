@@ -65,6 +65,13 @@ Semantic color roles already defined:
 Each cryptographic object (A, s, e, t) keeps its assigned color everywhere
 in the app -- never reuse one of these colors for a different object.
 
+Not every value gets its own identity color, though. `--color-node-leaf-bg`
+(the light-green "leaf" tint on `Node` `variant="leaf"`) is the generic
+tint for values that only ever appear once, as a single terminal node --
+K, r, ek, dk, t̂, ρ, μ, and c1/c2/c. Reserve a dedicated color (like
+`--color-ciphertext-u`/`-v`) for values that recur across multiple steps
+and need to stay visually traceable between them.
+
 Typography classes (already defined): `.th1`, `.th2`, `.label`,
 `.body-text`, `.formula`, `.btn-text`, `.micro-label`, `.index-text`. Use
 these instead of writing new font-size/weight declarations.

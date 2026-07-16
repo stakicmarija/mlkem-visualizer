@@ -1,0 +1,59 @@
+.compression-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  width: 380px;
+  box-sizing: border-box;
+  padding: 8px;
+  border: 3px solid var(--color-transform);
+  border-radius: 8px;
+}
+
+.compression-panel__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  text-align: center;
+}
+
+.compression-panel__title {
+  font-family: var(--font-mono);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.compression-panel__strip-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.compression-panel__strip {
+  display: flex;
+  gap: 2px;
+}
+
+.compression-panel__strip-label {
+  color: var(--color-text-secondary);
+}
+
+.compression-panel__mapping {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.compression-panel__output-row {
+  display: flex;
+  gap: 2px;
+  justify-content: center;
+  width: 100%;
+}

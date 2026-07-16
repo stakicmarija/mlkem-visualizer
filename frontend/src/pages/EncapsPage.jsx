@@ -10,6 +10,8 @@ import TransformNttStep from '../steps/encaps/TransformNttStep.jsx'
 import ComputeUStep from '../steps/encaps/ComputeUStep.jsx'
 import EncodePlaintextStep from '../steps/encaps/EncodePlaintextStep.jsx'
 import ComputeVStep from '../steps/encaps/ComputeVStep.jsx'
+import CompressPackStep from '../steps/encaps/CompressPackStep.jsx'
+import PackCiphertextStep from '../steps/encaps/PackCiphertextStep.jsx'
 import { encapsSteps } from '../data/steps.js'
 import { explanations } from '../data/explanations.js'
 import { toSpacedHex, truncateHex } from '../utils/hex.js'
@@ -52,18 +54,23 @@ function getParameters(stepId) {
     case 'compute-v':
       return [{ label: 'n', value: n }, { label: 'q', value: q }, { label: 'dv', value: dv }]
     case 'compress-pack':
-      return [{ label: 'du', value: du }, { label: 'dv', value: dv }]
+      return [{ label: 'dv', value: dv }]
     default:
       return []
   }
 }
 
-// K, r, y, e1, e2, u, μ, v, c — the 9 values tracked in the GENERATED
-// VALUES panel throughout encapsulation. y/e1/e2 are CBD-sampled ("small"),
-// so per CLAUDE.md they show coeffs_signed; u/μ/v are uniformly-random-ish
-// results, so they show the mod-q coeffs. Not included: A (already covered
-// by "Regenerate matrix A"'s own grid) and m (shown as an INPUT, not a
-// generated value).
+// K, r, y, e1, e2, u, μ, v, c2, c1, c — the 11 values tracked in the
+// GENERATED VALUES panel throughout encapsulation. y/e1/e2 are CBD-sampled
+// ("small"), so per CLAUDE.md they show coeffs_signed; u/μ/v are
+// uniformly-random-ish results, so they show the mod-q coeffs; c1/c2/c are
+// packed byte strings, so they show a truncated hex value like K/r. Not
+// included: A (already covered by "Regenerate matrix A"'s own grid) and m
+// (shown as an INPUT, not a generated value).
+// c2 sits before c1 here (out of algorithm order) because c2 is the one
+// actually walked through step-by-step (compress-pack, v -> c2) -- c1 only
+// gets its own real walkthrough box for du/u, so it only becomes "done"
+// once it's shown, alongside c, on the pack-ciphertext step.
 const BASE_GENERATED_VALUES = [
   { symbol: 'K', title: explanations.K.title, body: explanations.K.body, value: toSpacedHex(data.encaps.K) },
   { symbol: 'r', title: explanations.r.title, body: explanations.r.body, value: toSpacedHex(data.encaps.r) },
@@ -73,6 +80,8 @@ const BASE_GENERATED_VALUES = [
   { symbol: 'u', title: explanations.u.title, body: explanations.u.body, coeffsList: data.encaps.u.map(poly => poly.coeffs) },
   { symbol: 'μ', title: explanations.mu.title, body: explanations.mu.body, coeffs: data.encaps.mu.coeffs },
   { symbol: 'v', title: explanations.v.title, body: explanations.v.body, coeffs: data.encaps.v.coeffs },
+  { symbol: 'c2', title: explanations.c2.title, body: explanations.c2.body, value: truncateHex(data.encaps.c2) },
+  { symbol: 'c1', title: explanations.c1.title, body: explanations.c1.body, value: truncateHex(data.encaps.c1) },
   { symbol: 'c', title: explanations.c.title, body: explanations.c.body, value: truncateHex(data.encaps.c) },
 ]
 
@@ -90,8 +99,9 @@ const REVEAL_COUNTS = {
   'encode-plaintext': 7,
   'compute-v': 8,
   'compress-pack': 9,
-  'return-kc-inner': 9,
-  'return-kc': 9,
+  'pack-ciphertext': 11,
+  'return-kc-inner': 11,
+  'return-kc': 11,
 }
 
 function getGeneratedValues(stepId) {
@@ -155,6 +165,21 @@ function getStepContent(stepId) {
       return {
         formula: 'v ← NTT⁻¹(t̂ᵀ ∘ ŷ) + e2 + μ',
         content: <ComputeVStep />,
+      }
+    case 'compress-pack':
+      return {
+        formula: (
+          <>
+            c1 ← ByteEncode<sub>du</sub>{'(Compress'}<sub>du</sub>{'(u))\n'}
+            c2 ← ByteEncode<sub>dv</sub>{'(Compress'}<sub>dv</sub>{'(v))'}
+          </>
+        ),
+        content: <CompressPackStep />,
+      }
+    case 'pack-ciphertext':
+      return {
+        formula: 'c ← c1‖c2',
+        content: <PackCiphertextStep />,
       }
     default:
       return { formula: '', content: null }

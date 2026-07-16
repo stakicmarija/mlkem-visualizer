@@ -81,6 +81,14 @@ export const explanations = {
     title: 'Decompress',
     body: 'Maps a d-bit compressed value back onto the full mod-q range, spacing the 2^d possible values as evenly as possible around the ring. For d=1 (one message bit), 0 maps to 0 and 1 maps to ⌈q/2⌋ = 1665. As far apart as two points on the ring can be, which is what makes the encoded bit resistant to noise.',
   },
+  Compress: {
+    title: 'Compress',
+    body: 'The reverse of Decompress: maps a mod-q coefficient down to a much smaller d-bit range (0 to 2^d − 1). This throws away precision, but only as much as the noise already added earlier can absorb, so Decompress can still recover a value close enough to the original for decryption to work.',
+  },
+  ByteEncodeD: {
+    title: 'ByteEncode',
+    body: 'Packs a polynomial\'s 256 already-compressed coefficients into a byte string, using exactly d bits per coefficient instead of the full 12 -- this is what actually shrinks the ciphertext down to a fixed, compact size.',
+  },
 
   // ---- KeyGen values ----------------------------------------------------
   A: {
@@ -148,6 +156,14 @@ export const explanations = {
   v: {
     title: 'v (ciphertext part 2)',
     body: 'Computed as v = tᵀy + e2 + μ. Carries the encoded message μ, hidden under noise. Alice recovers μ (and therefore m) by computing v − sᵀu, which cancels the shared term and leaves only μ plus a small, correctable error.',
+  },
+  c1: {
+    title: 'c1 (ciphertext part 1)',
+    body: 'u, compressed to du bits per coefficient and packed into bytes via ByteEncode. The larger of the two ciphertext parts, since u is a vector of k polynomials rather than a single one.',
+  },
+  c2: {
+    title: 'c2 (ciphertext part 2)',
+    body: 'v, compressed to dv bits per coefficient and packed into bytes via ByteEncode - the same way as c1, just on a single polynomial instead of a vector.',
   },
   c: {
     title: 'c (ciphertext)',

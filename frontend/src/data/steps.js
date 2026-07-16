@@ -49,7 +49,8 @@ export const encapsSteps = [
   { id: 'compute-u', label: 'Compute u', level: 2 },
   { id: 'encode-plaintext', label: 'Encode plaintext m', level: 2 },
   { id: 'compute-v', label: 'Compute v', level: 2 },
-  { id: 'compress-pack', label: 'Compress & pack ciphertext', level: 2 },
+  { id: 'compress-pack', label: 'Compress ciphertext', level: 2 },
+  { id: 'pack-ciphertext', label: 'Pack ciphertext', level: 2 },
   { id: 'return-kc-inner', label: 'Return (K, c)', level: 1 },
   { id: 'return-kc', label: 'Return (K, c)', level: 0, isFinal: true },
 ];

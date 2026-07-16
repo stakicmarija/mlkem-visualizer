@@ -27,7 +27,24 @@ function arcPath(fromAngle, toAngle, radius, cx, cy) {
 // sizes (e.g. next to a Node) instead of the popup-scale spacing.
 // `tickLabels=false` keeps the unlabeled quarter ticks as plain marks with
 // no text -- for compact rings where only the anchors need callouts.
-function ModQRing({ q, size = 220, anchors = [], regions = [], compact = false, tickLabels = true }) {
+// `dotCount` switches to a different schematic: evenly-spaced numbered
+// dots all the way around (0..dotCount-1), used for Compress's "mod 2^d"
+// ring -- a stand-in for a range far too large to draw to scale (e.g.
+// 1024 buckets for du=10), so it's always schematic, never literal.
+// `highlightDot` colors one of those dots/labels as the accent color;
+// `centerSub` overrides the default `q` subscript in the center label
+// (e.g. "2du" instead of "3329").
+function ModQRing({
+  q,
+  size = 220,
+  anchors = [],
+  regions = [],
+  compact = false,
+  tickLabels = true,
+  dotCount = 0,
+  highlightDot = -1,
+  centerSub,
+}) {
   const cx = size / 2
   const cy = size / 2
   const borderReserve = compact ? 10 : 36
@@ -42,6 +59,12 @@ function ModQRing({ q, size = 220, anchors = [], regions = [], compact = false, 
     { angle: 180, label: 'q/2' },
     { angle: 270, label: '3q/4' },
   ]
+
+  const dots = Array.from({ length: dotCount }, (_, i) => ({
+    angle: (360 * i) / dotCount,
+    label: i,
+    highlighted: i === highlightDot,
+  }))
 
   return (
     <svg
@@ -63,7 +86,7 @@ function ModQRing({ q, size = 220, anchors = [], regions = [], compact = false, 
         />
       ))}
 
-      {ticks.map(tick => {
+      {!dotCount && ticks.map(tick => {
         const inner = pointOnRing(tick.angle, radius - tickHalf, cx, cy)
         const outer = pointOnRing(tick.angle, radius + tickHalf, cx, cy)
         const labelPt = pointOnRing(tick.angle, radius + labelOffset, cx, cy)
@@ -78,7 +101,7 @@ function ModQRing({ q, size = 220, anchors = [], regions = [], compact = false, 
       })}
 
       <text x={cx} y={cy} className="mod-q-ring__center-label">
-        ℤ<tspan className="mod-q-ring__center-label-sub" dy="4">{q}</tspan>
+        ℤ<tspan className="mod-q-ring__center-label-sub" dy="4">{centerSub ?? q}</tspan>
       </text>
 
       {anchors.map(anchor => {
@@ -88,6 +111,18 @@ function ModQRing({ q, size = 220, anchors = [], regions = [], compact = false, 
           <g key={anchor.angle} style={{ '--anchor-color': `var(--color-${anchor.colorToken})` }}>
             <circle cx={dot.x} cy={dot.y} r={compact ? 3 : 5} className="mod-q-ring__anchor-dot" />
             <text x={labelPt.x} y={labelPt.y} className="mod-q-ring__anchor-label">{anchor.label}</text>
+          </g>
+        )
+      })}
+
+      {dots.map(dot => {
+        const pt = pointOnRing(dot.angle, radius, cx, cy)
+        const labelPt = pointOnRing(dot.angle, radius + labelOffset, cx, cy)
+        const colorToken = dot.highlighted ? 'encoded-message' : 'transform'
+        return (
+          <g key={dot.label} style={{ '--anchor-color': `var(--color-${colorToken})` }}>
+            <circle cx={pt.x} cy={pt.y} r={compact ? 2.5 : 4} className="mod-q-ring__anchor-dot" />
+            <text x={labelPt.x} y={labelPt.y} className="mod-q-ring__anchor-label">{dot.label}</text>
           </g>
         )
       })}

@@ -1,0 +1,16 @@
+.compress-pack-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.compress-pack-step__vline {
+  width: 3px;
+  height: 20px;
+  background: var(--color-transform);
+}
+
+.compress-pack-step__caption {
+  text-align: center;
+  margin-top: 2px;
+}
