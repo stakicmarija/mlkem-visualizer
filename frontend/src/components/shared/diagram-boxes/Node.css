@@ -24,4 +24,5 @@ button.node {
 
 .node__micro {
   color: var(--color-text-secondary);
+  white-space: nowrap;
 }

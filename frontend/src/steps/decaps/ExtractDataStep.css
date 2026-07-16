@@ -1,0 +1,27 @@
+.extract-data-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.extract-data-step__svg {
+  display: block;
+}
+
+/* Natural-width boxes with a real flex gap (matching Figma's own
+   gap-[60px] row) instead of fixed-width lanes -- the four boxes' content
+   widths differ enough (dkPKE's short label vs. h/z's long byte ranges)
+   that centering each in an equal-width lane produced unequal visible
+   gaps between them. 21px matches h-to-z's original (already correct)
+   spacing. */
+.extract-data-step__row {
+  display: flex;
+  justify-content: center;
+  gap: 21px;
+}
+
+.extract-data-step__lane {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

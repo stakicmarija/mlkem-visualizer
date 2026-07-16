@@ -47,20 +47,22 @@ function GeneratedValuesPanel({ items = [] }) {
       <p className="label gen-values-panel__title">Generated Values</p>
       <div className="gen-values-panel__grid">
         <div className="gen-values-panel__col">
-          {leftCol.map(({ symbol, state }, i) => (
+          {leftCol.map(({ symbol, display, state }, i) => (
             <ValueChecklistItem
               key={symbol}
               symbol={symbol}
+              display={display}
               state={state}
               onClick={state === 'done' ? () => openItem(i) : undefined}
             />
           ))}
         </div>
         <div className="gen-values-panel__col">
-          {rightCol.map(({ symbol, state }, i) => (
+          {rightCol.map(({ symbol, display, state }, i) => (
             <ValueChecklistItem
               key={symbol}
               symbol={symbol}
+              display={display}
               state={state}
               onClick={state === 'done' ? () => openItem(mid + i) : undefined}
             />

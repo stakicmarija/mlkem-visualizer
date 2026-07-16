@@ -56,6 +56,7 @@ export const encapsSteps = [
 ];
 
 export const decapsSteps = [
+  { id: 'ml-kem', label: 'ML-KEM', level: 0, isGroupLabel: true },
   { id: 'run-internal', label: 'Run internal algorithm', level: 0 },
   { id: 'internal', label: 'Internal', level: 1, isGroupLabel: true },
   { id: 'extract-data', label: 'Extract data', level: 1 },
@@ -64,7 +65,7 @@ export const decapsSteps = [
   { id: 'extract-c1-c2', label: 'Extract c1, c2', level: 2 },
   { id: 'decode-ciphertext', label: 'Decode ciphertext', level: 2 },
   { id: 'decode-secret-key', label: 'Decode secret key', level: 2 },
-  { id: 'compute-message-poly', label: 'Compute message polynomial w', level: 2 },
+  { id: 'compute-message-poly', label: 'Compute polynomial w', level: 2 },
   { id: 'recover-plaintext', label: 'Recover plaintext m', level: 2 },
   { id: 'return-plaintext', label: 'Return plaintext', level: 2 },
   { id: 'derive-kprime-rprime', label: "Derive (K', r')", level: 1 },

@@ -20,12 +20,17 @@ function LoaderIcon() {
   )
 }
 
-function ValueChecklistItem({ symbol, state = 'pending', onClick }) {
+// `display` is what's rendered (can be JSX, e.g. dk with a subscript pke);
+// `symbol` is always the plain-string identity, used as the list key and
+// wherever plain text is unavoidable (e.g. the fallback popup title).
+function ValueChecklistItem({ symbol, display, state = 'pending', onClick }) {
+  const content = display ?? symbol
+
   if (state === 'done') {
     return (
       <button className="vcli vcli--done" onClick={onClick}>
         <CheckBox checked />
-        <span className="body-text vcli__symbol">{symbol}</span>
+        <span className="body-text vcli__symbol">{content}</span>
         <span className="vcli__chevron" aria-hidden="true">›</span>
       </button>
     )
@@ -34,7 +39,7 @@ function ValueChecklistItem({ symbol, state = 'pending', onClick }) {
   return (
     <div className={`vcli vcli--${state}`}>
       <CheckBox checked={false} />
-      <span className="body-text vcli__symbol">{symbol}</span>
+      <span className="body-text vcli__symbol">{content}</span>
       {state === 'loading' && <LoaderIcon />}
     </div>
   )

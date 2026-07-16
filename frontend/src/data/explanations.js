@@ -116,6 +116,20 @@ export const explanations = {
     body: "Alice's private key, kept secret. Bundles four things: the encoded secret vector s, a copy of ek, a hash of ek, and the seed z. Everything Alice needs to decapsulate a ciphertext later is packed into this one value.",
   },
 
+  // ---- Decaps ------------------------------------------------------------
+  dkPKE: {
+    title: 'dkPKE (private key material)',
+    body: "The first 384k bytes of dk -- Alice's encoded PKE secret vector s, the same value packed into dk back during key generation. Used to decrypt the ciphertext during decapsulation.",
+  },
+  ekPKE: {
+    title: 'ekPKE (public key material)',
+    body: "A copy of Alice's encapsulation key, bundled inside dk so decapsulation can re-encrypt and check the ciphertext without ek needing to be supplied separately.",
+  },
+  h: {
+    title: 'h = H(ek)',
+    body: "A stored hash of Alice's encapsulation key, computed once during key generation and bundled into dk. Re-used during decapsulation to derive K, without re-hashing ek from scratch.",
+  },
+
   // ---- Encaps ----------------------------------------------------------
   m: {
     title: 'm (message)',
@@ -175,6 +189,14 @@ export const explanations = {
   },
 
   // ---- Decaps ------------------------------------------------------------
+  uPrime: {
+    title: "u' (decoded ciphertext part 1)",
+    body: 'u, recovered by decoding c1 -- the reverse of the Compress + ByteEncode Bob used to produce c1. Not exactly equal to the u Bob originally computed (compression is lossy), but close enough for decryption to still work.',
+  },
+  vPrime: {
+    title: "v' (decoded ciphertext part 2)",
+    body: "v, recovered by decoding c2 the same way. Together with u', lets Alice reconstruct w = v' − sᵀu', recovering the encoded message μ (approximately) hidden inside.",
+  },
   w: {
     title: 'w (recovered polynomial)',
     body: 'Computed as w = v − sᵀu during decryption. Should equal μ plus a small error term, small enough that rounding recovers the original bit values correctly almost always.',
@@ -198,6 +220,10 @@ export const explanations = {
   cPrime: {
     title: "c' (re-encrypted ciphertext)",
     body: "Alice re-runs encryption using the recovered m' and r', producing c'. If decapsulation is working on a genuine, untampered ciphertext, c' will exactly equal the c Bob originally sent.",
+  },
+  KFinal: {
+    title: 'K (shared secret)',
+    body: "The value decapsulation actually returns -- K' if the re-encryption check passed (c' matches c), or the fallback K̃ if it didn't (implicit rejection). Alice never learns which case occurred; both paths return a value that looks equally valid, so a tampered ciphertext gets no visible error. When everything worked, this equals Bob's K exactly.",
   },
 
   //  Parameters (used by the "Learn about parameters" button) 
