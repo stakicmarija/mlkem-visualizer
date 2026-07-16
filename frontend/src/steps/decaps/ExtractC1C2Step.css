@@ -1,0 +1,18 @@
+.extract-c1-c2-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.extract-c1-c2-step__svg {
+  display: block;
+}
+.extract-c1-c2-step__row {
+  display: flex;
+  justify-content: center;
+  gap: 21px;
+}
+.extract-c1-c2-step__lane {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

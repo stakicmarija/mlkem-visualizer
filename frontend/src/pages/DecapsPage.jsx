@@ -2,6 +2,7 @@ import { useLayoutEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import AlgorithmPage from '../components/layout/AlgorithmPage.jsx'
 import ExtractDataStep from '../steps/decaps/ExtractDataStep.jsx'
+import ExtractC1C2Step from '../steps/decaps/ExtractC1C2Step.jsx'
 import { decapsSteps } from '../data/steps.js'
 import { explanations } from '../data/explanations.js'
 import { toSpacedHex, truncateHex } from '../utils/hex.js'
@@ -111,6 +112,16 @@ function getStepContent(stepId) {
           </>
         ),
         content: <ExtractDataStep />,
+      }
+    case 'extract-c1-c2':
+      return {
+        formula: (
+          <>
+            c1 ← c[0 : 32·du·k]{'\n'}
+            c2 ← c[32·du·k : 32·(du·k + dv)]
+          </>
+        ),
+        content: <ExtractC1C2Step />,
       }
     default:
       return { formula: null, content: null }
