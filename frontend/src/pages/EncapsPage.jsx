@@ -12,6 +12,7 @@ import EncodePlaintextStep from '../steps/encaps/EncodePlaintextStep.jsx'
 import ComputeVStep from '../steps/encaps/ComputeVStep.jsx'
 import CompressPackStep from '../steps/encaps/CompressPackStep.jsx'
 import PackCiphertextStep from '../steps/encaps/PackCiphertextStep.jsx'
+import ReturnEncapsStep from '../steps/encaps/ReturnEncapsStep.jsx'
 import { encapsSteps } from '../data/steps.js'
 import { explanations } from '../data/explanations.js'
 import { toSpacedHex, truncateHex } from '../utils/hex.js'
@@ -22,8 +23,10 @@ const navSteps = encapsSteps.filter(s => !s.isGroupLabel)
 
 // Mirrors KeyGenPage's TRANSITION_IDS: steps that only delegate, with no
 // content of their own — 'encrypt-m' fans straight into K-PKE the same
-// way 'generate-pke-pair' does in KeyGen.
-const TRANSITION_IDS = new Set(['run-internal', 'encrypt-m'])
+// way 'generate-pke-pair' does in KeyGen; 'return-kc-inner' is the inner
+// "Internal"-level "Return (K, c)" wrapper, skipped straight through to
+// the outer, content-bearing 'return-kc'.
+const TRANSITION_IDS = new Set(['run-internal', 'encrypt-m', 'return-kc-inner'])
 
 const { k, q, n, eta1, eta2, du, dv } = data.params
 
@@ -180,6 +183,11 @@ function getStepContent(stepId) {
       return {
         formula: 'c ← c1‖c2',
         content: <PackCiphertextStep />,
+      }
+    case 'return-kc':
+      return {
+        formula: 'return (K, c)',
+        content: <ReturnEncapsStep />,
       }
     default:
       return { formula: '', content: null }
