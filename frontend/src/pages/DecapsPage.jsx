@@ -4,6 +4,7 @@ import AlgorithmPage from '../components/layout/AlgorithmPage.jsx'
 import ExtractDataStep from '../steps/decaps/ExtractDataStep.jsx'
 import ExtractC1C2Step from '../steps/decaps/ExtractC1C2Step.jsx'
 import DecodeCiphertextStep from '../steps/decaps/DecodeCiphertextStep.jsx'
+import DecodeSecretKeyStep from '../steps/decaps/DecodeSecretKeyStep.jsx'
 import { decapsSteps } from '../data/steps.js'
 import { explanations } from '../data/explanations.js'
 import { toSpacedHex, truncateHex } from '../utils/hex.js'
@@ -133,6 +134,11 @@ function getStepContent(stepId) {
           </>
         ),
         content: <DecodeCiphertextStep />,
+      }
+    case 'decode-secret-key':
+      return {
+        formula: <>ŝ ← ByteDecode<sub>12</sub>(dk<sub>pke</sub>)</>,
+        content: <DecodeSecretKeyStep />,
       }
     default:
       return { formula: null, content: null }
