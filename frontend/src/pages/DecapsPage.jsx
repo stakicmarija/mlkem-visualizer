@@ -8,6 +8,7 @@ import DecodeSecretKeyStep from '../steps/decaps/DecodeSecretKeyStep.jsx'
 import ComputeWStep from '../steps/decaps/ComputeWStep.jsx'
 import RecoverPlaintextStep from '../steps/decaps/RecoverPlaintextStep.jsx'
 import DeriveKprimeRprimeStep from '../steps/decaps/DeriveKprimeRprimeStep.jsx'
+import DeriveKtildeStep from '../steps/decaps/DeriveKtildeStep.jsx'
 import { decapsSteps } from '../data/steps.js'
 import { explanations } from '../data/explanations.js'
 import { toSpacedHex, truncateHex } from '../utils/hex.js'
@@ -158,6 +159,11 @@ function getStepContent(stepId) {
       return {
         formula: "(K', r') ← G(m'‖h)",
         content: <DeriveKprimeRprimeStep />,
+      }
+    case 'derive-ktilde':
+      return {
+        formula: 'K̃ ← J(z‖c)',
+        content: <DeriveKtildeStep />,
       }
     default:
       return { formula: null, content: null }
