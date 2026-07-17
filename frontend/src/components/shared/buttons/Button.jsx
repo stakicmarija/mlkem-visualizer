@@ -18,10 +18,19 @@ function SkipPreviousIcon() {
   )
 }
 
+function ReplayIcon() {
+  return (
+    <svg className="btn__icon" viewBox="0 0 24 24" aria-hidden="true">
+      <path fill="currentColor" d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z" />
+    </svg>
+  )
+}
+
 function Button({ variant = 'primary', icon = 'none', children, ...rest }) {
   return (
     <button type="button" className={`btn btn--${variant}`} {...rest}>
       {icon === 'prev' && <SkipPreviousIcon />}
+      {icon === 'restart' && <ReplayIcon />}
       <span className="btn-text">{children}</span>
       {icon === 'next' && <SkipNextIcon />}
     </button>

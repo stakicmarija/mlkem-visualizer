@@ -6,7 +6,14 @@ import TunnelArrow from '../components/shared/diagram-boxes/TunnelArrow.jsx'
 import ParticipantPanel from '../components/shared/ParticipantPanel.jsx'
 import Button from '../components/shared/buttons/Button.jsx'
 import Popup from '../components/shared/popup/Popup.jsx'
+import { explanations } from '../data/explanations.js'
+import { toSpacedHex } from '../utils/hex.js'
+import data from '../data/mlkem_768_data.json'
 import './HomePage.css'
+
+function bytes(hex) {
+  return hex.length / 2
+}
 
 const ALICE_STEPS = [
   { title: 'KEY GENERATION', description: 'Generates a key pair and sends the public key to Bob.' },
@@ -48,11 +55,14 @@ function HomePage() {
   // persistence needed" stance; it's fine for this to reset on a hard refresh.
   const keygenComplete = !!location.state?.keygenComplete
   const encapsComplete = !!location.state?.encapsComplete
+  const decapsComplete = !!location.state?.decapsComplete
   const justArrived = !!location.state?.justArrived
+
+  const [openSecret, setOpenSecret] = useState(null) // 'alice' | 'bob' | null
 
   // No breadcrumb on the very first, initial HomePage state (nothing
   // complete yet) -- it only appears once the flow has actually started.
-  const breadcrumbStage = encapsComplete ? 'c-sent' : keygenComplete ? 'ek-sent' : null
+  const breadcrumbStage = decapsComplete ? 'complete' : encapsComplete ? 'c-sent' : keygenComplete ? 'ek-sent' : null
 
   const [ekPhase, setEkPhase] = useState(() => getEkPhase(keygenComplete, encapsComplete, justArrived))
   const [cPhase, setCPhase] = useState(() => getCPhase(encapsComplete, justArrived))
@@ -83,7 +93,7 @@ function HomePage() {
 
   const aliceActiveStep =
     isStarting || ekPhase === 'traveling' ? 'KEY GENERATION'
-    : cPhase === 'arrived' ? 'DECAPSULATION'
+    : cPhase === 'arrived' && !decapsComplete ? 'DECAPSULATION'
     : null
   const bobActiveStep = ekPhase === 'arrived' && cPhase !== 'arrived' ? 'ENCAPSULATION' : null
 
@@ -105,6 +115,9 @@ function HomePage() {
           steps={ALICE_STEPS}
           activeStep={aliceActiveStep}
           badge={keygenComplete ? 'dk' : undefined}
+          footerBadge={decapsComplete ? "K'" : undefined}
+          onFooterBadgeClick={decapsComplete ? () => setOpenSecret('alice') : undefined}
+          footerBadgeStrong={decapsComplete}
         />
         <div className="home__arrows">
           <TunnelArrow
@@ -131,10 +144,21 @@ function HomePage() {
           steps={BOB_STEPS}
           activeStep={bobActiveStep}
           footerBadge={encapsComplete ? 'K' : undefined}
+          onFooterBadgeClick={decapsComplete ? () => setOpenSecret('bob') : undefined}
+          footerBadgeStrong={decapsComplete}
         />
       </div>
 
-      {!keygenComplete && (
+      {decapsComplete ? (
+        <div className="home__cta">
+          <Button variant="primary" icon="restart" onClick={() => navigate('/')}>
+            Restart
+          </Button>
+          <p className="micro-label home__cta-hint">
+            K = K′ — Alice and Bob now share the same secret, without ever sending it directly.
+          </p>
+        </div>
+      ) : !keygenComplete && (
         <div className="home__cta">
           <Button variant="primary" icon="next" onClick={() => setIsStarting(true)} disabled={isStarting}>
             {isStarting ? 'Starting...' : 'Start Visualization'}
@@ -156,7 +180,7 @@ function HomePage() {
         </div>
       )}
 
-      {cPhase === 'arrived' && (
+      {cPhase === 'arrived' && !decapsComplete && (
         <div className="home__cta">
           <Button variant="primary" icon="next" onClick={() => navigate('/decaps')}>
             Enter Decapsulation
@@ -174,6 +198,17 @@ function HomePage() {
       >
         {ABOUT_TEXT}
       </Popup>
+
+      {openSecret && (
+        <Popup
+          title={openSecret === 'alice' ? explanations.KFinal.title : explanations.K.title}
+          body={openSecret === 'alice' ? explanations.KFinal.body : explanations.K.body}
+          value={toSpacedHex(openSecret === 'alice' ? data.decaps.K_final : data.encaps.K)}
+          valueLabel={`${bytes(openSecret === 'alice' ? data.decaps.K_final : data.encaps.K)} bytes`}
+          isOpen
+          onClose={() => setOpenSecret(null)}
+        />
+      )}
     </main>
   )
 }

@@ -2,7 +2,7 @@ import StepCircle from './step-content/StepCircle.jsx'
 import Node from './diagram-boxes/Node.jsx'
 import './ParticipantPanel.css'
 
-function ParticipantPanel({ name, steps, activeStep, badge, footerBadge }) {
+function ParticipantPanel({ name, steps, activeStep, badge, footerBadge, onFooterBadgeClick, footerBadgeStrong }) {
   return (
     <div className="participant-panel">
       <div className="participant-panel__header">
@@ -21,7 +21,12 @@ function ParticipantPanel({ name, steps, activeStep, badge, footerBadge }) {
       </div>
       {footerBadge && (
         <div className="participant-panel__footer-badge">
-          <Node label={footerBadge} variant="leaf" />
+          <Node
+            label={footerBadge}
+            variant="leaf"
+            onClick={onFooterBadgeClick}
+            className={footerBadgeStrong ? 'participant-panel__footer-badge--strong' : undefined}
+          />
         </div>
       )}
     </div>

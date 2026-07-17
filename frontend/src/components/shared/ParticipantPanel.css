@@ -30,6 +30,14 @@
   min-width: 40px;
 }
 
+/* K'/K once decapsComplete -- stronger tint than the plain leaf background
+   (--color-matrix-a-tint) dk/ek/c use elsewhere on this page, same hue
+   just more saturated -- same relationship NTT-output cells like û'/ŝ
+   already use for their own "strong" state. Size/border/font unchanged. */
+.node.participant-panel__footer-badge--strong {
+  background: var(--color-matrix-a-tint-strong);
+}
+
 .participant-panel__card {
   flex: 1;
   background: var(--color-surface);

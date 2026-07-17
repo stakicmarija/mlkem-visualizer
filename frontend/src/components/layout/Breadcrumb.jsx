@@ -13,6 +13,7 @@ const STAGES = [
   { id: 'encaps', label: 'ENCAPS', to: '/encaps' },
   { id: 'c-sent', label: 'C SENT', to: '/', state: { keygenComplete: true, encapsComplete: true } },
   { id: 'decaps', label: 'DECAPS', to: '/decaps' },
+  { id: 'complete', label: 'COMPLETE', to: '/', state: { keygenComplete: true, encapsComplete: true, decapsComplete: true } },
 ]
 
 // `stage` is the id of the current segment -- every earlier stage is shown

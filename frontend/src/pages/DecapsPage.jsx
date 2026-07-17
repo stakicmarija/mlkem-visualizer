@@ -225,6 +225,8 @@ function DecapsPage() {
   const parameters = getParameters(currentStep.id)
   const generatedValues = getGeneratedValues(currentStep.id)
 
+  const isLastStep = currentStepIndex === navSteps.length - 1
+
   function handlePrev() {
     // goPrev() returns false once it can't move back any further without
     // landing on a transition-only step (i.e. we're at the earliest real
@@ -235,6 +237,16 @@ function DecapsPage() {
     if (!goPrev()) {
       navigate('/', { state: { keygenComplete: true, encapsComplete: true } })
     }
+  }
+
+  function handleNext() {
+    // Mirrors KeyGenPage/EncapsPage's isLastStep -> navigate('/') pattern --
+    // the whole pipeline is complete once Decaps' final step is reached.
+    if (isLastStep) {
+      navigate('/', { state: { keygenComplete: true, encapsComplete: true, decapsComplete: true } })
+      return
+    }
+    goNext()
   }
 
   return (
@@ -252,7 +264,7 @@ function DecapsPage() {
       canGoPrev={true}
       canGoNext={!isAnimating}
       onPrev={handlePrev}
-      onNext={goNext}
+      onNext={handleNext}
     >
       {content || <p className="body-text">{currentStep.label} — coming soon.</p>}
     </AlgorithmPage>
