@@ -6,6 +6,7 @@ import ExtractC1C2Step from '../steps/decaps/ExtractC1C2Step.jsx'
 import DecodeCiphertextStep from '../steps/decaps/DecodeCiphertextStep.jsx'
 import DecodeSecretKeyStep from '../steps/decaps/DecodeSecretKeyStep.jsx'
 import ComputeWStep from '../steps/decaps/ComputeWStep.jsx'
+import RecoverPlaintextStep from '../steps/decaps/RecoverPlaintextStep.jsx'
 import { decapsSteps } from '../data/steps.js'
 import { explanations } from '../data/explanations.js'
 import { toSpacedHex, truncateHex } from '../utils/hex.js'
@@ -145,6 +146,11 @@ function getStepContent(stepId) {
       return {
         formula: "w ← v' − NTT⁻¹(ŝᵀ ∘ NTT(u'))",
         content: <ComputeWStep />,
+      }
+    case 'recover-plaintext':
+      return {
+        formula: 'm ← ByteEncode₁(Compress₁(w))',
+        content: <RecoverPlaintextStep />,
       }
     default:
       return { formula: null, content: null }

@@ -2,7 +2,7 @@ import DataChip from '../diagram-boxes/DataChip.jsx'
 import ModQRing from '../mod-q-ring/ModQRing.jsx'
 import './CompressionPanel.css'
 
-const RING_DOT_COUNT = 16 // always schematic -- real d (e.g. du=10) means 1024 buckets, far too many to draw
+const MAX_RING_DOTS = 16 // schematic cap -- real d (e.g. du=10) means 1024 buckets, far too many to draw
 
 // The Compress walkthrough (formula, mod-q input strip, "mod 2^d" ring,
 // one-value example, compressed output row), inline in a bordered panel --
@@ -23,9 +23,19 @@ function CompressionPanel({
 }) {
   const isReverse = direction === 'reverse'
 
+  // 2^d real points only get squeezed into the 16-dot schematic once there
+  // are actually more of them than dots to draw (du=10's 1024 buckets) --
+  // small d (e.g. d=1's 2 points, or dv=4's exact 16) render one dot per
+  // real value instead, so the ring never shows more points than exist.
+  const realPointCount = 2 ** d
+  const isSchematic = realPointCount > MAX_RING_DOTS
+  const ringDotCount = isSchematic ? MAX_RING_DOTS : realPointCount
+
   const highlightDot = isReverse
-    ? Math.min(RING_DOT_COUNT - 1, inputValues[highlightIndex])
-    : Math.min(RING_DOT_COUNT - 1, Math.floor((outputValues[highlightIndex] / 2 ** d) * RING_DOT_COUNT))
+    ? Math.min(ringDotCount - 1, inputValues[highlightIndex])
+    : isSchematic
+      ? Math.min(ringDotCount - 1, Math.floor((outputValues[highlightIndex] / realPointCount) * ringDotCount))
+      : outputValues[highlightIndex]
 
   return (
     <div className="compression-panel">
@@ -56,7 +66,7 @@ function CompressionPanel({
       <ModQRing
         size={92}
         compact
-        dotCount={RING_DOT_COUNT}
+        dotCount={ringDotCount}
         highlightDot={highlightDot}
         centerSub={`2${symbol}`}
       />

@@ -1,0 +1,11 @@
+.recover-plaintext-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.recover-plaintext-step__vline {
+  width: 3px;
+  height: 20px;
+  background: var(--color-transform);
+}
