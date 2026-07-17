@@ -11,6 +11,7 @@ import DeriveKprimeRprimeStep from '../steps/decaps/DeriveKprimeRprimeStep.jsx'
 import DeriveKtildeStep from '../steps/decaps/DeriveKtildeStep.jsx'
 import ReturnCPrimeStep from '../steps/decaps/ReturnCPrimeStep.jsx'
 import CompareCStep from '../steps/decaps/CompareCStep.jsx'
+import ReturnKprimeStep from '../steps/decaps/ReturnKprimeStep.jsx'
 import { decapsSteps } from '../data/steps.js'
 import { explanations } from '../data/explanations.js'
 import { toSpacedHex, truncateHex } from '../utils/hex.js'
@@ -25,7 +26,11 @@ const navSteps = decapsSteps.filter(s => !s.isGroupLabel)
 // just hands m back up to the outer algorithm, no content of its own.
 // 're-encrypt' is the same shape as 'decrypt-ciphertext' -- a level-1
 // parent step introducing its own K-PKE sub-group, no content of its own.
-const TRANSITION_IDS = new Set(['run-internal', 'decrypt-ciphertext', 'return-plaintext', 're-encrypt'])
+// 'return-kprime-inner' likewise just hands K' back up to the outer
+// algorithm before the final 'return-kprime' step displays it.
+const TRANSITION_IDS = new Set([
+  'run-internal', 'decrypt-ciphertext', 'return-plaintext', 're-encrypt', 'return-kprime-inner',
+])
 
 const { k, q, n, eta1, eta2, du, dv } = data.params
 
@@ -178,6 +183,11 @@ function getStepContent(stepId) {
       return {
         formula: "c =? c'",
         content: <CompareCStep />,
+      }
+    case 'return-kprime':
+      return {
+        formula: "return K'",
+        content: <ReturnKprimeStep />,
       }
     default:
       return { formula: null, content: null }

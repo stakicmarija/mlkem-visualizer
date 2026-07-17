@@ -1,0 +1,11 @@
+.return-kprime-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+}
+
+.return-kprime-step__note {
+  max-width: 480px;
+  text-align: center;
+}
