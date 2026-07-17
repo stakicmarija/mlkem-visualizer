@@ -10,6 +10,7 @@ import RecoverPlaintextStep from '../steps/decaps/RecoverPlaintextStep.jsx'
 import DeriveKprimeRprimeStep from '../steps/decaps/DeriveKprimeRprimeStep.jsx'
 import DeriveKtildeStep from '../steps/decaps/DeriveKtildeStep.jsx'
 import ReturnCPrimeStep from '../steps/decaps/ReturnCPrimeStep.jsx'
+import CompareCStep from '../steps/decaps/CompareCStep.jsx'
 import { decapsSteps } from '../data/steps.js'
 import { explanations } from '../data/explanations.js'
 import { toSpacedHex, truncateHex } from '../utils/hex.js'
@@ -172,6 +173,11 @@ function getStepContent(stepId) {
       return {
         formula: "return c'",
         content: <ReturnCPrimeStep />,
+      }
+    case 'compare-c':
+      return {
+        formula: "c =? c'",
+        content: <CompareCStep />,
       }
     default:
       return { formula: null, content: null }

@@ -1,0 +1,35 @@
+.compare-c-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.compare-c-step__row {
+  display: flex;
+  gap: 40px;
+}
+
+.compare-c-step__svg {
+  display: block;
+}
+
+.compare-c-step__vline {
+  width: 3px;
+  height: 20px;
+  background: var(--color-transform);
+}
+
+.compare-c-step__result.compare-c-step__result--mismatch {
+  background: var(--color-error-tint);
+  border-color: var(--color-error);
+}
+
+.compare-c-step__result-icon {
+  width: 20px;
+  height: 20px;
+  color: var(--color-accent);
+}
+
+.compare-c-step__result--mismatch .compare-c-step__result-icon {
+  color: var(--color-error);
+}

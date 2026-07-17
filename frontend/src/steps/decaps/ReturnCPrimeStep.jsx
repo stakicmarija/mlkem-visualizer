@@ -25,7 +25,7 @@ function ReturnCPrimeStep() {
       />
 
       <p className="body-text return-cprime-step__note">
-        Repeats Encaps' encryption process, using K′, r′, and m′ instead of the originals, to produce c′.
+        Repeats encapsulation encryption process, using K′, r′, and m′ instead of the originals, to produce c′.
       </p>
 
       {open && (

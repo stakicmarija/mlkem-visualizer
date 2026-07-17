@@ -79,6 +79,9 @@ body {
   --c-coral: #F97066;
   --c-light-coral: rgba(249, 112, 102, 0.2);
 
+  --c-red: #E5484D;
+  --c-light-red: rgba(229, 72, 77, 0.2);
+
   --c-gray: #8F9193;
   --c-darker-gray: #787B7E;
   --c-light-gray: rgba(143, 145, 147, 0.10);
@@ -104,6 +107,8 @@ body {
   --color-accent: var(--c-pine-green);    /* active step dots, checkmarks, home page circles */
   --color-accent-glow: var(--c-kryptonite-green); /* glow ring on active StepCircle (Figma: kryptonite green, not pine) */
   --color-text-on-accent: var(--c-off-white); /* text sitting on a --color-accent background */
+  --color-error: var(--c-red);             /* mismatch/failure result (Decaps' compare-c step) */
+  --color-error-tint: var(--c-light-red);  /* background for the mismatch result node */
 
   /* --- Semantic: step content --- */
   --color-formula-bg: var(--c-light-yellow);   /* the yellow formula box on every step */
