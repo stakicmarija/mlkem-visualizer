@@ -8,7 +8,8 @@ import './CompactSingleField.css'
 // vector/matrix of them) -- e.g. e2, μ, v, or an unnamed intermediate like
 // t̂ᵀy. Same click-to-inspect pattern as CompactVectorField/CompactMatrixField,
 // just without prev/next since there's only the one polynomial.
-function CompactSingleField({ symbol, colorToken, coeffs, body, strong = false }) {
+// `clickable=false` opts out of the popup entirely.
+function CompactSingleField({ symbol, colorToken, coeffs, body, strong = false, clickable = true }) {
   const [open, setOpen] = useState(false)
 
   return (
@@ -20,9 +21,9 @@ function CompactSingleField({ symbol, colorToken, coeffs, body, strong = false }
         tinted
         strong={strong}
         symbolOnly
-        onClick={() => setOpen(true)}
+        onClick={clickable ? () => setOpen(true) : undefined}
       />
-      {open && (
+      {clickable && open && (
         <Popup
           title={symbol}
           body={body}

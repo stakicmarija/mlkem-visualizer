@@ -39,6 +39,9 @@ body {
   --c-party-orange: #FF5A00;
   --c-burnt-orange: #B33F00;
   --c-nectarine-orange: #FF9800;
+  --c-amber: #FFB800;
+  --c-light-amber: rgba(255, 184, 0, 0.2);
+  --c-light-amber-strong: rgba(255, 184, 0, 0.4);
   --c-summer-yellow: #FFEA00;
   --c-candy-pink: #FFC0FF;
   --c-electric-blue: rgba(81, 81, 252, 0.5);
@@ -65,6 +68,10 @@ body {
 
   --c-royal-blue: #2D6CDF;
   --c-light-royal-blue: rgba(45, 108, 223, 0.2);
+
+  --c-indigo: #5C6BC0;
+  --c-light-indigo: rgba(92, 107, 192, 0.2);
+  --c-light-indigo-strong: rgba(92, 107, 192, 0.4);
 
   --c-teal: #0D9488;
   --c-light-teal: rgba(13, 148, 136, 0.2);
@@ -123,10 +130,16 @@ body {
   --color-ephemeral-y-tint-strong: var(--c-light-cyan-strong);
   --color-ciphertext-u: var(--c-violet);
   --color-ciphertext-u-tint: var(--c-light-violet);
+  --color-ciphertext-u-prime: var(--c-indigo);
+  --color-ciphertext-u-prime-tint: var(--c-light-indigo);
+  --color-ciphertext-u-prime-tint-strong: var(--c-light-indigo-strong);
   --color-encoded-message: var(--c-rose);
   --color-encoded-message-tint: var(--c-light-rose);
   --color-ciphertext-v: var(--c-royal-blue);
   --color-ciphertext-v-tint: var(--c-light-royal-blue);
+  --color-recovered-w: var(--c-amber);
+  --color-recovered-w-tint: var(--c-light-amber);
+  --color-recovered-w-tint-strong: var(--c-light-amber-strong);
 
   --color-node-leaf-bg: var(--c-light-pine);  /* leaf node tint -- accent (pine green) at 20% */
 

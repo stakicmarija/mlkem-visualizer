@@ -9,7 +9,9 @@ const SUB = ['₀', '₁', '₂']
 // vector block (s, e, t, ŝ, ê, ...) follows the same pattern: click any
 // cell to see that polynomial, prev/next to walk the other cells of the
 // same vector — this bundles that wiring so steps only supply the data.
-function CompactVectorField({ symbol, colorToken, coeffsList, body, strong = false }) {
+// `clickable=false` opts out of the popup entirely (e.g. a diagram that
+// isn't ready to be interactive yet).
+function CompactVectorField({ symbol, colorToken, coeffsList, body, strong = false, clickable = true }) {
   const popup = useCellPopup(coeffsList.length)
   const cellLabel = popup.index !== null ? `${symbol}${SUB[popup.index]}` : null
 
@@ -20,8 +22,9 @@ function CompactVectorField({ symbol, colorToken, coeffsList, body, strong = fal
         colorToken={colorToken}
         onCellClick={popup.open}
         strong={strong}
+        clickable={clickable}
       />
-      {popup.index !== null && (
+      {clickable && popup.index !== null && (
         <Popup
           title={cellLabel}
           body={body}

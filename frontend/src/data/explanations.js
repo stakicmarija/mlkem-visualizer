@@ -201,6 +201,10 @@ export const explanations = {
     title: "v' (decoded ciphertext part 2)",
     body: "v, recovered by decoding c2 the same way. Together with u', lets Alice reconstruct w = v' − sᵀu', recovering the encoded message μ (approximately) hidden inside.",
   },
+  sTuPrime: {
+    title: "ŝᵀu' (intermediate value)",
+    body: "The result of NTT⁻¹(ŝᵀ ∘ NTT(u')), back in ordinary coefficient form. Not a named object with its own identity in ML-KEM, just the mid-point of recovering w -- subtracted from v' next to produce the recovered message polynomial w.",
+  },
   w: {
     title: 'w (recovered polynomial)',
     body: 'Computed as w = v − sᵀu during decryption. Should equal μ plus a small error term, small enough that rounding recovers the original bit values correctly almost always.',

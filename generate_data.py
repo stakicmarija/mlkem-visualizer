@@ -281,6 +281,7 @@ decaps["u_decoded"] = vector_dict(u_dec, K)
 decaps["v_decoded"] = poly_dict(v_dec)
 
 u_hat_dec = u_dec.to_ntt()
+decaps["u_decoded_ntt"] = vector_dict(u_hat_dec, K)
 w = v_dec - (s_hat_dec.dot(u_hat_dec)).from_ntt()
 decaps["w"] = poly_dict(w)
 

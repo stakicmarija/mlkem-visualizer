@@ -5,6 +5,7 @@ import ExtractDataStep from '../steps/decaps/ExtractDataStep.jsx'
 import ExtractC1C2Step from '../steps/decaps/ExtractC1C2Step.jsx'
 import DecodeCiphertextStep from '../steps/decaps/DecodeCiphertextStep.jsx'
 import DecodeSecretKeyStep from '../steps/decaps/DecodeSecretKeyStep.jsx'
+import ComputeWStep from '../steps/decaps/ComputeWStep.jsx'
 import { decapsSteps } from '../data/steps.js'
 import { explanations } from '../data/explanations.js'
 import { toSpacedHex, truncateHex } from '../utils/hex.js'
@@ -139,6 +140,11 @@ function getStepContent(stepId) {
       return {
         formula: <>ŝ ← ByteDecode<sub>12</sub>(dk<sub>pke</sub>)</>,
         content: <DecodeSecretKeyStep />,
+      }
+    case 'compute-message-poly':
+      return {
+        formula: "w ← v' − NTT⁻¹(ŝᵀ ∘ NTT(u'))",
+        content: <ComputeWStep />,
       }
     default:
       return { formula: null, content: null }
