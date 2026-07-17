@@ -16,93 +16,105 @@ const sTuCoeffs = data.decaps.v_decoded.coeffs.map((c, j) =>
   ((c - data.decaps.w.coeffs[j]) % q + q) % q
 )
 
+const uPrimeNttCoeffsList = data.decaps.u_decoded_ntt.map(poly => poly.coeffs)
+
 // Not interactive yet -- every cell in this diagram is click-disabled for
 // now (popups come in a later pass).
 function ComputeWStep() {
   return (
     <div className="compute-w-step">
-      {/* u' isn't already in NTT form the way y was for ComputeVStep -- it
-          has to be transformed here first, unlike t̂ᵀy's ŷ which arrived
-          pre-NTT'd from TransformNttStep. ŝ has no transform to show here
-          (already NTT-form from KeyGen), so it renders as a static column
-          alongside u''s live transform -- same two-column layout as
-          TransformNttStep's s/e. This is the only place either û' or ŝ
-          appears in this step -- no separate copy lower down. */}
-      <div className="compute-w-step__columns">
+      <div className="compute-w-step__top">
+        {/* u' isn't already in NTT form the way y was for ComputeVStep -- it
+            has to be transformed here first, unlike t̂ᵀy's ŷ which arrived
+            pre-NTT'd from TransformNttStep. Standalone chain, separated from
+            the ŝ × û' merge group below -- squeezing all three (u', ŝ, and
+            the merge) into one row read too cramped, so û' repeats as its
+            own static block in that group instead, same color/strong tint
+            as it has right here so it's clearly the same value both places. */}
         <NttColumn
           symbol="u'"
           hatSymbol="û'"
           colorToken="ciphertext-u-prime"
           coeffsList={data.decaps.u_decoded.map(poly => poly.coeffs)}
-          nttCoeffsList={data.decaps.u_decoded_ntt.map(poly => poly.coeffs)}
+          nttCoeffsList={uPrimeNttCoeffsList}
           body={explanations.uPrime.body}
           clickable={false}
         />
-        <NttColumn
-          showTransform={false}
-          symbol="ŝ"
-          colorToken="secret-s"
-          coeffsList={data.keygen.s_ntt.map(poly => poly.coeffs)}
-          body={explanations.s.body}
-          clickable={false}
-        />
-      </div>
 
-      <div className="compute-w-step__diagram">
-        {/* Fan-in from û' (left column center, x=48) and ŝ (right column
-            center, x=182 -- 96 + 64-gap + 22) converging into the single
-            product path at x=115, matching compute-w-step__columns' 96
-            (NttColumn width, set by the NTT box) + 64 (gap) + 44 (bare
-            CompactVector) = 204 total width. */}
-        <svg
-          className="compute-w-step__svg"
-          viewBox="0 0 204 48"
-          width="204"
-          height="48"
-          style={{ overflow: 'visible' }}
-          aria-hidden="true"
-        >
-          <path d="M 48 0 V 19 Q 48 24 53 24 H 115" fill="none" stroke="var(--color-transform)" strokeWidth="3" />
-          <path d="M 182 0 V 19 Q 182 24 177 24 H 115" fill="none" stroke="var(--color-transform)" strokeWidth="3" />
-          <line x1="115" y1="24" x2="115" y2="48" stroke="var(--color-transform)" strokeWidth="3" />
-        </svg>
+        <div className="compute-w-step__merge-group">
+          <div className="compute-w-step__pair">
+            <NttColumn
+              showTransform={false}
+              symbol="û'"
+              colorToken="ciphertext-u-prime"
+              coeffsList={uPrimeNttCoeffsList}
+              body={explanations.uPrime.body}
+              strong
+              clickable={false}
+            />
+            <NttColumn
+              showTransform={false}
+              symbol="ŝ"
+              colorToken="secret-s"
+              coeffsList={data.keygen.s_ntt.map(poly => poly.coeffs)}
+              body={explanations.s.body}
+              clickable={false}
+            />
+          </div>
 
-        <span className="compute-w-step__op body-text">×</span>
+          {/* Fan-in from û' (left center, x=22) and ŝ (right center, x=130 --
+              108 + 22) converging at x=76, matching the pair's 44 (bare
+              CompactVector) + 64 (gap) + 44 = 152 total width. */}
+          <svg
+            className="compute-w-step__svg"
+            viewBox="0 0 152 48"
+            width="152"
+            height="48"
+            style={{ overflow: 'visible' }}
+            aria-hidden="true"
+          >
+            <path d="M 22 0 V 19 Q 22 24 27 24 H 76" fill="none" stroke="var(--color-transform)" strokeWidth="3" />
+            <path d="M 130 0 V 19 Q 130 24 125 24 H 76" fill="none" stroke="var(--color-transform)" strokeWidth="3" />
+            <line x1="76" y1="24" x2="76" y2="48" stroke="var(--color-transform)" strokeWidth="3" />
+          </svg>
 
-        <div className="compute-w-step__vline" />
+          <span className="compute-w-step__op body-text">×</span>
 
-        <TransformBox name="NTT⁻¹" explanationKey="NTT_inverse" />
+          <div className="compute-w-step__vline" />
 
-        <div className="compute-w-step__vline" />
+          <TransformBox name="NTT⁻¹" explanationKey="NTT_inverse" />
 
-        <div className="compute-w-step__equation">
-          <CompactSingleField
-            symbol="v'"
-            colorToken="ciphertext-v"
-            coeffs={data.decaps.v_decoded.coeffs}
-            body={explanations.vPrime.body}
-            clickable={false}
-          />
+          <div className="compute-w-step__vline" />
 
-          <span className="compute-w-step__op body-text">−</span>
+          <div className="compute-w-step__equation">
+            <CompactSingleField
+              symbol="v'"
+              colorToken="ciphertext-v"
+              coeffs={data.decaps.v_decoded.coeffs}
+              body={explanations.vPrime.body}
+              clickable={false}
+            />
 
-          <CompactSingleField
-            symbol="ŝᵀu'"
-            colorToken="inactive"
-            coeffs={sTuCoeffs}
-            body={explanations.sTuPrime.body}
-            clickable={false}
-          />
+            <span className="compute-w-step__op body-text">−</span>
 
-          <span className="compute-w-step__op body-text">=</span>
+            <CompactSingleField
+              symbol="ŝᵀu'"
+              colorToken="inactive"
+              coeffs={sTuCoeffs}
+              body={explanations.sTuPrime.body}
+              clickable={false}
+            />
 
-          <CompactSingleField
-            symbol="w"
-            colorToken="recovered-w"
-            coeffs={data.decaps.w.coeffs}
-            body={explanations.w.body}
-            clickable={false}
-          />
+            <span className="compute-w-step__op body-text">=</span>
+
+            <CompactSingleField
+              symbol="w"
+              colorToken="recovered-w"
+              coeffs={data.decaps.w.coeffs}
+              body={explanations.w.body}
+              clickable={false}
+            />
+          </div>
         </div>
       </div>
     </div>

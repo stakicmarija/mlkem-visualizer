@@ -2,22 +2,26 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
 }
 
-/* Same two-column pattern as TransformNttStep's s/e -- flex-end so the
-   static ŝ column (one block, no NTT chain) lines up with u''s NTT-form
-   output rather than its top. */
-.compute-w-step__columns {
+/* Two separated groups, top-aligned (matching the Figma layout) -- u''s
+   standalone NTT chain on the left, and the ŝ × û' merge group well to its
+   right rather than packed into one continuous row. */
+.compute-w-step__top {
   display: flex;
-  align-items: flex-end;
-  gap: 64px;
+  align-items: flex-start;
+  gap: 170px;
 }
 
-.compute-w-step__diagram {
+.compute-w-step__merge-group {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.compute-w-step__pair {
+  display: flex;
+  gap: 64px;
 }
 
 .compute-w-step__svg {
