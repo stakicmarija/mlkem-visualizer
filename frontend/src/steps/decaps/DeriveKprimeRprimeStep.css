@@ -1,0 +1,28 @@
+.derive-kprime-rprime {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Row holds two nodes, centers at x=60 and x=180 within the 240px SVG width */
+.derive-kprime-rprime__row {
+  width: 240px;
+  display: flex;
+  justify-content: center;
+  gap: 73px;
+}
+
+.derive-kprime-rprime__svg {
+  display: block;
+}
+
+.derive-kprime-rprime__vline {
+  width: 3px;
+  height: 20px;
+  background: var(--color-transform);
+}
+
+.derive-kprime-rprime .transform-box {
+  width: 120px;
+  min-height: 72px;
+}

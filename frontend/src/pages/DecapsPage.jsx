@@ -7,6 +7,7 @@ import DecodeCiphertextStep from '../steps/decaps/DecodeCiphertextStep.jsx'
 import DecodeSecretKeyStep from '../steps/decaps/DecodeSecretKeyStep.jsx'
 import ComputeWStep from '../steps/decaps/ComputeWStep.jsx'
 import RecoverPlaintextStep from '../steps/decaps/RecoverPlaintextStep.jsx'
+import DeriveKprimeRprimeStep from '../steps/decaps/DeriveKprimeRprimeStep.jsx'
 import { decapsSteps } from '../data/steps.js'
 import { explanations } from '../data/explanations.js'
 import { toSpacedHex, truncateHex } from '../utils/hex.js'
@@ -17,8 +18,9 @@ const navSteps = decapsSteps.filter(s => !s.isGroupLabel)
 
 // Mirrors KeyGenPage/EncapsPage's TRANSITION_IDS: steps that only delegate,
 // with no content of their own -- 'decrypt-ciphertext' fans straight into
-// K-PKE the same way Encaps' 'encrypt-m' does.
-const TRANSITION_IDS = new Set(['run-internal', 'decrypt-ciphertext'])
+// K-PKE the same way Encaps' 'encrypt-m' does. 'return-plaintext' likewise
+// just hands m back up to the outer algorithm, no content of its own.
+const TRANSITION_IDS = new Set(['run-internal', 'decrypt-ciphertext', 'return-plaintext'])
 
 const { k, q, n, eta1, eta2, du, dv } = data.params
 
@@ -151,6 +153,11 @@ function getStepContent(stepId) {
       return {
         formula: 'm ← ByteEncode₁(Compress₁(w))',
         content: <RecoverPlaintextStep />,
+      }
+    case 'derive-kprime-rprime':
+      return {
+        formula: "(K', r') ← G(m'‖h)",
+        content: <DeriveKprimeRprimeStep />,
       }
     default:
       return { formula: null, content: null }
