@@ -11,7 +11,7 @@ import './SampleVectorStep.css'
 const SUB = ['₀', '₁', '₂']
 const W = 240  // matches DeriveRhoSigmaStep row width; node centers at x=60 and x=180
 
-function SampleVectorStep({ label, colorToken, explanationKey, vectors, prfRawHexes, seedLabel = 'σ' }) {
+function SampleVectorStep({ label, colorToken, explanationKey, vectors, prfRawHexes, seedLabel = 'σ', hasSeenCbdAnimation = false, onOpenCbdAnimation }) {
   const popup = useCellPopup(vectors.length)
   const explanation = explanations[explanationKey]
 
@@ -78,7 +78,14 @@ function SampleVectorStep({ label, colorToken, explanationKey, vectors, prfRawHe
 
       <div className="sample-vector-step__vline" />
 
-      <TransformBox name="SamplePolyCBD" explanationKey="SamplePolyCBD" popupChildren={cbdPopup} />
+      <TransformBox
+        name="SamplePolyCBD"
+        explanationKey="SamplePolyCBD"
+        popupChildren={cbdPopup}
+        hasAnimation
+        seen={hasSeenCbdAnimation}
+        onOpen={onOpenCbdAnimation}
+      />
 
       <div className="sample-vector-step__vline" />
 

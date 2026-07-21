@@ -3,6 +3,7 @@ import Node from '../../components/shared/diagram-boxes/Node.jsx'
 import MatrixCell from '../../components/shared/matrix/MatrixCell.jsx'
 import RhoIJColumn from '../../components/shared/diagram-boxes/RhoIJColumn.jsx'
 import TransformBox from '../../components/shared/diagram-boxes/TransformBox.jsx'
+import AnimationReplayButton from '../../components/shared/diagram-boxes/AnimationReplayButton.jsx'
 import Popup from '../../components/shared/popup/Popup.jsx'
 import { explanations } from '../../data/explanations.js'
 import { formatPolynomialPreview } from '../../utils/polynomial.js'
@@ -227,10 +228,7 @@ function ExpandMatrixAStep() {
       </div>
 
       {doneKeys.size === CELLS.length && (
-        <button className="expand-matrix-a__replay-btn" onClick={handleReplay}>
-          <span className="expand-matrix-a__replay-icon" aria-hidden="true">↻</span>
-          <span className="micro-label">Replay</span>
-        </button>
+        <AnimationReplayButton onClick={handleReplay} />
       )}
 
       {cell && (

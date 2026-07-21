@@ -1,7 +1,7 @@
 import SampleVectorStep from '../../components/shared/step-content/SampleVectorStep.jsx'
 import data from '../../data/mlkem_768_data.json'
 
-function GenerateErrorVectorStep() {
+function GenerateErrorVectorStep({ hasSeenCbdAnimation, onOpenCbdAnimation }) {
   return (
     <SampleVectorStep
       label="e"
@@ -9,6 +9,8 @@ function GenerateErrorVectorStep() {
       explanationKey="e"
       vectors={data.keygen.e}
       prfRawHexes={data.keygen.e_prf_raw}
+      hasSeenCbdAnimation={hasSeenCbdAnimation}
+      onOpenCbdAnimation={onOpenCbdAnimation}
     />
   )
 }

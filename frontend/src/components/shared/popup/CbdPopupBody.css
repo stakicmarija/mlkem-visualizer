@@ -29,6 +29,13 @@
   color: var(--color-text-secondary);
 }
 
+/* Bits outside the currently-narrated 4-bit group */
+.cbd-popup-body__bit-dim {
+  display: inline-flex;
+  opacity: 0.35;
+  transition: opacity 0.3s ease;
+}
+
 /* ── x / y bit groups + sums (tightly coupled) ─────────────────────────────── */
 
 .cbd-popup-body__xy-section {
@@ -40,7 +47,7 @@
 
 .cbd-popup-body__groups {
   display: flex;
-  gap: 64px;
+  gap: 48px;
   align-items: flex-start;
 }
 
@@ -49,7 +56,7 @@
   flex-direction: column;
   align-items: center;
   gap: 4px;
-  width: 52px;
+  width: 60px;
 }
 
 .cbd-popup-body__group-label {
@@ -58,28 +65,69 @@
 
 .cbd-popup-body__group-bits {
   display: flex;
-  gap: 4px;
+  align-items: center;
+  gap: 2px;
+}
+
+/* Addition, not binary place value -- kept quiet so the bit chips stay
+   the visual focus. */
+.cbd-popup-body__bit-plus {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--color-text-secondary);
 }
 
 /* Sums row mirrors the groups layout so values sit under their bit groups */
 .cbd-popup-body__sums {
   display: flex;
-  gap: 64px;
+  gap: 48px;
 }
 
 .cbd-popup-body__sums span {
-  width: 52px;
+  width: 60px;
   text-align: center;
 }
 
+/* Bit values "merging" into the summed number -- pops in with a slight
+   overshoot, colored to match the bit group it came from. Stays on screen
+   (holding the previous coefficient's values) until the next merge
+   replaces it -- see CbdPopupBody.jsx's revealCoeff. */
+@keyframes cbd-sum-pop {
+  from { opacity: 0; transform: scale(0.6); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.cbd-popup-body__sum {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  animation: cbd-sum-pop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.cbd-popup-body__sum--x { color: var(--color-cbd-x-bits); }
+.cbd-popup-body__sum--y { color: var(--color-cbd-y-bits); }
+
+@keyframes cbd-result-pop {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Always mounted (so the algebra form is on screen from the start, before
+   any coefficient has been computed) -- only the inner span replaces
+   itself and replays the pop-in as resultCoeff advances. */
 .cbd-popup-body__result {
   font-family: var(--font-mono);
   font-size: 14px;
   font-weight: 700;
   line-height: 1.4;
-  color: var(--color-text);
   margin: 0;
   text-align: center;
+}
+
+.cbd-popup-body__result-pop {
+  display: inline-block;
+  color: var(--color-text);
+  animation: cbd-result-pop 0.35s ease;
 }
 
 /* ── Coefficient chip row ──────────────────────────────────────────────────── */
@@ -103,4 +151,13 @@
 
 .cbd-chip .micro-label {
   color: var(--color-text);
+}
+
+@keyframes cbd-chip-pop {
+  from { opacity: 0; transform: scale(0.5); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.cbd-chip__value {
+  animation: cbd-chip-pop 0.3s ease;
 }

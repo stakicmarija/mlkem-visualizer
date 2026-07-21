@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import AlgorithmPage from '../components/layout/AlgorithmPage.jsx'
 import GenerateMStep from '../steps/encaps/GenerateMStep.jsx'
@@ -112,7 +113,12 @@ function getGeneratedValues(stepId) {
   return BASE_GENERATED_VALUES.map((item, i) => ({ ...item, state: i < count ? 'done' : 'pending' }))
 }
 
-function getStepContent(stepId) {
+// seenAnimations/markAnimationSeen: lifted above the per-step remount
+// boundary (see ExpandMatrixAStep's replay-button comments for why steps
+// remount on every navigation) so a SamplePolyCBD box's "already opened"
+// state survives Prev/Next between steps within this page. Step ids are
+// already unique within a page, so they double as the seen-state keys.
+function getStepContent(stepId, seenAnimations, markAnimationSeen) {
   switch (stepId) {
     case 'generate-m':
       return {
@@ -142,12 +148,22 @@ function getStepContent(stepId) {
     case 'generate-ephemeral-y':
       return {
         formula: 'for (i ← 0; i < k; i++)\n   y[i] ← SamplePolyCBDη₁(PRFη₁(r, N))\n   N ← N + 1',
-        content: <GenerateEphemeralYStep />,
+        content: (
+          <GenerateEphemeralYStep
+            hasSeenCbdAnimation={seenAnimations.has(stepId)}
+            onOpenCbdAnimation={() => markAnimationSeen(stepId)}
+          />
+        ),
       }
     case 'generate-error-vectors':
       return {
         formula: 'for (i ← 0; i < k; i++)\n   e1[i] ← SamplePolyCBDη₂(PRFη₂(r, N))\n   N ← N + 1\ne2 ← SamplePolyCBDη₂(PRFη₂(r, N))',
-        content: <GenerateErrorVectorsStep />,
+        content: (
+          <GenerateErrorVectorsStep
+            hasSeenCbdAnimation={seenAnimations.has(stepId)}
+            onOpenCbdAnimation={() => markAnimationSeen(stepId)}
+          />
+        ),
       }
     case 'transform-ntt':
       return {
@@ -202,9 +218,12 @@ function EncapsPage() {
   const navigate = useNavigate()
   const { currentStepIndex, treeIndex, goNext, goPrev, isAnimating } =
     useStepNavigation(navSteps, TRANSITION_IDS)
+  const [seenAnimations, setSeenAnimations] = useState(() => new Set())
+  const markAnimationSeen = id =>
+    setSeenAnimations(prev => (prev.has(id) ? prev : new Set(prev).add(id)))
 
   const currentStep = navSteps[currentStepIndex]
-  const { formula, content } = getStepContent(currentStep.id)
+  const { formula, content } = getStepContent(currentStep.id, seenAnimations, markAnimationSeen)
   const parameters = getParameters(currentStep.id)
   const generatedValues = getGeneratedValues(currentStep.id)
 

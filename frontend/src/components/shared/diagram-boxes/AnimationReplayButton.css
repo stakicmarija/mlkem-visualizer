@@ -1,0 +1,22 @@
+.animation-replay-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 4px;
+  background: none;
+  border: none;
+  padding: 4px 8px;
+  cursor: pointer;
+  color: var(--color-text-secondary);
+  font-family: var(--font-mono);
+}
+
+.animation-replay-btn:hover {
+  color: var(--color-text);
+}
+
+.animation-replay-btn__icon {
+  width: 13px;
+  height: 13px;
+  flex-shrink: 0;
+}

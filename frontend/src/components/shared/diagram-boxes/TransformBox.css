@@ -9,10 +9,23 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  transition: box-shadow 0.3s ease;
 }
 
 .transform-box:hover {
   background: var(--color-transform-hover);
+}
+
+/* Constant (non-pulsing) glow shown until a hasAnimation box is opened
+   for the first time -- see TransformBox.jsx's `showIdleGlow`. */
+.transform-box--idle-glow {
+  box-shadow: 0 0 8px 1px var(--color-accent-glow);
+}
+
+.transform-box__name-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
 }
 
 .transform-box__name {
@@ -30,4 +43,18 @@
   font-weight: 400;
   line-height: 1.4;
   color: var(--color-text-secondary);
+}
+
+/* Nudge left by half the play icon + gap, so it centers under the name
+   text alone instead of under the wider name+icon row. */
+.transform-box__hint {
+  margin-left: -12px;
+}
+
+/* Marks a box whose popup contains an animation, not just static text --
+   sits right after the name, same convention as Button's icon-after-text. */
+.transform-box__play-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
 }

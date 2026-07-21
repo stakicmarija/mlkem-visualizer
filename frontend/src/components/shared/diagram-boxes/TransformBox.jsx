@@ -10,6 +10,17 @@ const PULSE_GLOW = [
   '0 0 0px 0px var(--color-accent-glow)',
 ]
 
+// SVG (not a text glyph) so it centers on the name text by its own fixed
+// box, same convention as Button.jsx's icons -- a glyph's font metrics
+// don't reliably line up with the sibling text's line box.
+function PlayIcon() {
+  return (
+    <svg className="transform-box__play-icon" viewBox="0 0 24 24" aria-hidden="true">
+      <path fill="var(--color-button-text)" d="M8 5v14l11-7z" />
+    </svg>
+  )
+}
+
 // pulseKey: bump it to replay a brief glow pulse (used to mark "this
 // transform just ran" during a step's intro animation). Remounting the
 // button on each bump is what makes the keyframe sequence replay.
@@ -24,9 +35,26 @@ const PULSE_GLOW = [
 // completely fresh run -- e.g. a step's "replay" button -- so the
 // glow-mode latch from a previous run doesn't swallow the new run's
 // discrete slow-phase pulses.
-function TransformBox({ name, subtitle, explanationKey, popupChildren, pulseKey = 0, pulseDuration = 0.6, glowing = false, resetKey = 0 }) {
+// hasAnimation: marks this box's popup as containing an animation rather
+// than static text -- shows a small play-icon badge (permanent, a general
+// "this one's interactive" convention) and, while `seen` is false, a
+// constant (non-pulsing) glow inviting the first click. `seen`/`onOpen`
+// are the caller's own "has this specific box been opened before" state:
+// it must live above the step's own remount boundary (steps remount on
+// every navigation), so TransformBox only reads/reports it, never owns it.
+function TransformBox({
+  name, subtitle, explanationKey, popupChildren,
+  pulseKey = 0, pulseDuration = 0.6, glowing = false, resetKey = 0,
+  hasAnimation = false, seen = false, onOpen,
+}) {
   const [open, setOpen] = useState(false)
   const explanation = explanations[explanationKey]
+  const showIdleGlow = hasAnimation && !seen && !open
+
+  function handleClick() {
+    setOpen(true)
+    onOpen?.()
+  }
 
   // Latch "has glowing turned on this run" during render (React's
   // documented adjust-state-from-props pattern) so the eventual glowing ->
@@ -50,8 +78,8 @@ function TransformBox({ name, subtitle, explanationKey, popupChildren, pulseKey 
     <>
       <motion.button
         key={inGlowMode ? 'glow' : pulseKey}
-        className="transform-box"
-        onClick={() => setOpen(true)}
+        className={`transform-box${showIdleGlow ? ' transform-box--idle-glow' : ''}`}
+        onClick={handleClick}
         initial={
           inGlowMode || pulseKey > 0
             ? { boxShadow: PULSE_GLOW[0], scale: 1 }
@@ -66,9 +94,15 @@ function TransformBox({ name, subtitle, explanationKey, popupChildren, pulseKey 
         }
         transition={{ duration: inGlowMode ? 0.25 : pulseDuration, ease: 'easeInOut' }}
       >
-        <span className="transform-box__name">{name}</span>
+        <span className="transform-box__name-row">
+          <span className="transform-box__name">{name}</span>
+          {hasAnimation && <PlayIcon />}
+        </span>
         {subtitle && (
           <span className="transform-box__subtitle">{subtitle}</span>
+        )}
+        {hasAnimation && !seen && !open && (
+          <span className="transform-box__subtitle transform-box__hint">click to animate</span>
         )}
       </motion.button>
 

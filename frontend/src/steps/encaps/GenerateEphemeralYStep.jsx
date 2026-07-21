@@ -1,7 +1,7 @@
 import SampleVectorStep from '../../components/shared/step-content/SampleVectorStep.jsx'
 import data from '../../data/mlkem_768_data.json'
 
-function GenerateEphemeralYStep() {
+function GenerateEphemeralYStep({ hasSeenCbdAnimation, onOpenCbdAnimation }) {
   return (
     <SampleVectorStep
       label="y"
@@ -10,6 +10,8 @@ function GenerateEphemeralYStep() {
       seedLabel="r"
       vectors={data.encaps.y}
       prfRawHexes={data.encaps.y_prf_raw}
+      hasSeenCbdAnimation={hasSeenCbdAnimation}
+      onOpenCbdAnimation={onOpenCbdAnimation}
     />
   )
 }

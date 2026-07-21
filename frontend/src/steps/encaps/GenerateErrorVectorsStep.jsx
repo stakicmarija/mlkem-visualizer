@@ -18,7 +18,7 @@ const SUB = ['₀', '₁', '₂']
 // polynomial rather than a vector position -- drawn as a branch peeling off
 // to the side rather than continuing the main column, and with no loop-back
 // of its own since the formula never increments N again after it.
-function GenerateErrorVectorsStep() {
+function GenerateErrorVectorsStep({ hasSeenCbdAnimation = false, onOpenCbdAnimation }) {
   const e1Popup = useCellPopup(data.encaps.e1.length)
   const [e2Open, setE2Open] = useState(false)
 
@@ -92,7 +92,14 @@ function GenerateErrorVectorsStep() {
 
       <div className="generate-error-vectors-step__vline" />
 
-      <TransformBox name="SamplePolyCBD" explanationKey="SamplePolyCBD" popupChildren={cbdPopup} />
+      <TransformBox
+        name="SamplePolyCBD"
+        explanationKey="SamplePolyCBD"
+        popupChildren={cbdPopup}
+        hasAnimation
+        seen={hasSeenCbdAnimation}
+        onOpen={onOpenCbdAnimation}
+      />
 
       {/* Angled connector: SamplePolyCBD's center down into the e1/N=N+1
           sub-column -- mirror image of the branch to e2 below, so both

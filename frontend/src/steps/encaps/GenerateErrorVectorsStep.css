@@ -21,7 +21,7 @@
 }
 
 .generate-error-vectors-step .transform-box {
-  width: 120px;
+  min-width: 120px;
   min-height: 72px;
 }
 

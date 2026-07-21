@@ -1,7 +1,7 @@
 import SampleVectorStep from '../../components/shared/step-content/SampleVectorStep.jsx'
 import data from '../../data/mlkem_768_data.json'
 
-function GenerateSecretVectorStep() {
+function GenerateSecretVectorStep({ hasSeenCbdAnimation, onOpenCbdAnimation }) {
   return (
     <SampleVectorStep
       label="s"
@@ -9,6 +9,8 @@ function GenerateSecretVectorStep() {
       explanationKey="s"
       vectors={data.keygen.s}
       prfRawHexes={data.keygen.s_prf_raw}
+      hasSeenCbdAnimation={hasSeenCbdAnimation}
+      onOpenCbdAnimation={onOpenCbdAnimation}
     />
   )
 }

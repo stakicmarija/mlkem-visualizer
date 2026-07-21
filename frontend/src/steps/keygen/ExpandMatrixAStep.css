@@ -70,29 +70,6 @@
   transition: width 0.12s ease;
 }
 
-/* Shown only once all 9 cells are filled */
-.expand-matrix-a__replay-btn {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  margin-top: 4px;
-  background: none;
-  border: none;
-  padding: 4px 8px;
-  cursor: pointer;
-  color: var(--color-text-secondary);
-  font-family: var(--font-mono);
-}
-
-.expand-matrix-a__replay-btn:hover {
-  color: var(--color-text);
-}
-
-.expand-matrix-a__replay-icon {
-  font-size: 13px;
-  line-height: 1;
-}
-
 /* Matrix grid */
 .matrix-a-grid {
   display: flex;
