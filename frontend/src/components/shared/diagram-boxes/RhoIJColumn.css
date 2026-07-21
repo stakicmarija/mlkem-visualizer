@@ -2,10 +2,14 @@
   display: flex;
   flex-direction: column;
   gap: 2px;
+  padding: 6px 0;
   background: var(--color-surface);
   border: 1px solid var(--color-transform);
   border-radius: 8px;
-  overflow: hidden;
+  /* visible, not hidden: the active box's glow needs to bleed past the
+     card edge without being clipped -- column width is grid-locked to
+     fit ρ‖j‖i at 0 horizontal padding, so there's no room to inset it. */
+  overflow: visible;
 }
 
 .rho-ij-column__item {

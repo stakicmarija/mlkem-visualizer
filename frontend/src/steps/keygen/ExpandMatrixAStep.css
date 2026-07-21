@@ -9,6 +9,18 @@
   display: block;
 }
 
+.expand-matrix-a__fanin-path {
+  fill: none;
+  stroke: var(--color-transform);
+  stroke-width: 3;
+  transition: stroke 0.3s ease, stroke-width 0.3s ease;
+}
+
+.expand-matrix-a__fanin-path--active {
+  stroke: var(--color-accent-glow);
+  stroke-width: 5;
+}
+
 /* Three RhoIJColumns in a fixed-width grid so SVG column centers align exactly */
 .expand-matrix-a__columns {
   display: grid;
@@ -21,16 +33,64 @@
   width: 3px;
   height: 8px;
   background: var(--color-transform);
+  transition: background 0.3s ease, width 0.3s ease;
 }
 
-.expand-matrix-a__caption {
-  text-align: center;
-  margin-top: 8px;
+.expand-matrix-a__vline--active {
+  width: 5px;
+  background: var(--color-accent-glow);
 }
 
 .expand-matrix-a .transform-box {
   width: 120px;
   min-height: 72px;
+}
+
+/* Cell-fill progress marker, visible for the whole step */
+.expand-matrix-a__progress {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin: 6px 0;
+  color: var(--color-text-secondary);
+}
+
+.expand-matrix-a__progress-bar {
+  width: 140px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--color-border);
+  overflow: hidden;
+}
+
+.expand-matrix-a__progress-fill {
+  height: 100%;
+  background: var(--color-matrix-a);
+  transition: width 0.12s ease;
+}
+
+/* Shown only once all 9 cells are filled */
+.expand-matrix-a__replay-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 4px;
+  background: none;
+  border: none;
+  padding: 4px 8px;
+  cursor: pointer;
+  color: var(--color-text-secondary);
+  font-family: var(--font-mono);
+}
+
+.expand-matrix-a__replay-btn:hover {
+  color: var(--color-text);
+}
+
+.expand-matrix-a__replay-icon {
+  font-size: 13px;
+  line-height: 1;
 }
 
 /* Matrix grid */
@@ -43,6 +103,11 @@
 .matrix-a-grid__row {
   display: flex;
   gap: 4px;
+}
+
+/* Fast/final batch: cells fade in quicker than the slow, narrated phase */
+.matrix-a-grid--fast .matrix-cell {
+  transition-duration: 0.12s;
 }
 
 /* Only the four outer corners of the 3×3 grid are rounded */
