@@ -13,8 +13,8 @@ function bytes(hex) {
 // dk splits into four byte-range slices -- already computed in the data
 // file (data.decaps.*), not sliced from data.keygen.dk client-side.
 const ITEMS = [
-  { key: 'dkPKE', label: <>dk<sub>pke</sub></>, range: '[0 : 384k]B', hex: data.decaps.dk_pke, explanation: explanations.dkPKE },
-  { key: 'ekPKE', label: <>ek<sub>pke</sub></>, range: '[384k : 768k + 32]B', hex: data.decaps.ek_pke, explanation: explanations.ekPKE },
+  { key: 'dkPKE', label: <>dk<sub>pke</sub></>, title: <>dk<sub>pke</sub> (private key material)</>, range: '[0 : 384k]B', hex: data.decaps.dk_pke, explanation: explanations.dkPKE },
+  { key: 'ekPKE', label: <>ek<sub>pke</sub></>, title: <>ek<sub>pke</sub> (public key material)</>, range: '[384k : 768k + 32]B', hex: data.decaps.ek_pke, explanation: explanations.ekPKE },
   { key: 'h', label: 'h', range: '[768k + 32 : 768k + 64]B', hex: data.decaps.h, explanation: explanations.h },
   { key: 'z', label: 'z', range: '[768k + 64 : 768k + 96]B', hex: data.decaps.z, explanation: explanations.z },
 ]
@@ -34,6 +34,7 @@ function branchPath(dropX, laneX) {
 // assumed from fixed pixel lanes -- see branchPath().
 function ExtractDataStep() {
   const [openKey, setOpenKey] = useState(null)
+  const [dkOpen, setDkOpen] = useState(false)
   const rowRef = useRef(null)
   const laneRefs = useRef([])
   const [geometry, setGeometry] = useState(null)
@@ -51,7 +52,7 @@ function ExtractDataStep() {
 
   return (
     <div className="extract-data-step">
-      <Node label="dk" microLabel="(768k + 96)B" />
+      <Node label="dk" microLabel="(768k + 96)B" onClick={() => setDkOpen(true)} />
 
       <svg
         className="extract-data-step__svg"
@@ -89,7 +90,7 @@ function ExtractDataStep() {
 
       {active && (
         <Popup
-          title={active.explanation.title}
+          title={active.title ?? active.explanation.title}
           body={active.explanation.body}
           value={bytes(active.hex) > 64 ? truncateHex(active.hex) : toSpacedHex(active.hex)}
           valueLabel={`${bytes(active.hex)} bytes`}
@@ -97,6 +98,15 @@ function ExtractDataStep() {
           onClose={() => setOpenKey(null)}
         />
       )}
+
+      <Popup
+        title={explanations.dk.title}
+        body={explanations.dk.body}
+        value={truncateHex(data.keygen.dk)}
+        fullValue={toSpacedHex(data.keygen.dk)}
+        isOpen={dkOpen}
+        onClose={() => setDkOpen(false)}
+      />
     </div>
   )
 }

@@ -49,6 +49,10 @@ export const explanations = {
     title: 'PRF (pseudorandom function)',
     body: 'A pseudorandom function based on SHAKE256. It takes a 32-byte seed and a 1-byte counter N, and stretches them into 64·η bytes of pseudorandom output. These bytes feed into SamplePolyCBD to sample one small polynomial. The counter N changes on each call, so the same seed produces a different polynomial each time.',
   },
+  N: {
+    title: 'N (counter)',
+    body: 'A counter that increments with each call to PRF. Combined with the same seed, it ensures every sampled polynomial is different.',
+  },
   SampleNTT: {
     title: 'SampleNTT',
     body: 'A function based on an extendable-output function (XOF/SHAKE128). For each pair of indices (i, j), it takes ρ‖j‖i and deterministically generates one polynomial A[i][j] with 256 coefficients, each reduced mod q = 3329, directly in the NTT domain. Deterministic, the same ρ always yields the same matrix A.',
@@ -112,11 +116,11 @@ export const explanations = {
     body: "Alice's public key: t = A·s + e. Combines the public matrix A, the secret s, and the small noise e. Because e hides s, recovering s from t is the Learning With Errors (LWE) problem, believed to be hard even for quantum computers, and the basis of ML-KEM's security.",
   },
   ekPke: {
-    title: 'ek_pke (K-PKE encapsulation key)',
+    title: 'ekpke (K-PKE encapsulation key)',
     body: 'The byte encoding of t and ρ: ByteEncode₁₂(t)‖ρ. This is the underlying public-key material produced by K-PKE. The final ek is set directly equal to this value, with nothing added.',
   },
   dkPke: {
-    title: 'dk_pke (K-PKE decapsulation key)',
+    title: 'dkpke (K-PKE decapsulation key)',
     body: 'The byte encoding of s: ByteEncode₁₂(s). This is the underlying private-key material produced by K-PKE. The final dk wraps this together with a copy of ek, a hash of ek, and the seed z, built in the next step.',
   },
   ek: {

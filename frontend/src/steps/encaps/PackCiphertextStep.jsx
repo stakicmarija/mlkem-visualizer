@@ -12,15 +12,17 @@ import './PackCiphertextStep.css'
 // the inputs and the concat here, unlike m/ek's H(ek) branch).
 function PackCiphertextStep() {
   const [cOpen, setCOpen] = useState(false)
+  const [c1Open, setC1Open] = useState(false)
+  const [c2Open, setC2Open] = useState(false)
 
   return (
     <div className="pack-ciphertext-step">
       <div className="pack-ciphertext-step__row">
         <div className="pack-ciphertext-step__lane">
-          <Node label="c1" />
+          <Node label="c1" onClick={() => setC1Open(true)} />
         </div>
         <div className="pack-ciphertext-step__lane">
-          <Node label="c2" />
+          <Node label="c2" onClick={() => setC2Open(true)} />
         </div>
       </div>
 
@@ -58,6 +60,22 @@ function PackCiphertextStep() {
         value={truncateHex(data.encaps.c)}
         isOpen={cOpen}
         onClose={() => setCOpen(false)}
+      />
+
+      <Popup
+        title="c1"
+        body={explanations.c1.body}
+        value={truncateHex(data.encaps.c1)}
+        isOpen={c1Open}
+        onClose={() => setC1Open(false)}
+      />
+
+      <Popup
+        title="c2"
+        body={explanations.c2.body}
+        value={truncateHex(data.encaps.c2)}
+        isOpen={c2Open}
+        onClose={() => setC2Open(false)}
       />
     </div>
   )

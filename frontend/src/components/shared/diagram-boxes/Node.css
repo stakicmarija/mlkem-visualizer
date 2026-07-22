@@ -6,6 +6,7 @@
   padding: 10px 16px;
   border-radius: 8px;
   border: 3px solid var(--color-transform);
+  transition: background 0.2s ease;
 }
 
 button.node {
@@ -20,6 +21,16 @@ button.node {
 
 .node--leaf {
   background: var(--color-matrix-a-tint);
+}
+
+/* Only buttons (onClick supplied) get a hover treatment -- plain divs
+   (transient seed/index labels) stay inert with no cursor/hover change. */
+button.node--default:hover {
+  background: var(--color-surface);
+}
+
+button.node--leaf:hover {
+  background: var(--color-matrix-a-tint-strong);
 }
 
 .node__micro {

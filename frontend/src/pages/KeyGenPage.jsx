@@ -76,19 +76,33 @@ const BASE_GENERATED_VALUES = [
   {
     symbol: 'ekPke',
     display: <>ek<sub>pke</sub></>,
-    title: explanations.ekPke.title,
+    title: <>ek<sub>pke</sub> (K-PKE encapsulation key)</>,
     body: explanations.ekPke.body,
     value: truncateHex(data.keygen.ek_pke),
+    fullValue: toSpacedHex(data.keygen.ek_pke),
   },
   {
     symbol: 'dkPke',
     display: <>dk<sub>pke</sub></>,
-    title: explanations.dkPke.title,
+    title: <>dk<sub>pke</sub> (K-PKE decapsulation key)</>,
     body: explanations.dkPke.body,
     value: truncateHex(data.keygen.dk_pke),
+    fullValue: toSpacedHex(data.keygen.dk_pke),
   },
-  { symbol: 'ek', title: explanations.ek.title, body: explanations.ek.body, value: truncateHex(data.keygen.ek) },
-  { symbol: 'dk', title: explanations.dk.title, body: explanations.dk.body, value: truncateHex(data.keygen.dk) },
+  {
+    symbol: 'ek',
+    title: explanations.ek.title,
+    body: explanations.ek.body,
+    value: truncateHex(data.keygen.ek),
+    fullValue: toSpacedHex(data.keygen.ek),
+  },
+  {
+    symbol: 'dk',
+    title: explanations.dk.title,
+    body: explanations.dk.body,
+    value: truncateHex(data.keygen.dk),
+    fullValue: toSpacedHex(data.keygen.dk),
+  },
 ]
 
 // Order steps occur in, so a symbol's "done" threshold can be compared by

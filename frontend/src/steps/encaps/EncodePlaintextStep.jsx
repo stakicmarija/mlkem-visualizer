@@ -5,6 +5,7 @@ import DataChip from '../../components/shared/diagram-boxes/DataChip.jsx'
 import ModQRing from '../../components/shared/mod-q-ring/ModQRing.jsx'
 import Popup from '../../components/shared/popup/Popup.jsx'
 import { explanations } from '../../data/explanations.js'
+import { toSpacedHex } from '../../utils/hex.js'
 import { formatPolynomialPreview } from '../../utils/polynomial.js'
 import data from '../../data/mlkem_768_data.json'
 import './EncodePlaintextStep.css'
@@ -31,10 +32,11 @@ const previewValues = data.encaps.mu.coeffs.slice(0, BIT_PREVIEW_COUNT)
 
 function EncodePlaintextStep() {
   const [muOpen, setMuOpen] = useState(false)
+  const [mOpen, setMOpen] = useState(false)
 
   return (
     <div className="encode-plaintext-step">
-      <Node label="m" microLabel="BYTES" className="encode-plaintext-step__node--sm" />
+      <Node label="m" microLabel="BYTES" className="encode-plaintext-step__node--sm" onClick={() => setMOpen(true)} />
 
       <div className="encode-plaintext-step__vline" />
 
@@ -42,7 +44,7 @@ function EncodePlaintextStep() {
 
       <div className="encode-plaintext-step__vline" />
 
-      <Node label="m" microLabel="bits" className="encode-plaintext-step__node--sm" />
+      <Node label="m" microLabel="bits" className="encode-plaintext-step__node--sm" onClick={() => setMOpen(true)} />
 
       <div className="encode-plaintext-step__vline" />
 
@@ -106,6 +108,14 @@ function EncodePlaintextStep() {
         fullCoefficients={data.encaps.mu.coeffs}
         isOpen={muOpen}
         onClose={() => setMuOpen(false)}
+      />
+
+      <Popup
+        title="m (32B seed)"
+        body={explanations.m.body}
+        value={toSpacedHex(data.inputs.m)}
+        isOpen={mOpen}
+        onClose={() => setMOpen(false)}
       />
     </div>
   )

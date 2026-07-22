@@ -1,21 +1,38 @@
+import { useState } from 'react'
 import Node from '../../components/shared/diagram-boxes/Node.jsx'
 import TransformBox from '../../components/shared/diagram-boxes/TransformBox.jsx'
 import ConcatBox from '../../components/shared/diagram-boxes/ConcatBox.jsx'
+import Popup from '../../components/shared/popup/Popup.jsx'
+import { explanations } from '../../data/explanations.js'
+import { toSpacedHex, truncateHex } from '../../utils/hex.js'
+import data from '../../data/mlkem_768_data.json'
 import './DeriveKRStep.css'
+
+// Same underlying values as the EncapsPage INPUT panel's m/ek entries and
+// the K/r rows in GENERATED VALUES -- reuses their exact popup content.
+const ITEMS = {
+  m: { title: 'm (32B seed)', body: explanations.m.body, value: toSpacedHex(data.inputs.m) },
+  ek: { title: 'ek (public key)', body: explanations.ek.body, value: truncateHex(data.keygen.ek), fullValue: toSpacedHex(data.keygen.ek) },
+  K: { title: explanations.K.title, body: explanations.K.body, value: toSpacedHex(data.encaps.K) },
+  r: { title: explanations.r.title, body: explanations.r.body, value: toSpacedHex(data.encaps.r) },
+}
 
 // Two lanes (x=60 for m, x=180 for ek), matching DeriveRhoSigmaStep's
 // 240px coordinate system. ek drops into H first; m bypasses straight down
 // alongside it -- same "raw bypass" idea as BuildDkStep's ek lane -- and the
 // two rejoin at the concat box before going into G.
 function DeriveKRStep() {
+  const [openKey, setOpenKey] = useState(null)
+  const active = openKey && ITEMS[openKey]
+
   return (
     <div className="derive-k-r">
       <div className="derive-k-r__row">
         <div className="derive-k-r__lane">
-          <Node label="m" />
+          <Node label="m" onClick={() => setOpenKey('m')} />
         </div>
         <div className="derive-k-r__lane">
-          <Node label="ek" />
+          <Node label="ek" onClick={() => setOpenKey('ek')} />
         </div>
       </div>
 
@@ -71,12 +88,23 @@ function DeriveKRStep() {
 
       <div className="derive-k-r__row">
         <div className="derive-k-r__lane">
-          <Node label="K" variant="leaf" />
+          <Node label="K" variant="leaf" onClick={() => setOpenKey('K')} />
         </div>
         <div className="derive-k-r__lane">
-          <Node label="r" variant="leaf" />
+          <Node label="r" variant="leaf" onClick={() => setOpenKey('r')} />
         </div>
       </div>
+
+      {active && (
+        <Popup
+          title={active.title}
+          body={active.body}
+          value={active.value}
+          fullValue={active.fullValue}
+          isOpen
+          onClose={() => setOpenKey(null)}
+        />
+      )}
     </div>
   )
 }

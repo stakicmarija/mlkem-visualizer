@@ -31,6 +31,7 @@ function branchPath(dropX, laneX) {
 // boxes rather than assumed from fixed pixel lanes), just two lanes.
 function ExtractC1C2Step() {
   const [openKey, setOpenKey] = useState(null)
+  const [cOpen, setCOpen] = useState(false)
   const rowRef = useRef(null)
   const laneRefs = useRef([])
   const [geometry, setGeometry] = useState(null)
@@ -57,7 +58,7 @@ function ExtractC1C2Step() {
 
   return (
     <div className="extract-c1-c2-step">
-      <Node label="c" microLabel="(32(duk+dv))B" />
+      <Node label="c" microLabel="(32(duk+dv))B" onClick={() => setCOpen(true)} />
 
       <svg
         className="extract-c1-c2-step__svg"
@@ -103,6 +104,14 @@ function ExtractC1C2Step() {
           onClose={() => setOpenKey(null)}
         />
       )}
+
+      <Popup
+        title={explanations.c.title}
+        body={explanations.c.body}
+        value={truncateHex(data.encaps.c)}
+        isOpen={cOpen}
+        onClose={() => setCOpen(false)}
+      />
     </div>
   )
 }

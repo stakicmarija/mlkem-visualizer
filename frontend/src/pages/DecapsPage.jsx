@@ -72,8 +72,8 @@ function getParameters(stepId) {
 // pass/fail comparison, not a value with its own popup, so it's shown as a
 // direct visual indicator on the 'compare-c' step instead.
 const BASE_GENERATED_VALUES = [
-  { symbol: 'dkPKE', display: <>dk<sub>pke</sub></>, title: explanations.dkPKE.title, body: explanations.dkPKE.body, value: truncateHex(data.decaps.dk_pke) },
-  { symbol: 'ekPKE', display: <>ek<sub>pke</sub></>, title: explanations.ekPKE.title, body: explanations.ekPKE.body, value: truncateHex(data.decaps.ek_pke) },
+  { symbol: 'dkPKE', display: <>dk<sub>pke</sub></>, title: <>dk<sub>pke</sub> (private key material)</>, body: explanations.dkPKE.body, value: truncateHex(data.decaps.dk_pke) },
+  { symbol: 'ekPKE', display: <>ek<sub>pke</sub></>, title: <>ek<sub>pke</sub> (public key material)</>, body: explanations.ekPKE.body, value: truncateHex(data.decaps.ek_pke) },
   { symbol: 'h', title: explanations.h.title, body: explanations.h.body, value: toSpacedHex(data.decaps.h) },
   { symbol: 'z', title: explanations.z.title, body: explanations.z.body, value: toSpacedHex(data.decaps.z) },
   { symbol: "u'", title: explanations.uPrime.title, body: explanations.uPrime.body, coeffsList: data.decaps.u_decoded.map(poly => poly.coeffs) },

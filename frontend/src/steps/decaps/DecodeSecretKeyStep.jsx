@@ -1,7 +1,9 @@
+import { useState } from 'react'
 import Node from '../../components/shared/diagram-boxes/Node.jsx'
 import TransformBox from '../../components/shared/diagram-boxes/TransformBox.jsx'
 import Popup from '../../components/shared/popup/Popup.jsx'
 import { explanations } from '../../data/explanations.js'
+import { truncateHex } from '../../utils/hex.js'
 import { formatPolynomialPreview } from '../../utils/polynomial.js'
 import { useCellPopup } from '../../utils/useCellPopup.js'
 import data from '../../data/mlkem_768_data.json'
@@ -17,10 +19,11 @@ const SUB = ['₀', '₁', '₂']
 function DecodeSecretKeyStep() {
   const sPopup = useCellPopup(data.keygen.s_ntt.length)
   const sLabel = sPopup.index !== null ? `ŝ${SUB[sPopup.index]}` : null
+  const [dkPkeOpen, setDkPkeOpen] = useState(false)
 
   return (
     <div className="decode-secret-key-step">
-      <Node label={<>dk<sub>pke</sub></>} />
+      <Node label={<>dk<sub>pke</sub></>} onClick={() => setDkPkeOpen(true)} />
 
       <div className="decode-secret-key-step__vline" />
 
@@ -44,6 +47,14 @@ function DecodeSecretKeyStep() {
           onClose={sPopup.close}
         />
       )}
+
+      <Popup
+        title={<>dk<sub>pke</sub> (private key material)</>}
+        body={explanations.dkPKE.body}
+        value={truncateHex(data.decaps.dk_pke)}
+        isOpen={dkPkeOpen}
+        onClose={() => setDkPkeOpen(false)}
+      />
     </div>
   )
 }

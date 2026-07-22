@@ -5,6 +5,7 @@ import CompressionPanel from '../../components/shared/step-content/CompressionPa
 import Popup from '../../components/shared/popup/Popup.jsx'
 import { explanations } from '../../data/explanations.js'
 import { truncateHex } from '../../utils/hex.js'
+import { formatPolynomialPreview } from '../../utils/polynomial.js'
 import data from '../../data/mlkem_768_data.json'
 import './RecoverPlaintextStep.css'
 
@@ -18,10 +19,11 @@ const outputPreview = data.decaps.w_compressed.coeffs.slice(0, PREVIEW_COUNT)
 // with d=1 fixed -- no du/dv sibling parameter, so no caption is needed here.
 function RecoverPlaintextStep() {
   const [mPrimeOpen, setMPrimeOpen] = useState(false)
+  const [wOpen, setWOpen] = useState(false)
 
   return (
     <div className="recover-plaintext-step">
-      <Node label="w" />
+      <Node label="w" onClick={() => setWOpen(true)} />
 
       <div className="recover-plaintext-step__vline" />
 
@@ -47,6 +49,15 @@ function RecoverPlaintextStep() {
         value={truncateHex(data.decaps.m_prime)}
         isOpen={mPrimeOpen}
         onClose={() => setMPrimeOpen(false)}
+      />
+
+      <Popup
+        title="w"
+        body={explanations.w.body}
+        polynomialPreview={formatPolynomialPreview('w', data.decaps.w.coeffs)}
+        fullCoefficients={data.decaps.w.coeffs}
+        isOpen={wOpen}
+        onClose={() => setWOpen(false)}
       />
     </div>
   )

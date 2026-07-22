@@ -1,9 +1,11 @@
+import { useState } from 'react'
 import Node from '../../components/shared/diagram-boxes/Node.jsx'
 import MatrixCell from '../../components/shared/matrix/MatrixCell.jsx'
 import RhoIJColumn from '../../components/shared/diagram-boxes/RhoIJColumn.jsx'
 import TransformBox from '../../components/shared/diagram-boxes/TransformBox.jsx'
 import Popup from '../../components/shared/popup/Popup.jsx'
 import { explanations } from '../../data/explanations.js'
+import { toSpacedHex } from '../../utils/hex.js'
 import { formatPolynomialPreview } from '../../utils/polynomial.js'
 import { useCellPopup } from '../../utils/useCellPopup.js'
 import data from '../../data/mlkem_768_data.json'
@@ -30,10 +32,11 @@ const CELLS = [0, 1, 2].flatMap(i =>
 function RegenerateMatrixAStep() {
   const popup = useCellPopup(CELLS.length)
   const cell = popup.index !== null ? CELLS[popup.index] : null
+  const [rhoOpen, setRhoOpen] = useState(false)
 
   return (
     <div className="regenerate-matrix-a">
-      <Node label="ρ" />
+      <Node label="ρ" onClick={() => setRhoOpen(true)} />
 
       {/* Fan-out: ρ → three columns */}
       <svg
@@ -108,6 +111,14 @@ function RegenerateMatrixAStep() {
           onClose={popup.close}
         />
       )}
+
+      <Popup
+        title={explanations.rho.title}
+        body={explanations.rho.body}
+        value={toSpacedHex(data.encaps.decoded_rho)}
+        isOpen={rhoOpen}
+        onClose={() => setRhoOpen(false)}
+      />
     </div>
   )
 }

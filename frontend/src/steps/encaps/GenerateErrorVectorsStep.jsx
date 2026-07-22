@@ -5,6 +5,7 @@ import VectorCell from '../../components/shared/diagram-boxes/VectorCell.jsx'
 import Popup from '../../components/shared/popup/Popup.jsx'
 import CbdPopupBody from '../../components/shared/popup/CbdPopupBody.jsx'
 import { explanations } from '../../data/explanations.js'
+import { toSpacedHex } from '../../utils/hex.js'
 import { formatPolynomialPreview } from '../../utils/polynomial.js'
 import { useCellPopup } from '../../utils/useCellPopup.js'
 import data from '../../data/mlkem_768_data.json'
@@ -21,6 +22,8 @@ const SUB = ['₀', '₁', '₂']
 function GenerateErrorVectorsStep({ hasSeenCbdAnimation = false, onOpenCbdAnimation }) {
   const e1Popup = useCellPopup(data.encaps.e1.length)
   const [e2Open, setE2Open] = useState(false)
+  const [rOpen, setROpen] = useState(false)
+  const [nOpen, setNOpen] = useState(false)
 
   const cbdPopup = (
     <CbdPopupBody
@@ -73,8 +76,8 @@ function GenerateErrorVectorsStep({ hasSeenCbdAnimation = false, onOpenCbdAnimat
 
       {/* r and N input nodes */}
       <div className="generate-error-vectors-step__top-row">
-        <Node label="r" />
-        <Node label="N" />
+        <Node label="r" onClick={() => setROpen(true)} />
+        <Node label="N" onClick={() => setNOpen(true)} />
       </div>
 
       {/* Fan-in: r and N converge to center, then drop into PRF */}
@@ -159,6 +162,21 @@ function GenerateErrorVectorsStep({ hasSeenCbdAnimation = false, onOpenCbdAnimat
         fullCoefficients={data.encaps.e2.coeffs_signed}
         isOpen={e2Open}
         onClose={() => setE2Open(false)}
+      />
+
+      <Popup
+        title={explanations.r.title}
+        body={explanations.r.body}
+        value={toSpacedHex(data.encaps.r)}
+        isOpen={rOpen}
+        onClose={() => setROpen(false)}
+      />
+
+      <Popup
+        title={explanations.N.title}
+        body={explanations.N.body}
+        isOpen={nOpen}
+        onClose={() => setNOpen(false)}
       />
     </div>
   )

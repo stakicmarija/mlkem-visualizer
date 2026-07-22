@@ -89,6 +89,7 @@ function GeneratedValuesPanel({ items = [] }) {
             title={activeItem.title || activeItem.symbol}
             body={activeItem.body}
             value={activeItem.value}
+            fullValue={activeItem.fullValue}
             isOpen
             onClose={() => setOpenIndex(null)}
           />

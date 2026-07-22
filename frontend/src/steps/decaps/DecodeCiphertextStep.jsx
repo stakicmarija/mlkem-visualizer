@@ -4,6 +4,7 @@ import TransformBox from '../../components/shared/diagram-boxes/TransformBox.jsx
 import CompressionPanel from '../../components/shared/step-content/CompressionPanel.jsx'
 import Popup from '../../components/shared/popup/Popup.jsx'
 import { explanations } from '../../data/explanations.js'
+import { truncateHex } from '../../utils/hex.js'
 import { formatPolynomialPreview } from '../../utils/polynomial.js'
 import data from '../../data/mlkem_768_data.json'
 import './DecodeCiphertextStep.css'
@@ -23,10 +24,11 @@ const outputPreview = data.decaps.v_decoded.coeffs.slice(0, PREVIEW_COUNT)
 
 function DecodeCiphertextStep() {
   const [vPrimeOpen, setVPrimeOpen] = useState(false)
+  const [c2Open, setC2Open] = useState(false)
 
   return (
     <div className="decode-ciphertext-step">
-      <Node label="c2" />
+      <Node label="c2" onClick={() => setC2Open(true)} />
 
       <div className="decode-ciphertext-step__vline" />
 
@@ -60,6 +62,14 @@ function DecodeCiphertextStep() {
         fullCoefficients={data.decaps.v_decoded.coeffs}
         isOpen={vPrimeOpen}
         onClose={() => setVPrimeOpen(false)}
+      />
+
+      <Popup
+        title="c2"
+        body={explanations.c2.body}
+        value={truncateHex(data.encaps.c2)}
+        isOpen={c2Open}
+        onClose={() => setC2Open(false)}
       />
     </div>
   )

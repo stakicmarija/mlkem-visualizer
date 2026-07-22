@@ -20,6 +20,7 @@ function Popup({
   body,
   value,
   valueLabel,
+  fullValue,
   items,
   polynomialPreview,
   fullCoefficients,
@@ -106,10 +107,17 @@ function Popup({
             </>
           ) : (
             value && (
-              <div className="popup__value body-text">
-                {valueLabel && <div className="popup__value-label">{valueLabel}</div>}
-                <div>{value}</div>
-              </div>
+              <>
+                <div className="popup__value body-text">
+                  {valueLabel && <div className="popup__value-label">{valueLabel}</div>}
+                  <div>{expanded && fullValue ? fullValue : value}</div>
+                </div>
+                {fullValue && !expanded && (
+                  <button className="micro-label popup__expand" onClick={() => setExpanded(true)}>
+                    Click to see whole value ({fullValue.split(' ').length} bytes)
+                  </button>
+                )}
+              </>
             )
           )}
         </div>

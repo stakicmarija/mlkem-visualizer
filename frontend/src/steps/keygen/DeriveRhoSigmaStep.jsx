@@ -1,13 +1,27 @@
+import { useState } from 'react'
 import Node from '../../components/shared/diagram-boxes/Node.jsx'
 import TransformBox from '../../components/shared/diagram-boxes/TransformBox.jsx'
 import ConcatBox from '../../components/shared/diagram-boxes/ConcatBox.jsx'
+import Popup from '../../components/shared/popup/Popup.jsx'
+import { explanations } from '../../data/explanations.js'
+import { toSpacedHex } from '../../utils/hex.js'
+import data from '../../data/mlkem_768_data.json'
 import './DeriveRhoSigmaStep.css'
 
+const ITEMS = {
+  d: { explanation: explanations.d, value: toSpacedHex(data.inputs.d) },
+  rho: { explanation: explanations.rho, value: toSpacedHex(data.keygen.rho) },
+  sigma: { explanation: explanations.sigma, value: toSpacedHex(data.keygen.sigma) },
+}
+
 function DeriveRhoSigmaStep() {
+  const [openKey, setOpenKey] = useState(null)
+  const active = openKey && ITEMS[openKey]
+
   return (
     <div className="derive-rho-sigma">
       <div className="derive-rho-sigma__row">
-        <Node label="d" />
+        <Node label="d" onClick={() => setOpenKey('d')} />
         <Node label="k" />
       </div>
 
@@ -44,9 +58,19 @@ function DeriveRhoSigmaStep() {
       </svg>
 
       <div className="derive-rho-sigma__row">
-        <Node label="ρ" variant="leaf" />
-        <Node label="σ" variant="leaf" />
+        <Node label="ρ" variant="leaf" onClick={() => setOpenKey('rho')} />
+        <Node label="σ" variant="leaf" onClick={() => setOpenKey('sigma')} />
       </div>
+
+      {active && (
+        <Popup
+          title={active.explanation.title}
+          body={active.explanation.body}
+          value={active.value}
+          isOpen
+          onClose={() => setOpenKey(null)}
+        />
+      )}
     </div>
   )
 }

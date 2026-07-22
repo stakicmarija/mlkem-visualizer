@@ -5,6 +5,7 @@ import CompressionPanel from '../../components/shared/step-content/CompressionPa
 import Popup from '../../components/shared/popup/Popup.jsx'
 import { explanations } from '../../data/explanations.js'
 import { truncateHex } from '../../utils/hex.js'
+import { formatPolynomialPreview } from '../../utils/polynomial.js'
 import data from '../../data/mlkem_768_data.json'
 import './CompressPackStep.css'
 
@@ -19,10 +20,11 @@ const outputPreview = data.encaps.v_compressed.coeffs.slice(0, PREVIEW_COUNT)
 
 function CompressPackStep() {
   const [c2Open, setC2Open] = useState(false)
+  const [vOpen, setVOpen] = useState(false)
 
   return (
     <div className="compress-pack-step">
-      <Node label="v" />
+      <Node label="v" onClick={() => setVOpen(true)} />
 
       <div className="compress-pack-step__vline" />
 
@@ -52,6 +54,15 @@ function CompressPackStep() {
         value={truncateHex(data.encaps.c2)}
         isOpen={c2Open}
         onClose={() => setC2Open(false)}
+      />
+
+      <Popup
+        title="v"
+        body={explanations.v.body}
+        polynomialPreview={formatPolynomialPreview('v', data.encaps.v.coeffs)}
+        fullCoefficients={data.encaps.v.coeffs}
+        isOpen={vOpen}
+        onClose={() => setVOpen(false)}
       />
     </div>
   )

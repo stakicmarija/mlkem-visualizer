@@ -6,6 +6,7 @@ import TransformBox from '../../components/shared/diagram-boxes/TransformBox.jsx
 import AnimationReplayButton from '../../components/shared/diagram-boxes/AnimationReplayButton.jsx'
 import Popup from '../../components/shared/popup/Popup.jsx'
 import { explanations } from '../../data/explanations.js'
+import { toSpacedHex } from '../../utils/hex.js'
 import { formatPolynomialPreview } from '../../utils/polynomial.js'
 import { useCellPopup } from '../../utils/useCellPopup.js'
 import data from '../../data/mlkem_768_data.json'
@@ -47,6 +48,7 @@ const FAST_FILL_DELAY = 180
 function ExpandMatrixAStep() {
   const popup = useCellPopup(CELLS.length)
   const cell = popup.index !== null ? CELLS[popup.index] : null
+  const [rhoOpen, setRhoOpen] = useState(false)
 
   const [activeIndex, setActiveIndex] = useState(null)
   const [activeLine, setActiveLine] = useState(null)
@@ -136,7 +138,7 @@ function ExpandMatrixAStep() {
 
   return (
     <div className="expand-matrix-a">
-      <Node label="ρ" />
+      <Node label="ρ" onClick={() => setRhoOpen(true)} />
 
       {/* Fan-out: ρ → three columns */}
       <svg
@@ -245,6 +247,14 @@ function ExpandMatrixAStep() {
           onClose={popup.close}
         />
       )}
+
+      <Popup
+        title={explanations.rho.title}
+        body={explanations.rho.body}
+        value={toSpacedHex(data.keygen.rho)}
+        isOpen={rhoOpen}
+        onClose={() => setRhoOpen(false)}
+      />
     </div>
   )
 }

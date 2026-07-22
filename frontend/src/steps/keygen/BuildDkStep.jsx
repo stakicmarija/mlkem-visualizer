@@ -1,9 +1,35 @@
+import { useState } from 'react'
 import Node from '../../components/shared/diagram-boxes/Node.jsx'
 import TransformBox from '../../components/shared/diagram-boxes/TransformBox.jsx'
 import ConcatBox from '../../components/shared/diagram-boxes/ConcatBox.jsx'
+import Popup from '../../components/shared/popup/Popup.jsx'
+import { explanations } from '../../data/explanations.js'
+import { toSpacedHex, truncateHex } from '../../utils/hex.js'
+import data from '../../data/mlkem_768_data.json'
 import './BuildDkStep.css'
 
+const ITEMS = {
+  ekPke: {
+    title: <>ek<sub>pke</sub> (K-PKE encapsulation key)</>,
+    body: explanations.ekPke.body,
+    value: truncateHex(data.keygen.ek_pke),
+    fullValue: toSpacedHex(data.keygen.ek_pke),
+  },
+  ek: { title: explanations.ek.title, body: explanations.ek.body, value: truncateHex(data.keygen.ek), fullValue: toSpacedHex(data.keygen.ek) },
+  dkPke: {
+    title: <>dk<sub>pke</sub> (K-PKE decapsulation key)</>,
+    body: explanations.dkPke.body,
+    value: truncateHex(data.keygen.dk_pke),
+    fullValue: toSpacedHex(data.keygen.dk_pke),
+  },
+  z: { title: explanations.z.title, body: explanations.z.body, value: toSpacedHex(data.inputs.z) },
+  dk: { title: explanations.dk.title, body: explanations.dk.body, value: truncateHex(data.keygen.dk), fullValue: toSpacedHex(data.keygen.dk) },
+}
+
 function BuildDkStep() {
+  const [openKey, setOpenKey] = useState(null)
+  const active = openKey && ITEMS[openKey]
+
   return (
     <div className="build-dk-step">
 
@@ -11,11 +37,11 @@ function BuildDkStep() {
       <div className="build-dk-step__column">
         <p className="th2 build-dk-step__col-title">Public key</p>
 
-        <Node label={<>ek<sub>pke</sub></>} />
+        <Node label={<>ek<sub>pke</sub></>} onClick={() => setOpenKey('ekPke')} />
 
         <div className="build-dk-step__vline" />
 
-        <Node label="ek" variant="leaf" />
+        <Node label="ek" variant="leaf" onClick={() => setOpenKey('ek')} />
       </div>
 
       {/* ── Private key: dkPKE, ek (raw + through H), z → dk ───────────── */}
@@ -25,10 +51,10 @@ function BuildDkStep() {
         {/* Four lanes at x=60/180/300/420: dkPKE, ek, (empty — ek's raw
             bypass appears here below), z */}
         <div className="build-dk-step__row">
-          <div className="build-dk-step__row-quarter"><Node label={<>dk<sub>pke</sub></>} /></div>
-          <div className="build-dk-step__row-quarter"><Node label="ek" /></div>
+          <div className="build-dk-step__row-quarter"><Node label={<>dk<sub>pke</sub></>} onClick={() => setOpenKey('dkPke')} /></div>
+          <div className="build-dk-step__row-quarter"><Node label="ek" onClick={() => setOpenKey('ek')} /></div>
           <div className="build-dk-step__row-quarter" />
-          <div className="build-dk-step__row-quarter"><Node label="z" /></div>
+          <div className="build-dk-step__row-quarter"><Node label="z" onClick={() => setOpenKey('z')} /></div>
         </div>
 
         {/* ek splits into two: one line into H, one raw bypass line that
@@ -84,8 +110,19 @@ function BuildDkStep() {
 
         <div className="build-dk-step__vline" />
 
-        <Node label="dk" variant="leaf" />
+        <Node label="dk" variant="leaf" onClick={() => setOpenKey('dk')} />
       </div>
+
+      {active && (
+        <Popup
+          title={active.title}
+          body={active.body}
+          value={active.value}
+          fullValue={active.fullValue}
+          isOpen
+          onClose={() => setOpenKey(null)}
+        />
+      )}
     </div>
   )
 }

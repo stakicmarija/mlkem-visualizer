@@ -18,8 +18,6 @@ const sTuCoeffs = data.decaps.v_decoded.coeffs.map((c, j) =>
 
 const uPrimeNttCoeffsList = data.decaps.u_decoded_ntt.map(poly => poly.coeffs)
 
-// Not interactive yet -- every cell in this diagram is click-disabled for
-// now (popups come in a later pass).
 function ComputeWStep() {
   return (
     <div className="compute-w-step">
@@ -38,7 +36,6 @@ function ComputeWStep() {
           coeffsList={data.decaps.u_decoded.map(poly => poly.coeffs)}
           nttCoeffsList={uPrimeNttCoeffsList}
           body={explanations.uPrime.body}
-          clickable={false}
         />
 
         <div className="compute-w-step__merge-group">
@@ -50,7 +47,6 @@ function ComputeWStep() {
               coeffsList={uPrimeNttCoeffsList}
               body={explanations.uPrime.body}
               strong
-              clickable={false}
             />
             <NttColumn
               showTransform={false}
@@ -58,7 +54,6 @@ function ComputeWStep() {
               colorToken="secret-s"
               coeffsList={data.keygen.s_ntt.map(poly => poly.coeffs)}
               body={explanations.s.body}
-              clickable={false}
             />
           </div>
 
@@ -92,7 +87,6 @@ function ComputeWStep() {
               colorToken="ciphertext-v"
               coeffs={data.decaps.v_decoded.coeffs}
               body={explanations.vPrime.body}
-              clickable={false}
             />
 
             <span className="compute-w-step__op body-text">−</span>
@@ -102,7 +96,6 @@ function ComputeWStep() {
               colorToken="inactive"
               coeffs={sTuCoeffs}
               body={explanations.sTuPrime.body}
-              clickable={false}
             />
 
             <span className="compute-w-step__op body-text">=</span>
@@ -112,7 +105,6 @@ function ComputeWStep() {
               colorToken="recovered-w"
               coeffs={data.decaps.w.coeffs}
               body={explanations.w.body}
-              clickable={false}
             />
           </div>
         </div>

@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import Node from '../diagram-boxes/Node.jsx'
 import TransformBox from '../diagram-boxes/TransformBox.jsx'
 import VectorCell from '../diagram-boxes/VectorCell.jsx'
@@ -11,9 +12,15 @@ import './SampleVectorStep.css'
 const SUB = ['₀', '₁', '₂']
 const W = 240  // matches DeriveRhoSigmaStep row width; node centers at x=60 and x=180
 
-function SampleVectorStep({ label, colorToken, explanationKey, vectors, prfRawHexes, seedLabel = 'σ', hasSeenCbdAnimation = false, onOpenCbdAnimation }) {
+function SampleVectorStep({
+  label, colorToken, explanationKey, vectors, prfRawHexes,
+  seedLabel = 'σ', seedExplanation, seedValue,
+  hasSeenCbdAnimation = false, onOpenCbdAnimation,
+}) {
   const popup = useCellPopup(vectors.length)
   const explanation = explanations[explanationKey]
+  const [seedOpen, setSeedOpen] = useState(false)
+  const [nOpen, setNOpen] = useState(false)
 
   const cbdPopup = (
     <CbdPopupBody
@@ -59,8 +66,8 @@ function SampleVectorStep({ label, colorToken, explanationKey, vectors, prfRawHe
 
       {/* seed and N input nodes -- σ for KeyGen's s/e, r for Encaps' y */}
       <div className="sample-vector-step__top-row">
-        <Node label={seedLabel} />
-        <Node label="N" />
+        <Node label={seedLabel} onClick={seedExplanation ? () => setSeedOpen(true) : undefined} />
+        <Node label="N" onClick={() => setNOpen(true)} />
       </div>
 
       {/* Fan-in: σ and N converge to center, then drop into PRF */}
@@ -113,6 +120,23 @@ function SampleVectorStep({ label, colorToken, explanationKey, vectors, prfRawHe
           onClose={popup.close}
         />
       )}
+
+      {seedExplanation && (
+        <Popup
+          title={seedExplanation.title}
+          body={seedExplanation.body}
+          value={seedValue}
+          isOpen={seedOpen}
+          onClose={() => setSeedOpen(false)}
+        />
+      )}
+
+      <Popup
+        title={explanations.N.title}
+        body={explanations.N.body}
+        isOpen={nOpen}
+        onClose={() => setNOpen(false)}
+      />
     </div>
   )
 }
