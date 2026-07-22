@@ -5,55 +5,12 @@
   margin-top: -20px;
 }
 
-.regenerate-matrix-a__svg {
-  display: block;
-}
-
-/* Three RhoIJColumns in a fixed-width grid so SVG column centers align exactly */
-.regenerate-matrix-a__columns {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-  width: 320px;
-}
-
-.regenerate-matrix-a__vline {
-  width: 3px;
-  height: 8px;
-  background: var(--color-transform);
-}
-
 .regenerate-matrix-a__caption {
   text-align: center;
   margin-top: 8px;
-}
-
-.regenerate-matrix-a__note {
-  max-width: 320px;
-  text-align: center;
-  margin-top: 16px;
-  color: var(--color-text-secondary);
 }
 
 .regenerate-matrix-a .transform-box {
   width: 120px;
   min-height: 72px;
 }
-
-/* Matrix grid */
-.regenerate-matrix-a-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.regenerate-matrix-a-grid__row {
-  display: flex;
-  gap: 4px;
-}
-
-/* Only the four outer corners of the 3×3 grid are rounded */
-.regenerate-matrix-a-grid__row:first-child .matrix-cell:first-child { border-radius: 8px 0 0 0; }
-.regenerate-matrix-a-grid__row:first-child .matrix-cell:last-child  { border-radius: 0 8px 0 0; }
-.regenerate-matrix-a-grid__row:last-child  .matrix-cell:first-child { border-radius: 0 0 0 8px; }
-.regenerate-matrix-a-grid__row:last-child  .matrix-cell:last-child  { border-radius: 0 0 8px 0; }

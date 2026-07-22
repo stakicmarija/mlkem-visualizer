@@ -1,8 +1,5 @@
 import { useState } from 'react'
-import Node from '../../components/shared/diagram-boxes/Node.jsx'
-import MatrixCell from '../../components/shared/matrix/MatrixCell.jsx'
-import RhoIJColumn from '../../components/shared/diagram-boxes/RhoIJColumn.jsx'
-import TransformBox from '../../components/shared/diagram-boxes/TransformBox.jsx'
+import MatrixAAnimation from '../../components/shared/step-content/MatrixAAnimation.jsx'
 import Popup from '../../components/shared/popup/Popup.jsx'
 import { explanations } from '../../data/explanations.js'
 import { toSpacedHex } from '../../utils/hex.js'
@@ -12,11 +9,6 @@ import data from '../../data/mlkem_768_data.json'
 import './RegenerateMatrixAStep.css'
 
 const SUB = ['₀', '₁', '₂']
-
-// Container width (320px) split into 3 equal grid columns with 16px gaps:
-// each column is (320-32)/3 = 96px, centers at 48, 160, 272
-const W = 320
-const CX = [48, 160, 272]
 
 // mlkem_768_data.json only stores encaps.A_T (the transposed matrix Bob
 // uses for u = A^T·y + e1), where A_T[i][j] = keygen.A[j][i]. Reading it
@@ -36,65 +28,11 @@ function RegenerateMatrixAStep() {
 
   return (
     <div className="regenerate-matrix-a">
-      <Node label="ρ" onClick={() => setRhoOpen(true)} />
+      <MatrixAAnimation onRhoClick={() => setRhoOpen(true)} onCellClick={popup.open} />
 
-      {/* Fan-out: ρ → three columns */}
-      <svg
-        className="regenerate-matrix-a__svg"
-        viewBox={`0 0 ${W} 24`}
-        width={W}
-        height="24"
-        style={{ overflow: 'visible' }}
-        aria-hidden="true"
-      >
-        <line x1={CX[1]} y1="0" x2={CX[1]} y2="24" stroke="var(--color-transform)" strokeWidth="3" />
-        <path d={`M ${CX[1]} 12 H ${CX[0]+5} Q ${CX[0]} 12 ${CX[0]} 17 V 24`} fill="none" stroke="var(--color-transform)" strokeWidth="3" />
-        <path d={`M ${CX[1]} 12 H ${CX[2]-5} Q ${CX[2]} 12 ${CX[2]} 17 V 24`} fill="none" stroke="var(--color-transform)" strokeWidth="3" />
-      </svg>
-
-      <div className="regenerate-matrix-a__columns">
-        {[0, 1, 2].map(i => (
-          <RhoIJColumn key={i} i={i} />
-        ))}
-      </div>
-
-      {/* Fan-in: three columns → SampleNTT */}
-      <svg
-        className="regenerate-matrix-a__svg"
-        viewBox={`0 0 ${W} 24`}
-        width={W}
-        height="24"
-        style={{ overflow: 'visible' }}
-        aria-hidden="true"
-      >
-        <path d={`M ${CX[0]} 0 V ${12-5} Q ${CX[0]} 12 ${CX[0]+5} 12 H ${CX[1]}`} fill="none" stroke="var(--color-transform)" strokeWidth="3" />
-        <line x1={CX[1]} y1="0" x2={CX[1]} y2="24" stroke="var(--color-transform)" strokeWidth="3" />
-        <path d={`M ${CX[2]} 0 V ${12-5} Q ${CX[2]} 12 ${CX[2]-5} 12 H ${CX[1]}`} fill="none" stroke="var(--color-transform)" strokeWidth="3" />
-      </svg>
-
-      <TransformBox name="SampleNTT" explanationKey="SampleNTT" />
-
-      <div className="regenerate-matrix-a__vline" />
-
-      <div className="regenerate-matrix-a-grid">
-        {[0, 1, 2].map(i => (
-          <div key={i} className="regenerate-matrix-a-grid__row">
-            {[0, 1, 2].map(j => (
-              <MatrixCell
-                key={j}
-                label={`A${SUB[i]}${SUB[j]}`}
-                state="done"
-                onClick={() => popup.open(i * 3 + j)}
-              />
-            ))}
-          </div>
-        ))}
-      </div>
-
-      <p className="regenerate-matrix-a__caption micro-label">
+      <p className="regenerate-matrix-a__caption body-text">
         Bob regenerates the same matrix A using the ρ from Alice's public
-        key. <br /> Since A is deterministic from ρ, this produces the exact
-        same matrix.
+        key.
       </p>
 
       {cell && (
