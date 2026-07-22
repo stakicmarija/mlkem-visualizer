@@ -9,7 +9,7 @@ import { formatPolynomialPreview } from '../../utils/polynomial.js'
 import data from '../../data/mlkem_768_data.json'
 import './DecodeCiphertextStep.css'
 
-const { dv } = data.params
+const { dv, q } = data.params
 const PREVIEW_COUNT = 8 // matches Encaps' CompressPackStep's "v first 8 coeffs" walkthrough strip
 
 // v' is a single polynomial (unlike u', a k=3 vector), so no [0] indexing --
@@ -39,10 +39,12 @@ function DecodeCiphertextStep() {
       <CompressionPanel
         symbol="dv"
         d={dv}
+        q={q}
         direction="reverse"
         inputValues={inputPreview}
         outputValues={outputPreview}
         stripLabel="v compressed first 8 coeffs"
+        animated
       />
 
       <div className="decode-ciphertext-step__vline" />
@@ -50,7 +52,7 @@ function DecodeCiphertextStep() {
       <Node label="v'" variant="leaf" onClick={() => setVPrimeOpen(true)} />
 
       <div className="decode-ciphertext-step__notes">
-        <p className="decode-ciphertext-step__caption micro-label">
+        <p className="decode-ciphertext-step__caption body-text">
           u' is decoded the same way, using du = 10 instead of dv = 4.
         </p>
       </div>

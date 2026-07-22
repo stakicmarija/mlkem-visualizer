@@ -2,10 +2,17 @@ import DataChip from '../diagram-boxes/DataChip.jsx'
 import ModQRing from '../mod-q-ring/ModQRing.jsx'
 import AnimationReplayButton from '../diagram-boxes/AnimationReplayButton.jsx'
 import { useWalkAnimation } from '../../../utils/useWalkAnimation.js'
+import data from '../../../data/mlkem_768_data.json'
 import './CompressionPanel.css'
 
 const MAX_RING_DOTS = 16 // schematic cap -- real d (e.g. du=10) means 1024 buckets, far too many to draw
 const DEFAULT_STEP_GAP = 1400 // same steady pace as EncodePlaintextStep's Decompress circle
+// The ring's center label always reads the real modulus (ℤ_3329), not the
+// division count (ℤ_2dv/ℤ_2du) -- read from the data file so it stays
+// correct if this component is ever reused for a different q, rather than
+// hardcoding 3329. Independent of the `q` prop below, which only gates the
+// outer reference-value ring and may not be passed by every caller.
+const { q: RING_Q } = data.params
 
 // The Compress walkthrough (formula, mod-q input strip, "mod 2^d" ring,
 // one-value example, compressed output row), inline in a bordered panel --
@@ -93,7 +100,7 @@ function CompressionPanel({
         compact
         dotCount={ringDotCount}
         highlightDot={highlightDot}
-        centerSub={`2${symbol}`}
+        q={RING_Q}
         outerLabels={outerLabels}
       />
 
