@@ -34,6 +34,31 @@ const TRANSITION_IDS = new Set([
 
 const { k, q, n, eta1, eta2, du, dv } = data.params
 
+// Mirrors KeyGenPage/EncapsPage's INPUTS -- but Decaps' own input (dk)
+// isn't used directly past 'extract-data': the K-PKE-level steps work off
+// dkPKE, the piece of dk actually extracted for decryption. So instead of
+// one static list for the whole page, INPUT is scoped by tree level: level
+// 0 (ML-KEM, outer) shows the whole dk Alice received; level 1/2 (Internal
+// and K-PKE) show dkPKE, the value actually in scope once decryption is
+// under way.
+const INPUTS_ML_KEM = [
+  { label: explanations.c.title, body: explanations.c.body, value: truncateHex(data.encaps.c) },
+  { label: explanations.dk.title, body: explanations.dk.body, value: truncateHex(data.keygen.dk) },
+]
+
+const INPUTS_KPKE = [
+  { label: explanations.c.title, body: explanations.c.body, value: truncateHex(data.encaps.c) },
+  {
+    label: <>dk<sub>pke</sub> (decryption key)</>,
+    body: explanations.dkPKE.body,
+    value: truncateHex(data.decaps.dk_pke),
+  },
+]
+
+function getInputs(level) {
+  return level === 0 ? INPUTS_ML_KEM : INPUTS_KPKE
+}
+
 // Mirrors EncapsPage's getParameters: which params a step's math actually
 // depends on. Steps not listed here (transitions, or steps whose result
 // doesn't depend on any parameter) fall through to the empty-array default.
@@ -223,6 +248,7 @@ function DecapsPage() {
   const currentStep = navSteps[currentStepIndex] ?? navSteps[0]
   const { formula, content } = getStepContent(currentStep.id)
   const parameters = getParameters(currentStep.id)
+  const inputs = getInputs(currentStep.level)
   const generatedValues = getGeneratedValues(currentStep.id)
 
   const isLastStep = currentStepIndex === navSteps.length - 1
@@ -258,7 +284,7 @@ function DecapsPage() {
       steps={decapsSteps}
       currentStepIndex={treeIndex}
       parameters={parameters}
-      inputs={[]}
+      inputs={inputs}
       outputs={['K (shared secret)']}
       generatedValues={generatedValues}
       canGoPrev={true}
