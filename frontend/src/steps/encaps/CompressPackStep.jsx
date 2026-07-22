@@ -9,7 +9,7 @@ import { formatPolynomialPreview } from '../../utils/polynomial.js'
 import data from '../../data/mlkem_768_data.json'
 import './CompressPackStep.css'
 
-const { dv } = data.params
+const { dv, q } = data.params
 const PREVIEW_COUNT = 8 // matches the "v first 8 coeffs" walkthrough strip
 
 // v is a single polynomial (unlike u, a k=3 vector), so no [0] indexing.
@@ -31,9 +31,11 @@ function CompressPackStep() {
       <CompressionPanel
         symbol="dv"
         d={dv}
+        q={q}
         inputValues={inputPreview}
         outputValues={outputPreview}
         stripLabel="v first 8 coeffs"
+        animated
       />
 
       <div className="compress-pack-step__vline" />
@@ -44,7 +46,7 @@ function CompressPackStep() {
 
       <Node label="c2" variant="leaf" onClick={() => setC2Open(true)} />
 
-      <p className="compress-pack-step__caption micro-label">
+      <p className="compress-pack-step__caption body-text">
         c1 is obtained the same way, using du = 10 instead of dv = 4
       </p>
 

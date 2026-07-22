@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useState } from 'react'
 import Node from '../../components/shared/diagram-boxes/Node.jsx'
 import TransformBox from '../../components/shared/diagram-boxes/TransformBox.jsx'
 import DataChip from '../../components/shared/diagram-boxes/DataChip.jsx'
@@ -8,6 +8,7 @@ import Popup from '../../components/shared/popup/Popup.jsx'
 import { explanations } from '../../data/explanations.js'
 import { toSpacedHex } from '../../utils/hex.js'
 import { formatPolynomialPreview } from '../../utils/polynomial.js'
+import { useWalkAnimation } from '../../utils/useWalkAnimation.js'
 import data from '../../data/mlkem_768_data.json'
 import './EncodePlaintextStep.css'
 
@@ -34,75 +35,21 @@ const previewBits = hexToBits(data.inputs.m).slice(0, BIT_PREVIEW_COUNT)
 // reuse them instead of recomputing the 0/1665 mapping.
 const previewValues = data.encaps.mu.coeffs.slice(0, BIT_PREVIEW_COUNT)
 
-// Flat, data-only timeline (bit index, no closures) so it can be resumed
-// from an arbitrary elapsed offset -- same Stop/Continue mechanism as
-// CbdPopupBody: clear pending timers, reschedule what's left with reduced
-// delays. One event per bit -- highlight and chip fill land on the same
-// tick, unlike CbdPopupBody's separate reveal/fill phases.
-const EVENTS = Array.from({ length: BIT_PREVIEW_COUNT }, (_, i) => ({ delay: i * STEP_GAP, i }))
-
 function EncodePlaintextStep() {
   const [muOpen, setMuOpen] = useState(false)
   const [mOpen, setMOpen] = useState(false)
 
-  const [activeBit, setActiveBit] = useState(0)
-  const [filledCount, setFilledCount] = useState(0)
-  const [paused, setPaused] = useState(false)
-  const timeoutsRef = useRef([])
-  const elapsedRef = useRef(0) // virtual ms consumed before the current run segment
-  const startTimeRef = useRef(0) // performance.now() when the current run segment started
-
-  const runEvent = useCallback(({ i }) => {
-    setActiveBit(i)
-    setFilledCount(c => Math.max(c, i + 1))
-  }, [])
-
-  // Schedules every event whose delay hasn't already elapsed, offset by
-  // however much virtual time has already been consumed -- elapsedMs=0 is
-  // a fresh start; elapsedMs=elapsedRef.current resumes from a pause.
-  const scheduleFrom = useCallback(elapsedMs => {
-    timeoutsRef.current.forEach(clearTimeout)
-    const timers = []
-    startTimeRef.current = performance.now()
-    EVENTS.forEach(event => {
-      if (event.delay >= elapsedMs) {
-        timers.push(setTimeout(() => runEvent(event), event.delay - elapsedMs))
-      }
-    })
-    timeoutsRef.current = timers
-  }, [runEvent])
-
-  useEffect(() => {
-    elapsedRef.current = 0
-    scheduleFrom(0)
-    return () => {
-      timeoutsRef.current.forEach(clearTimeout)
-      timeoutsRef.current = []
-    }
-  }, [scheduleFrom])
-
-  function handleStop() {
-    timeoutsRef.current.forEach(clearTimeout)
-    timeoutsRef.current = []
-    elapsedRef.current += performance.now() - startTimeRef.current
-    setPaused(true)
-  }
-
-  function handleContinue() {
-    setPaused(false)
-    scheduleFrom(elapsedRef.current)
-  }
-
-  function handleReplay() {
-    setActiveBit(0)
-    setFilledCount(0)
-    setPaused(false)
-    elapsedRef.current = 0
-    scheduleFrom(0)
-  }
+  const {
+    activeIndex: activeBit,
+    filledCount,
+    paused,
+    done,
+    handleStop,
+    handleContinue,
+    handleReplay,
+  } = useWalkAnimation(BIT_PREVIEW_COUNT, STEP_GAP)
 
   const activeBitValue = previewBits[activeBit]
-  const done = filledCount === BIT_PREVIEW_COUNT
 
   return (
     <div className="encode-plaintext-step">

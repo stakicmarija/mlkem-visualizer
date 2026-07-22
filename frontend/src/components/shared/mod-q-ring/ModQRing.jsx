@@ -33,7 +33,11 @@ function arcPath(fromAngle, toAngle, radius, cx, cy) {
 // 1024 buckets for du=10), so it's always schematic, never literal.
 // `highlightDot` colors one of those dots/labels as the accent color;
 // `centerSub` overrides the default `q` subscript in the center label
-// (e.g. "2du" instead of "3329").
+// (e.g. "2du" instead of "3329"). `outerLabels` (parallel array, one entry
+// per dot) draws a second, further-out ring of muted reference labels --
+// e.g. the original Zq value each compressed dot rounds to -- highlighting
+// the same index as `highlightDot` so the two rings visually snap together
+// at one angle.
 function ModQRing({
   q,
   size = 220,
@@ -43,6 +47,7 @@ function ModQRing({
   tickLabels = true,
   dotCount = 0,
   highlightDot = -1,
+  outerLabels = [],
   centerSub,
 }) {
   const cx = size / 2
@@ -50,6 +55,13 @@ function ModQRing({
   const borderReserve = compact ? 10 : 36
   const tickHalf = compact ? 3 : 6
   const labelOffset = compact ? 8 : 22
+  // Dots (the Compress/Decompress 0..2^d-1 ring) sit strictly inside the
+  // circle line -- pulled toward the center, not pushed out past it like
+  // ticks/anchors -- so there's clear separation from outerLabelOffset's
+  // reference ring outside the same line, instead of the two crowding at
+  // similar radii.
+  const dotLabelInset = compact ? 8 : 16
+  const outerLabelOffset = compact ? 10 : 20
   const radius = size / 2 - borderReserve
   const anchorAngles = new Set(anchors.map(a => a.angle))
 
@@ -63,6 +75,7 @@ function ModQRing({
   const dots = Array.from({ length: dotCount }, (_, i) => ({
     angle: (360 * i) / dotCount,
     label: i,
+    index: i,
     highlighted: i === highlightDot,
   }))
 
@@ -117,12 +130,23 @@ function ModQRing({
 
       {dots.map(dot => {
         const pt = pointOnRing(dot.angle, radius, cx, cy)
-        const labelPt = pointOnRing(dot.angle, radius + labelOffset, cx, cy)
-        const colorToken = dot.highlighted ? 'encoded-message' : 'transform'
+        const labelPt = pointOnRing(dot.angle, radius - dotLabelInset, cx, cy)
+        const colorToken = dot.highlighted ? 'encoded-message' : 'text'
+        const outerLabel = outerLabels[dot.index]
+        const outerPt = outerLabel !== undefined ? pointOnRing(dot.angle, radius + outerLabelOffset, cx, cy) : null
         return (
           <g key={dot.label} style={{ '--anchor-color': `var(--color-${colorToken})` }}>
             <circle cx={pt.x} cy={pt.y} r={compact ? 2.5 : 4} className="mod-q-ring__anchor-dot" />
             <text x={labelPt.x} y={labelPt.y} className="mod-q-ring__anchor-label">{dot.label}</text>
+            {outerLabel !== undefined && (
+              <text
+                x={outerPt.x}
+                y={outerPt.y}
+                className={`mod-q-ring__outer-label${dot.highlighted ? ' mod-q-ring__outer-label--active' : ''}`}
+              >
+                {outerLabel}
+              </text>
+            )}
           </g>
         )
       })}

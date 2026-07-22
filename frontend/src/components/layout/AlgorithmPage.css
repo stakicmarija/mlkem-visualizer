@@ -11,22 +11,27 @@
   padding: var(--space-8) 120px var(--space-4);
 }
 
-/* Three-column body: sidebars are pulled out of flow so the center
-   column is centered relative to the full body width, not the leftover
-   space between two unequal-width sidebars. */
+/* Three-column body, laid out as a grid instead of pulling the sidebars out
+   of flow -- the two flanking "1fr" tracks are always equal width by
+   definition, which centers the "auto" center column relative to the full
+   body width (not the leftover space between two unequal-width sidebars)
+   without needing absolute positioning. The real benefit over the old
+   absolutely-positioned sidebars: a grid row's height is the tallest of its
+   cells, so if the StepTree (left) or GENERATED VALUES panel (right) is
+   taller than the center content, body -- and so the Prev/Next nav and
+   Footer below it -- grow to match instead of the sidebars silently
+   overflowing past nav/Footer while those sit at the center column's
+   (shorter) height. */
 .algorithm-page__body {
   flex: 1;
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: start;
   padding: 0 120px;
 }
 
 .algorithm-page__left {
-  position: absolute;
-  left: 120px;
-  top: 0;
+  justify-self: start;
 }
 
 .algorithm-page__center {
@@ -37,28 +42,24 @@
 }
 
 .algorithm-page__right {
-  position: absolute;
-  right: 120px;
-  top: 0;
+  justify-self: end;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: var(--space-2);
 }
 
-/* Fixed to the viewport (not the flex flow) so this lines up with
-   HomePage's .home__cta button at the exact same screen position on every
-   page — 88px = 56px footer height + var(--space-8) clearance above it.
-   Keep this bottom offset in sync with .home__cta in HomePage.css. */
+/* In normal document flow (not fixed to the viewport) so tall step content
+   above pushes these buttons down instead of the buttons sitting at a fixed
+   screen position and overlapping that content. .algorithm-page's flex-1
+   body fills any leftover space on short steps, keeping this pinned near
+   the bottom of the viewport exactly like before; on tall steps the whole
+   page just grows past 100vh and scrolls, buttons included. */
 .algorithm-page__nav {
-  position: fixed;
-  left: 50%;
-  bottom: 88px;
-  transform: translateX(-50%);
   display: flex;
   justify-content: center;
   gap: var(--space-2);
-  z-index: 10;
+  padding: var(--space-8) 0;
 }
 
 /* ── Small screen (≤1440px) ─────────────────────────────────────────────── */
@@ -71,16 +72,7 @@
     padding: 0 56px;
   }
 
-  .algorithm-page__left {
-    left: 56px;
-  }
-
-  .algorithm-page__right {
-    right: 56px;
-  }
-
-  /* 36px footer height (small screen) + var(--space-6) clearance. */
   .algorithm-page__nav {
-    bottom: 60px;
+    padding: var(--space-6) 0;
   }
 }

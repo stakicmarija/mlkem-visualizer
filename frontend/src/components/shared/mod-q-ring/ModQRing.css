@@ -55,6 +55,26 @@
   dominant-baseline: middle;
 }
 
+/* Outer reference ring: matches the circle's own stroke color by default,
+   so it reads as an extension of the circle's scale markings rather than
+   prominent standalone text -- the inner 0..2^d-1 ring (--color-text, see
+   .mod-q-ring__anchor-label's --anchor-color) stays the darker, primary
+   focus. Only the entry matching the current highlightDot picks up an
+   accent color, mirroring the inner dot's own highlight. */
+.mod-q-ring__outer-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  fill: var(--color-transform);
+  text-anchor: middle;
+  dominant-baseline: middle;
+  transition: fill 0.2s ease;
+}
+
+.mod-q-ring__outer-label--active {
+  fill: var(--color-encoded-message);
+  font-weight: 700;
+}
+
 /* compact: for small inline use (e.g. next to a Node), not a large
    centered illustration -- thinner strokes, smaller labels. */
 .mod-q-ring--compact .mod-q-ring__circle {
@@ -79,4 +99,8 @@
 
 .mod-q-ring--compact .mod-q-ring__anchor-label {
   font-size: 9px;
+}
+
+.mod-q-ring--compact .mod-q-ring__outer-label {
+  font-size: 7px;
 }
