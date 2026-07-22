@@ -31,6 +31,36 @@ const { q: RING_Q } = data.params
 // at a time (via the shared useWalkAnimation hook -- same pattern as
 // EncodePlaintextStep's Decompress circle) instead of statically holding on
 // `highlightIndex`; other call sites are unaffected until they opt in too.
+//
+// `showRoundingSplit` (d=1 only, e.g. Recover plaintext m's Compress
+// circle) adds boundary/reference ticks (q/4, 3q/4, and the wraparound and
+// midpoint pairs below -- all labeled with their real numeric value, e.g.
+// "832"), swaps the usual point markers for arrows converging on "0"/"1"
+// labels inside their half (a whole half rounds to that value, not one
+// point), and paints a two-tone background wedge behind the ring -- only
+// the half matching the current result tinted --color-encoded-message-tint
+// (strong), the other left neutral --color-inactive-tint -- so highlighting
+// is about which half won this coefficient, not a fixed color per half.
+//
+// Both the wraparound pair (0/q-1, near the top) and the midpoint pair
+// (near the bottom) get two distinct marks, nudged MARK_ANGLE_OFFSET° apart
+// from their landmark angle (0 or 180) -- true angles for 0/q-1 are only
+// 1/q of a turn apart, close enough to render as a single point otherwise.
+// `labelAngle` then nudges just the text further apart still (each pair's
+// own *_LABEL_OFFSET°) so the two labels in a pair stay legible instead of
+// overlapping.
+const MARK_ANGLE_OFFSET = 3
+const WRAP_LABEL_OFFSET = 11
+const MIDPOINT_LABEL_OFFSET = 16
+const ROUNDING_SPLIT_TICKS = [
+  { angle: 90, label: Math.round(RING_Q / 4) },
+  { angle: 270, label: Math.round((3 * RING_Q) / 4) },
+  { angle: -MARK_ANGLE_OFFSET, labelAngle: -WRAP_LABEL_OFFSET, label: RING_Q - 1 },
+  { angle: MARK_ANGLE_OFFSET, labelAngle: WRAP_LABEL_OFFSET, label: 0 },
+  { angle: 180 - MARK_ANGLE_OFFSET, labelAngle: 180 - MIDPOINT_LABEL_OFFSET, label: Math.floor(RING_Q / 2) },
+  { angle: 180 + MARK_ANGLE_OFFSET, labelAngle: 180 + MIDPOINT_LABEL_OFFSET, label: Math.floor(RING_Q / 2) + 1 },
+]
+
 function CompressionPanel({
   symbol,
   d,
@@ -42,6 +72,7 @@ function CompressionPanel({
   direction = 'forward',
   animated = false,
   stepGap = DEFAULT_STEP_GAP,
+  showRoundingSplit = false,
 }) {
   const isReverse = direction === 'reverse'
 
@@ -67,6 +98,16 @@ function CompressionPanel({
   // Zq value, so an outer reference label there would be misleading.
   const outerLabels = q && !isSchematic
     ? Array.from({ length: ringDotCount }, (_, k) => Math.round(k * (q / realPointCount)))
+    : undefined
+
+  // Only the half matching the current result is tinted pink -- the other
+  // stays plain neutral gray, so highlighting is about which half won this
+  // coefficient, not a fixed color per half.
+  const roundingSplitFills = showRoundingSplit
+    ? [
+        { fromAngle: 270, toAngle: 90, colorToken: 'inactive-tint', activeColorToken: 'encoded-message-tint-strong', active: highlightDot === 0 },
+        { fromAngle: 90, toAngle: 270, colorToken: 'inactive-tint', activeColorToken: 'encoded-message-tint-strong', active: highlightDot === 1 },
+      ]
     : undefined
 
   return (
@@ -102,6 +143,9 @@ function CompressionPanel({
         highlightDot={highlightDot}
         q={RING_Q}
         outerLabels={outerLabels}
+        sideTicks={showRoundingSplit ? ROUNDING_SPLIT_TICKS : undefined}
+        halfFills={roundingSplitFills}
+        arrowPoles={showRoundingSplit}
       />
 
       <p className="compression-panel__mapping">

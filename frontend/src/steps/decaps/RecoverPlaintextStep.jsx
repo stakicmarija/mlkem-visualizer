@@ -33,6 +33,8 @@ function RecoverPlaintextStep() {
         inputValues={inputPreview}
         outputValues={outputPreview}
         stripLabel="w first 8 coeffs"
+        showRoundingSplit
+        animated
       />
 
       <div className="recover-plaintext-step__vline" />

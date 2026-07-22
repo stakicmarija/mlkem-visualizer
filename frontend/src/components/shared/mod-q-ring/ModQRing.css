@@ -15,6 +15,14 @@
   stroke-linecap: round;
 }
 
+/* Background wedge filling the disk itself (unlike .mod-q-ring__region's
+   stroked arc along the edge) -- painted first, underneath the circle
+   outline and every label, so it reads as a subtle backdrop. */
+.mod-q-ring__half-fill {
+  fill: var(--fill-color);
+  stroke: none;
+}
+
 .mod-q-ring__tick {
   stroke: var(--color-transform);
   stroke-width: 2;
@@ -26,6 +34,30 @@
   fill: var(--color-text-secondary);
   text-anchor: middle;
   dominant-baseline: middle;
+}
+
+/* sideTicks (e.g. the q/4 and 3q/4 boundary values) read as legible
+   context, not faint background text -- darker + heavier than the base
+   .mod-q-ring__tick-label above. Compound selector so this wins regardless
+   of declaration order. */
+.mod-q-ring__tick-label.mod-q-ring__side-tick-label {
+  fill: var(--color-text);
+  font-weight: 600;
+  font-size: 13px;
+}
+
+/* Pair of arrows converging on a pole's outside label, replacing a single
+   point marker -- both stroke/fill from the same --anchor-color as the
+   label they point at (see .mod-q-ring__anchor-label). */
+.mod-q-ring__pole-arrow {
+  fill: none;
+  stroke: var(--anchor-color);
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.mod-q-ring__pole-arrowhead {
+  fill: var(--anchor-color);
 }
 
 .mod-q-ring__center-label {
@@ -85,8 +117,16 @@
   stroke-width: 1.5;
 }
 
+.mod-q-ring--compact .mod-q-ring__pole-arrow {
+  stroke-width: 1.5;
+}
+
 .mod-q-ring--compact .mod-q-ring__tick-label {
   font-size: 8px;
+}
+
+.mod-q-ring--compact .mod-q-ring__tick-label.mod-q-ring__side-tick-label {
+  font-size: 9px;
 }
 
 .mod-q-ring--compact .mod-q-ring__center-label {

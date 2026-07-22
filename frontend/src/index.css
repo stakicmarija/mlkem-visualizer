@@ -65,6 +65,7 @@ body {
 
   --c-rose: #E0519B;
   --c-light-rose: rgba(224, 81, 155, 0.2);
+  --c-light-rose-strong: rgba(224, 81, 155, 0.4);
 
   --c-royal-blue: #2D6CDF;
   --c-light-royal-blue: rgba(45, 108, 223, 0.2);
@@ -140,6 +141,7 @@ body {
   --color-ciphertext-u-prime-tint-strong: var(--c-light-indigo-strong);
   --color-encoded-message: var(--c-rose);
   --color-encoded-message-tint: var(--c-light-rose);
+  --color-encoded-message-tint-strong: var(--c-light-rose-strong); /* same, emphasized -- e.g. the active half of a rounding-split ring */
   --color-ciphertext-v: var(--c-royal-blue);
   --color-ciphertext-v-tint: var(--c-light-royal-blue);
   --color-recovered-w: var(--c-amber);

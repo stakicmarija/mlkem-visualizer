@@ -15,6 +15,55 @@ function arcPath(fromAngle, toAngle, radius, cx, cy) {
   return `M ${start.x} ${start.y} A ${radius} ${radius} 0 ${largeArc} 1 ${end.x} ${end.y}`
 }
 
+// Same sweep as arcPath, but out from the center and back -- a filled pie
+// wedge covering the disk itself, not just a stroke along its edge.
+function wedgePath(fromAngle, toAngle, radius, cx, cy) {
+  const start = pointOnRing(fromAngle, radius, cx, cy)
+  const end = pointOnRing(toAngle, radius, cx, cy)
+  const delta = ((toAngle - fromAngle) % 360 + 360) % 360
+  const largeArc = delta > 180 ? 1 : 0
+  return `M ${cx} ${cy} L ${start.x} ${start.y} A ${radius} ${radius} 0 ${largeArc} 1 ${end.x} ${end.y} Z`
+}
+
+// Short arc, constant radius, sweeping whichever direction is shorter
+// (unlike arcPath/wedgePath, which always sweep the "clockwise" way) --
+// used for the pair of arrows that converge on a pole from either side.
+function arcArrowPath(fromAngle, toAngle, radius, cx, cy) {
+  const start = pointOnRing(fromAngle, radius, cx, cy)
+  const end = pointOnRing(toAngle, radius, cx, cy)
+  const delta = toAngle - fromAngle
+  const sweep = delta > 0 ? 1 : 0
+  const largeArc = Math.abs(delta) > 180 ? 1 : 0
+  return `M ${start.x} ${start.y} A ${radius} ${radius} 0 ${largeArc} ${sweep} ${end.x} ${end.y}`
+}
+
+// Small triangle at `angle`, tangent to the circle there, pointing the way
+// travel continues past it (`direction`: +1 for increasing angle, -1 for
+// decreasing) -- the arrowhead for arcArrowPath's curves.
+function arrowHeadPoints(angle, radius, cx, cy, direction, size) {
+  const tip = pointOnRing(angle, radius, cx, cy)
+  const ahead = pointOnRing(angle + direction, radius, cx, cy)
+  const dx = ahead.x - tip.x
+  const dy = ahead.y - tip.y
+  const len = Math.hypot(dx, dy) || 1
+  const ux = dx / len
+  const uy = dy / len
+  const px = -uy
+  const py = ux
+  const backX = tip.x - ux * size
+  const backY = tip.y - uy * size
+  const half = size * 0.55
+  return `${tip.x},${tip.y} ${backX + px * half},${backY + py * half} ${backX - px * half},${backY - py * half}`
+}
+
+// How far (in degrees) each pole's convergence arrows start from the pole,
+// and how close they end -- e.g. for pole 0 with ARROW_SPAN=55/ARROW_GAP=14,
+// one arrow runs [-55,-14] and the other [55,14] relative to the pole,
+// leaving a gap right at the pole for its label and clear of sideTicks
+// sitting further out at ±90.
+const ARROW_SPAN = 55
+const ARROW_GAP = 14
+
 // A circle representing Z_q (the ring of coefficients mod q), with tick
 // marks at the four quarter points. `anchors` marks specific labeled
 // values (e.g. the two points a message bit can Decompress to) just
@@ -37,12 +86,28 @@ function arcPath(fromAngle, toAngle, radius, cx, cy) {
 // per dot) draws a second, further-out ring of muted reference labels --
 // e.g. the original Zq value each compressed dot rounds to -- highlighting
 // the same index as `highlightDot` so the two rings visually snap together
-// at one angle.
+// at one angle. `halfFills` paints filled background wedges behind
+// everything else (e.g. the two halves of a rounds-to-0/rounds-to-1 split)
+// -- unlike `regions`, which only strokes a colored arc along the ring's
+// own line, these fill the disk interior; each entry's optional `active`
+// flag swaps in `activeColorToken` for a stronger tint, e.g. to emphasize
+// whichever half the value currently being shown falls into. `sideTicks`
+// draws extra plain tick marks + labels (e.g. the q/4 and 3q/4 boundary
+// points) independent of the main `ticks` quartet, which is skipped
+// entirely in `dotCount` mode.
+// `arrowPoles` replaces each dot's usual marker+inline-label with a pair of
+// arrows converging on a label, both sitting inside the circle line within
+// that half's tinted region -- for a 2-point ring (d=1) where "0"/"1"
+// represent a whole half of the ring rounding to that value, not one
+// specific point on it.
 function ModQRing({
   q,
   size = 220,
   anchors = [],
   regions = [],
+  halfFills = [],
+  sideTicks = [],
+  arrowPoles = false,
   compact = false,
   tickLabels = true,
   dotCount = 0,
@@ -62,6 +127,13 @@ function ModQRing({
   // similar radii.
   const dotLabelInset = compact ? 8 : 16
   const outerLabelOffset = compact ? 10 : 20
+  // sideTicks get their own (larger) offset, independent of outerLabelOffset
+  // above -- that one is shared with the dv=4/du=10 outer reference ring
+  // and already tuned close to the circle line; sideTicks want more room.
+  const sideTickOffset = compact ? 14 : 26
+  // arrowPoles' converging arrows + label sit well inside the circle line,
+  // inside their half's tinted region -- not floating outside the boundary.
+  const poleInset = compact ? 14 : 28
   const radius = size / 2 - borderReserve
   const anchorAngles = new Set(anchors.map(a => a.angle))
 
@@ -88,6 +160,15 @@ function ModQRing({
       aria-hidden="true"
       style={{ overflow: 'visible' }}
     >
+      {halfFills.map((fill, i) => (
+        <path
+          key={i}
+          d={wedgePath(fill.fromAngle, fill.toAngle, radius, cx, cy)}
+          className="mod-q-ring__half-fill"
+          style={{ '--fill-color': `var(--color-${fill.active && fill.activeColorToken ? fill.activeColorToken : fill.colorToken})` }}
+        />
+      ))}
+
       <circle cx={cx} cy={cy} r={radius} className="mod-q-ring__circle" />
 
       {regions.map((region, i) => (
@@ -113,6 +194,21 @@ function ModQRing({
         )
       })}
 
+      {sideTicks.map((tick, i) => {
+        const inner = pointOnRing(tick.angle, radius - tickHalf, cx, cy)
+        const outer = pointOnRing(tick.angle, radius + tickHalf, cx, cy)
+        // labelAngle lets the mark stay at its true position on the circle
+        // (e.g. two values a fraction of a degree apart near a wraparound
+        // point) while the text next to it is nudged apart for legibility.
+        const labelPt = pointOnRing(tick.labelAngle ?? tick.angle, radius + sideTickOffset, cx, cy)
+        return (
+          <g key={i}>
+            <line x1={inner.x} y1={inner.y} x2={outer.x} y2={outer.y} className="mod-q-ring__tick" />
+            <text x={labelPt.x} y={labelPt.y} className="mod-q-ring__tick-label mod-q-ring__side-tick-label">{tick.label}</text>
+          </g>
+        )
+      })}
+
       <text x={cx} y={cy} className="mod-q-ring__center-label">
         ℤ<tspan className="mod-q-ring__center-label-sub" dy="4">{centerSub ?? q}</tspan>
       </text>
@@ -129,9 +225,39 @@ function ModQRing({
       })}
 
       {dots.map(dot => {
+        const colorToken = dot.highlighted ? 'encoded-message' : 'text'
+
+        if (arrowPoles) {
+          // A whole half of the ring rounds to this value -- two arrows
+          // sweep in from either side and converge on the label, all sitting
+          // inside the circle line, within that half's tinted region,
+          // instead of one marker sitting at a single point on the boundary.
+          const poleRadius = radius - poleInset
+          const labelPt = pointOnRing(dot.angle, poleRadius, cx, cy)
+          const arrowSize = compact ? 5 : 8
+          return (
+            <g key={dot.label} style={{ '--anchor-color': `var(--color-${colorToken})` }}>
+              {[1, -1].map(sign => {
+                const from = dot.angle - sign * ARROW_SPAN
+                const to = dot.angle - sign * ARROW_GAP
+                const direction = to > from ? 1 : -1
+                return (
+                  <g key={sign}>
+                    <path d={arcArrowPath(from, to, poleRadius, cx, cy)} className="mod-q-ring__pole-arrow" />
+                    <polygon
+                      points={arrowHeadPoints(to, poleRadius, cx, cy, direction, arrowSize)}
+                      className="mod-q-ring__pole-arrowhead"
+                    />
+                  </g>
+                )
+              })}
+              <text x={labelPt.x} y={labelPt.y} className="mod-q-ring__anchor-label">{dot.label}</text>
+            </g>
+          )
+        }
+
         const pt = pointOnRing(dot.angle, radius, cx, cy)
         const labelPt = pointOnRing(dot.angle, radius - dotLabelInset, cx, cy)
-        const colorToken = dot.highlighted ? 'encoded-message' : 'text'
         const outerLabel = outerLabels[dot.index]
         const outerPt = outerLabel !== undefined ? pointOnRing(dot.angle, radius + outerLabelOffset, cx, cy) : null
         return (
