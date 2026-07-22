@@ -67,6 +67,7 @@
 
 .encode-plaintext-step__mapping {
   margin: 0;
+  color: var(--color-encoded-message);
 }
 
 .encode-plaintext-step__output-row {
