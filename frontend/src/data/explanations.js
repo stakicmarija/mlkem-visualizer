@@ -111,6 +111,14 @@ export const explanations = {
     title: 't (public key)',
     body: "Alice's public key: t = A·s + e. Combines the public matrix A, the secret s, and the small noise e. Because e hides s, recovering s from t is the Learning With Errors (LWE) problem, believed to be hard even for quantum computers, and the basis of ML-KEM's security.",
   },
+  ekPke: {
+    title: 'ek_pke (K-PKE encapsulation key)',
+    body: 'The byte encoding of t and ρ: ByteEncode₁₂(t)‖ρ. This is the underlying public-key material produced by K-PKE. The final ek is set directly equal to this value, with nothing added.',
+  },
+  dkPke: {
+    title: 'dk_pke (K-PKE decapsulation key)',
+    body: 'The byte encoding of s: ByteEncode₁₂(s). This is the underlying private-key material produced by K-PKE. The final dk wraps this together with a copy of ek, a hash of ek, and the seed z, built in the next step.',
+  },
   ek: {
     title: 'ek (encapsulation key)',
     body: "Alice's public key, sent to Bob. Contains the encoded polynomial t and the seed ρ, packed into a single byte string. Anyone can use ek to encapsulate a shared secret for Alice, but only Alice can decapsulate it.",

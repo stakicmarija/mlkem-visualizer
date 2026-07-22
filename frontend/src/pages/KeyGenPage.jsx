@@ -73,76 +73,65 @@ const BASE_GENERATED_VALUES = [
     body: explanations.t.body,
     coeffsList: data.keygen.t.map(poly => poly.coeffs),
   },
+  {
+    symbol: 'ekPke',
+    display: <>ek<sub>pke</sub></>,
+    title: explanations.ekPke.title,
+    body: explanations.ekPke.body,
+    value: truncateHex(data.keygen.ek_pke),
+  },
+  {
+    symbol: 'dkPke',
+    display: <>dk<sub>pke</sub></>,
+    title: explanations.dkPke.title,
+    body: explanations.dkPke.body,
+    value: truncateHex(data.keygen.dk_pke),
+  },
   { symbol: 'ek', title: explanations.ek.title, body: explanations.ek.body, value: truncateHex(data.keygen.ek) },
   { symbol: 'dk', title: explanations.dk.title, body: explanations.dk.body, value: truncateHex(data.keygen.dk) },
 ]
 
+// Order steps occur in, so a symbol's "done" threshold can be compared by
+// position instead of a hand-maintained index cutoff per step.
+const STEP_ORDER = [
+  'derive-rho-sigma',
+  'expand-matrix-a',
+  'generate-secret-vector',
+  'generate-error-vector',
+  'transform-ntt',
+  'compute-t',
+  'pack-keys',
+  'build-dk',
+  'return-ek-dk',
+]
+
+// Step at which each tracked value is first produced.
+const SYMBOL_DONE_AT = {
+  'ρ': 'derive-rho-sigma',
+  'σ': 'derive-rho-sigma',
+  A: 'expand-matrix-a',
+  s: 'generate-secret-vector',
+  e: 'generate-error-vector',
+  t: 'compute-t',
+  ekPke: 'pack-keys',
+  dkPke: 'pack-keys',
+  ek: 'build-dk',
+  dk: 'build-dk',
+}
+
 function getGeneratedValues(stepId) {
-  if (stepId === 'derive-rho-sigma') {
-    return BASE_GENERATED_VALUES.map((item, i) => ({
+  const currentIndex = STEP_ORDER.indexOf(stepId)
+  return BASE_GENERATED_VALUES.map(item => {
+    const doneAtIndex = STEP_ORDER.indexOf(SYMBOL_DONE_AT[item.symbol])
+    const state = currentIndex >= 0 && currentIndex >= doneAtIndex ? 'done' : 'pending'
+    return {
       ...item,
-      state: i < 2 ? 'done' : 'pending',
-      value: i === 0 ? toSpacedHex(data.keygen.rho)
-           : i === 1 ? toSpacedHex(data.keygen.sigma)
-           : undefined,
-    }))
-  }
-  if (stepId === 'expand-matrix-a') {
-    return BASE_GENERATED_VALUES.map((item, i) => ({
-      ...item,
-      state: i < 3 ? 'done' : 'pending',
-      value: i === 0 ? toSpacedHex(data.keygen.rho)
-           : i === 1 ? toSpacedHex(data.keygen.sigma)
-           : undefined,
-    }))
-  }
-  if (stepId === 'generate-secret-vector') {
-    return BASE_GENERATED_VALUES.map((item, i) => ({
-      ...item,
-      state: i < 4 ? 'done' : 'pending',
-      value: i === 0 ? toSpacedHex(data.keygen.rho)
-           : i === 1 ? toSpacedHex(data.keygen.sigma)
-           : undefined,
-    }))
-  }
-  if (stepId === 'generate-error-vector' || stepId === 'transform-ntt') {
-    return BASE_GENERATED_VALUES.map((item, i) => ({
-      ...item,
-      state: i < 5 ? 'done' : 'pending',
-      value: i === 0 ? toSpacedHex(data.keygen.rho)
-           : i === 1 ? toSpacedHex(data.keygen.sigma)
-           : undefined,
-    }))
-  }
-  if (stepId === 'compute-t') {
-    return BASE_GENERATED_VALUES.map((item, i) => ({
-      ...item,
-      state: i < 6 ? 'done' : 'pending',
-      value: i === 0 ? toSpacedHex(data.keygen.rho)
-           : i === 1 ? toSpacedHex(data.keygen.sigma)
-           : undefined,
-    }))
-  }
-  if (stepId === 'pack-keys') {
-    // ek_pke IS the final ek at this point; dk still needs Build decapsulation key
-    return BASE_GENERATED_VALUES.map((item, i) => ({
-      ...item,
-      state: i < 7 ? 'done' : 'pending',
-      value: i === 0 ? toSpacedHex(data.keygen.rho)
-           : i === 1 ? toSpacedHex(data.keygen.sigma)
-           : undefined,
-    }))
-  }
-  if (stepId === 'build-dk' || stepId === 'return-ek-dk') {
-    return BASE_GENERATED_VALUES.map((item, i) => ({
-      ...item,
-      state: 'done',
-      value: i === 0 ? toSpacedHex(data.keygen.rho)
-           : i === 1 ? toSpacedHex(data.keygen.sigma)
+      state,
+      value: item.symbol === 'ρ' ? toSpacedHex(data.keygen.rho)
+           : item.symbol === 'σ' ? toSpacedHex(data.keygen.sigma)
            : item.value,
-    }))
-  }
-  return BASE_GENERATED_VALUES.map(item => ({ ...item, state: 'pending' }))
+    }
+  })
 }
 
 // seenAnimations/markAnimationSeen: lifted above the per-step remount
